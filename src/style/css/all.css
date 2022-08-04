@@ -117,4 +117,13 @@ table {
   display: block;
   margin: 0 auto;
 }
+
+.timeDisplay {
+  font-size: 24px;
+  line-height: 36px;
+}
+
+.timeDisplay p {
+  margin-bottom: 12px;
+}
 /*# sourceMappingURL=all.css.map */

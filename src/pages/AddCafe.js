@@ -1,10 +1,46 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import TwCitySelector from 'tw-city-selector';
 
-export const AddCafe = () => {
+// components
+import { Message } from '../components/Message';
+import { Address } from '../components/Address';
+
+// Select component
+const Select = (props) => {
+    let { opt, name, id, onChange } = props;
+    if (!id) {
+        id = '';
+    }
+
+    return (
+        <select name={name} id={id} onChange={onChange}>
+            {opt.map(element => {
+                return (
+                    <option value={element} key={uuidv4()}>{ element }</option>
+                )
+            })}
+        </select>
+    )
+}
+
+export const AddCafe = (props) => {
     // api url
     const apiUrl = 'http://localhost:3600/add_cafe';
+
+    // init the tw city selector
+    const tcs = new TwCitySelector(
+        {
+            el: '#address',
+            elCounty: '#county', 
+            elDistrict: '#district', 
+        }
+    );
+
+
+    // err
+    const { err, setErr } = props;
 
     // hook
     let [timeHook, setTimeHook] = useState({
@@ -15,6 +51,9 @@ export const AddCafe = () => {
         close: '01:00',
     });
 
+    // set time array
+    let [timeArray, setTimeArray] = useState([]);
+
     const hours = [];
     for (let i = 1; i <= 12; i++){
         let uuid = uuidv4();
@@ -22,52 +61,95 @@ export const AddCafe = () => {
     }
 
     // time
-
-    function weekdayTrans(weekday) {
-        switch (weekday) {
-            case 'monday':
-                weekday = '星期一';
-            case 'tuesday':
-                weekday = '星期二';
-            case 'wednesday':
-                weekday = '星期三';
-            case 'thirsday':
-                weekday = '星期四';
-            case 'friday':
-                weekday = '星期五';
-            case 'saturday':
-                weekday = '星期六';
-            case 'sunday':
-                weekday = '星期日';
-        }
-
-        return weekday;
-    }
-    // set time id for each open time
-    let timeId = 1;
-
     // onchange
     function timeInput(e) {
-        let timeElement = e.target;
+        let { id, value } = e.target;
+        let newTime = timeHook;
+        newTime[id] = value;
 
-        timeHook[timeElement.id] = timeElement.value;
-
-        setTimeHook(timeHook);
+        setTimeHook(newTime);
     }
 
+    // add btn
     function addTime(e) {
-        e.preventDefault()
+        e.preventDefault();
         // get time hook
-        const { weekday, timezone1, timezone2, open, close } = timeHook;
+        const timeAdded = {...timeHook};
+        const { weekday, timezone1, timezone2, open, close } = timeAdded;
 
-        let label = e.target.parentElement.parentElement;
-        let timeDisplay = label.querySelector('.timeDisplay');
+        for (let element of timeArray) {
+            if (element.weekday === weekday) {
+                setErr({
+                    boolean: true,
+                    msg: 'Weekday should not repeat.'
+                });
+
+                return;
+            } else {
+                setErr({
+                    boolean: false,
+                    msg: ''
+                })
+            }
+        }
+
+        setTimeArray(timeArray => [...timeArray, timeAdded]);
+
+        let timeDisplay = document.querySelector('.timeDisplay');
 
         let p = document.createElement('p');
-        p.innerHTML = `${weekdayTrans(weekday)}　${timezone1, open} ～ ${timezone2, close}`;
+        p.innerHTML = `${weekday}　${timezone1, open} ～ ${timezone2, close}`;
         timeDisplay.appendChild(p);
     }
     
+    function submit(e) {
+        e.preventDefault();
+        const form = document.querySelector('.addCafe');
+
+        // get the data
+        let cafeForm = new FormData(form);
+        let cafeObj = {};
+
+        // deal with time obj
+        let time = timeArray.map(element => {
+            // 取出除了timezone以外的其他做為新物件(刪除timezone)
+            let { timezone1, timezone2, ...newElement } = element;
+
+            const { open, close } = newElement;
+
+            newElement.open = timezone1 + open;
+            newElement.close = timezone2 + close;
+
+            return newElement;
+        });
+        cafeObj.time = time;
+
+        // deal with the address
+        let address = {};
+        let addressItem = ['country', 'district', 'location'];
+        addressItem.forEach(item => {
+            address[item] = cafeForm.get(item);
+        })
+        cafeObj.address = address;
+
+        // deal with others
+        let items = ['name', 'branch', 'tel', 'price'];
+        items.forEach(item => {
+            cafeObj[item] = cafeForm.get(item);
+        });
+        
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: 'cors',
+            body: JSON.stringify(cafeObj),
+        }).then(() => {
+            console.log('Data has been upload.')
+        })
+    }
+
   return (
       <div className='container wrap'>
           <h2 className="title">新增咖啡廳</h2>
@@ -88,39 +170,30 @@ export const AddCafe = () => {
               </label>
               <label htmlFor="">
                   地址:
-                  <input type="text" className="addCafe__item" name='' />
               </label>
               <label htmlFor="">
                   營業時間: 
                   <span className='addCafe__item'>
-                  <select name={`time[${timeId}][weekday]`} id="weekday" onChange={timeInput}>
-                      <option value="monday">星期一</option>
-                      <option value="tuesday">星期二</option>
-                      <option value="wednesday">星期三</option>
-                      <option value="thirsday">星期四</option>
-                      <option value="friday">星期五</option>
-                      <option value="saturday">星期六</option>
-                      <option value="sunday">星期日</option>
-                  </select>
-                  <select name={`time[${timeId}][timezone1]`} id="timezone1" onChange={timeInput}>
-                      <option value="am">上午</option>
-                      <option value="pm">下午</option>
-                  </select>
-                  <select name={`time[${timeId}][open]`} id="open" onChange={timeInput}>
+                      <Select opt={['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']} name='weekday' id="weekday" onChange={timeInput} />
+                      
+                      <Select opt={['AM', 'PM']} name='timezone1' id="timezone1" onChange={timeInput} />
+                      
+                      <select name='open' id="open" onChange={timeInput}>
                       {hours}
-                  </select>
-                  <span> ～ </span>
-                  <select name={`time[${timeId}][timezone2]`} id="timezone2" onChange={timeInput}>
-                      <option value="am">上午</option>
-                      <option value="pm">下午</option>
-                  </select>
-                  <select name={`time[${timeId}][close]`} id="close" onChange={timeInput}>
-                      {hours}
-                  </select>
-                  <button onClick={addTime}>add</button>
+                      </select>
+                      
+                      <span> ～ </span>
+
+                      <Select opt={['AM', 'PM']} name='timezone2' id="timezone2" onChange={timeInput} />
+                      
+                      <select name='close' id="close" onChange={timeInput}>
+                          {hours}
+                      </select>
+                      
+                      <button onClick={addTime}>add</button>
                   </span>
               </label>
-
+              <Message err={err} setErr={ setErr } />
               <div className="timeDisplay"></div>
 
               <label htmlFor="">
@@ -145,7 +218,7 @@ export const AddCafe = () => {
               </label>
               <div className="displayPics"></div>
 
-              <button className="submit">提交</button>
+              <button className="submit" onClick={submit}>提交</button>
           </form>
     </div>
   )

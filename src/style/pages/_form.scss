@@ -25,3 +25,9 @@
         margin: 0 auto;
     }
 }
+.timeDisplay{
+    @include fz(24px);
+    p{
+        margin-bottom: 12px;
+    }
+}
