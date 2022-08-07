@@ -1,7 +1,5 @@
 import React from 'react';
 import { useState, useEffect} from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import TwCitySelector from 'tw-city-selector';
 
 // components
 import { Message } from '../components/Message';
@@ -18,7 +16,7 @@ const Select = (props) => {
         <select name={name} id={id} onChange={onChange}>
             {opt.map(element => {
                 return (
-                    <option value={element} key={uuidv4()}>{ element }</option>
+                    <option value={element} key={element}>{ element }</option>
                 )
             })}
         </select>
@@ -28,16 +26,6 @@ const Select = (props) => {
 export const AddCafe = (props) => {
     // api url
     const apiUrl = 'http://localhost:3600/add_cafe';
-
-    // init the tw city selector
-    const tcs = new TwCitySelector(
-        {
-            el: '#address',
-            elCounty: '#county', 
-            elDistrict: '#district', 
-        }
-    );
-
 
     // err
     const { err, setErr } = props;
@@ -56,8 +44,7 @@ export const AddCafe = (props) => {
 
     const hours = [];
     for (let i = 1; i <= 12; i++){
-        let uuid = uuidv4();
-        hours.push(i < 10 ? <option value={`0${i}:00`} key={uuid}>{`0${i}:00`}</option> : <option value={`${i}:00`} key={uuid}>{`${i}:00`}</option>);
+        hours.push(i < 10 ? <option value={`0${i}:00`} key={`${i}:00`}>{`0${i}:00`}</option> : <option value={`${i}:00`} key={`${i}:00`}>{`${i}:00`}</option>);
     }
 
     // time
@@ -170,6 +157,7 @@ export const AddCafe = (props) => {
               </label>
               <label htmlFor="">
                   地址:
+                  <Address className={ 'addCafe__item' } />
               </label>
               <label htmlFor="">
                   營業時間: 

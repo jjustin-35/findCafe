@@ -3,52 +3,50 @@ import { useState, useEffect } from 'react';
 
 export const Address = (props) => {
 
-    
-    fetch('http://localhost:3600/data/address', {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-
     const { className } = props;
 
-    const [where, setWhere] = useState({});
-    const [distOpt, setDistOpt] = useState({});
-    useEffect(() => {
-        changeDistrict();
-    }, [where]);
+    const [areas, setAreas] = useState([]);
+    const [dist, setDist] = useState([]);
+
+    (async function getData() {
+        let areas = await fetch('http://localhost:3600/data/address', {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        areas = await areas.json();
+
+        setAreas(areas);
+    }());
 
     const countries = areas.map(area => area.name);
-    const countriesOpt = countries.map(country => <option value={country}>{country}</option>);
+    const countriesOpt = countries.map(country => <option value={country} key={country}>{country}</option>);
 
-    const handleChange_area = (e) => {
-        const {name, value} = e.target;
-        let here = { ...where };
-        
-        here[name] = value;
-        setWhere(here);
-    }
+    const handleCountry = (e) => {
+        const country = e.target.value;
 
-    const changeDistrict = () => {
-        let { country } = where;
-        const [thisCountry] = areas.filter(area => area.name === country);
-        
-        const { districts } = thisCountry;
-        let distOpt = districts.map(district => <option value={district.name}>{district.name}</option>);
-        
-        setDistOpt(distOpt);
+        let [theCountry] = areas.filter(area => area.name == country);
+        const {districts} = theCountry;
+
+        setDist(districts);
     }
 
   return (
       <div>
-          <select name="country" className={className} id="" onChange={handleChange_area}>
+          <select name="country" className={className} id="" onChange={handleCountry}>
               {countriesOpt}
           </select>
-          <select name="district" className={className} id="" onChange={handleChange_area}>
-              {distOpt}
+          <select name="districts" className={className} id="">
+            <option value="請選擇">請選擇</option>
+              {dist.map((item) => {
+                  return (
+                      <option value={item.name} key={JSON.stringify(item)}>{ item.name }</option>
+                  )
+              })}
           </select>
-          <input type="text" className={className} name='location' onChange={handleChange_area}/>
+          <input type="text" className={className} name='location'/>
     </div>
   )
 }
