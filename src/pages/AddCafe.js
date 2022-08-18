@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect} from 'react';
+import { useState } from 'react';
 
 // components
 import { Message } from '../components/Message';
@@ -25,7 +25,7 @@ const Select = (props) => {
 
 export const AddCafe = (props) => {
     // api url
-    const apiUrl = 'http://localhost:3600/add_cafe';
+    const apiUrl = 'http://localhost:3600/cafe/add';
 
     // err
     const { err, setErr } = props;
@@ -38,9 +38,10 @@ export const AddCafe = (props) => {
         timezone2: 'am',
         close: '01:00',
     });
-
     // set time array
     let [timeArray, setTimeArray] = useState([]);
+    let [menu, setMenu] = useState([]);
+    let [pics, setPics] = useState([]);
 
     const hours = [];
     for (let i = 1; i <= 12; i++){
@@ -56,7 +57,6 @@ export const AddCafe = (props) => {
 
         setTimeHook(newTime);
     }
-
     // add btn
     function addTime(e) {
         e.preventDefault();
@@ -88,6 +88,35 @@ export const AddCafe = (props) => {
         p.innerHTML = `${weekday}　${timezone1, open} ～ ${timezone2, close}`;
         timeDisplay.appendChild(p);
     }
+
+    // file
+    function getArrayBuffer(file) {
+        return new Promise((resolve, reject) => {
+          // STEP 3: 轉成 ArrayBuffer, i.e., reader.result
+          const reader = new FileReader();
+          reader.addEventListener('load', () => {
+            resolve(reader.result);
+          });
+          reader.readAsArrayBuffer(file);
+        })
+    }
+
+    async function getFile(e) {
+        let { name, files } = e.target;
+        let newFiles = [];
+
+        for (let file of files) {
+            let arrayBuffer = await getArrayBuffer(file);
+            file = Array.from(new Uint8Array(arrayBuffer));
+            newFiles = [...newFiles, ...file];
+        }
+        
+        if (name === 'menu') {
+            setMenu([...menu, ...newFiles]);
+        } else if (name === 'pics') {
+            setPics([...pics, ...newFiles])
+        }
+    }
     
     function submit(e) {
         e.preventDefault();
@@ -113,28 +142,50 @@ export const AddCafe = (props) => {
 
         // deal with the address
         let address = {};
-        let addressItem = ['country', 'district', 'location'];
-        addressItem.forEach(item => {
+        for (let item of ['country', 'districts', 'location']) {
+            if (cafeForm.get(item) == "null") {
+                setErr({
+                    boolean: true,
+                    msg: 'Please choose a country/district.'
+                })
+                return "";
+            } else {
+                setErr({
+                    boolean: false,
+                    msg: ""
+                })
+            }
             address[item] = cafeForm.get(item);
-        })
+        }
         cafeObj.address = address;
+
+        // deal with the file
+        cafeObj.menu = [ ...menu ];
+        cafeObj.pics = [ ...pics ];
 
         // deal with others
         let items = ['name', 'branch', 'tel', 'price'];
         items.forEach(item => {
             cafeObj[item] = cafeForm.get(item);
         });
-        
+
+        // user
+        cafeObj.user = {email: 'test6@email.com'}
+
+        // send data
         fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': 'jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExODIwMDcxODU3NzgwMTM1Njg3OCIsImVtYWlsIjoiMTA2MjA2MDAyQGcubmNjdS5lZHUudHciLCJpYXQiOjE2NjA2NjIyMDMsImV4cCI6MTY2MDc0ODYwM30.nhClcfhH_DtQ0P8qeh5inDq9ClrmILafeZP6-nGUGrM'
             },
             mode: 'cors',
             body: JSON.stringify(cafeObj),
         }).then(() => {
             console.log('Data has been upload.')
         })
+
+        window.location.reload();
     }
 
   return (
@@ -157,7 +208,7 @@ export const AddCafe = (props) => {
               </label>
               <label htmlFor="">
                   地址:
-                  <Address className={ 'addCafe__item' } />
+                  <Address className={'addCafe__item'} />
               </label>
               <label htmlFor="">
                   營業時間: 
@@ -181,7 +232,6 @@ export const AddCafe = (props) => {
                       <button onClick={addTime}>add</button>
                   </span>
               </label>
-              <Message err={err} setErr={ setErr } />
               <div className="timeDisplay"></div>
 
               <label htmlFor="">
@@ -197,15 +247,27 @@ export const AddCafe = (props) => {
               </label>
               <label htmlFor="">
                   菜單
-                  <input type="file" className="addCafe__item" name=''/>
+                  <input
+                      type="file"
+                      multiple='mutiple'
+                      accept='image/*'
+                      className="addCafe__item" name='menu' />
               </label>
-              <div className="displayPics"></div>
+              <div className="displayPics displayPics--menu"></div>
               <label htmlFor="">
                   照片
-                  <input type="file" className="addCafe__item" />
+                  <input
+                      type="file"
+                      multiple='mutiple'
+                      accept="image/png, image/jpeg"
+                      className="addCafe__item"
+                      name='pics'
+                      onChange={getFile}
+                  />
               </label>
-              <div className="displayPics"></div>
+              <div className="displayPics displayPics--pics"></div>
 
+              <Message err={err} setErr={ setErr } />
               <button className="submit" onClick={submit}>提交</button>
           </form>
     </div>
