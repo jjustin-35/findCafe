@@ -4,24 +4,7 @@ import { useState } from 'react';
 // components
 import { Message } from '../components/Message';
 import { Address } from '../components/Address';
-
-// Select component
-const Select = (props) => {
-    let { opt, name, id, onChange } = props;
-    if (!id) {
-        id = '';
-    }
-
-    return (
-        <select name={name} id={id} onChange={onChange}>
-            {opt.map(element => {
-                return (
-                    <option value={element} key={element}>{ element }</option>
-                )
-            })}
-        </select>
-    )
-}
+import { Select } from '../components/Select';
 
 export const AddCafe = (props) => {
     // api url

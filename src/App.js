@@ -1,8 +1,9 @@
 import React from 'react';
-import { useState, createContext} from 'react';
+import { useState, useEffect, createContext} from 'react';
 import { AddCafe } from './pages/AddCafe';
 import { Routes, Route } from 'react-router';
 import { Layout1 } from './layout/Layout1';
+import { Home } from './pages/Home';
 
 export const MyContext = createContext();
 export const App = () => {
@@ -15,6 +16,22 @@ export const App = () => {
     isLogin: false,
     info: {}
   });
+  const [areas, setAreas] = useState([])
+
+  useEffect(() => {
+    (async function getData() {
+        let areas = await fetch('http://localhost:3600/data/address', {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        areas = await areas.json();
+
+        setAreas(areas);
+    }());
+}, []);
 
   const globalHooks = {
     errrState: {
@@ -22,6 +39,9 @@ export const App = () => {
     },
     loginState: {
       profile, setProfile
+    },
+    address: {
+      areas, setAreas
     }
   }
 
@@ -30,6 +50,7 @@ export const App = () => {
       <MyContext.Provider value={globalHooks}>
         <Routes>
           <Route path='/' element={<Layout1 />}>
+            <Route path='/' element={<Home/> } />
             <Route path='/add_cafe' element={<AddCafe />} />
           </Route>
         </Routes>

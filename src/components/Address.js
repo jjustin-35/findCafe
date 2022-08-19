@@ -1,27 +1,14 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { MyContext } from '../App';
 
 export const Address = (props) => {
 
     const { className } = props;
 
-    const [areas, setAreas] = useState([]);
+    const { address } = useContext(MyContext);
+    const { areas, setAreas } = address;
     const [dist, setDist] = useState([]);
-
-    useEffect(() => {
-        (async function getData() {
-            let areas = await fetch('http://localhost:3600/data/address', {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-    
-            areas = await areas.json();
-    
-            setAreas(areas);
-        }());
-    }, []);
 
     const countries = areas.map(area => area.name);
     const countriesOpt = countries.map(country => <option value={country} key={country}>{country}</option>);
