@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState, createContext} from 'react';
 import { AddCafe } from './pages/AddCafe';
-import { Navbar } from './components/Nav';
 import { Routes, Route } from 'react-router';
+import { Layout1 } from './layout/Layout1';
 
 export const MyContext = createContext();
 export const App = () => {
@@ -29,7 +29,9 @@ export const App = () => {
     <>
       <MyContext.Provider value={globalHooks}>
         <Routes>
-          <Route path='/add_cafe' element={<AddCafe /> } />
+          <Route path='/' element={<Layout1 />}>
+            <Route path='/add_cafe' element={<AddCafe />} />
+          </Route>
         </Routes>
       </MyContext.Provider>
       

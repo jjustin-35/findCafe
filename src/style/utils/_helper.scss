@@ -1,0 +1,8 @@
+@each $key, $value in $spacers{
+    .w-#{$key}{
+        width: $value;
+    }
+    .h-#{$key}{
+        height: $value;
+    }
+}

@@ -14624,6 +14624,94 @@ fieldset:disabled .btn {
   }
 }
 
+.w-0 {
+  width: 0;
+}
+
+.h-0 {
+  height: 0;
+}
+
+.w-0-25 {
+  width: 0.25rem;
+}
+
+.h-0-25 {
+  height: 0.25rem;
+}
+
+.w-0-5 {
+  width: 0.5rem;
+}
+
+.h-0-5 {
+  height: 0.5rem;
+}
+
+.w-1 {
+  width: 1rem;
+}
+
+.h-1 {
+  height: 1rem;
+}
+
+.w-1-25 {
+  width: 1.25rem;
+}
+
+.h-1-25 {
+  height: 1.25rem;
+}
+
+.w-1-5 {
+  width: 1.5rem;
+}
+
+.h-1-5 {
+  height: 1.5rem;
+}
+
+.w-2 {
+  width: 2rem;
+}
+
+.h-2 {
+  height: 2rem;
+}
+
+.w-2-5 {
+  width: 2.5rem;
+}
+
+.h-2-5 {
+  height: 2.5rem;
+}
+
+.w-3 {
+  width: 3rem;
+}
+
+.h-3 {
+  height: 3rem;
+}
+
+.w-4 {
+  width: 4rem;
+}
+
+.h-4 {
+  height: 4rem;
+}
+
+.w-5 {
+  width: 5rem;
+}
+
+.h-5 {
+  height: 5rem;
+}
+
 .title {
   font-size: 36px;
   line-height: 48px;
@@ -14633,6 +14721,31 @@ fieldset:disabled .btn {
 
 .searchCafe {
   margin-right: 27px !important;
+}
+
+.footer__item {
+  width: 100%;
+}
+
+.footer__item a {
+  font-size: 14px !important;
+  line-height: 16px !important;
+}
+
+@media (min-width: 768px) {
+  .footer__item {
+    width: auto;
+  }
+}
+
+.footer__icon {
+  width: 32px;
+}
+
+@media (min-width: 768px) {
+  .footer__icon {
+    width: 50px;
+  }
 }
 
 .addCafe {

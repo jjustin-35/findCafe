@@ -6,11 +6,12 @@
 
 // utils
 @import './utils/mixin';
+@import './utils/helper';
 
 // components
 @import './components/components';
 // layout
-@import './layout/nav';
+@import './layout/layout';
 
 // pages
 @import './pages/form';

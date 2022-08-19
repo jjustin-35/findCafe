@@ -1,0 +1,22 @@
+.searchCafe{
+    margin-right: 27px!important;
+}
+
+.footer{
+    &__item{
+        width: 100%;
+        a{
+            font-size: 14px!important;
+            line-height: 16px!important;
+        }
+        @include media-breakpoint-up(md){
+            width: auto;
+        }
+    }
+    &__icon{
+        width: 32px;
+        @include media-breakpoint-up(md){
+            width: 50px;
+        }
+    }
+}
