@@ -325,6 +325,7 @@ $theme-colors: (
   "light":      $light,
   "normal":     $normal,
   "dark":       $dark,
+  "white":      $white
 ) !default;
 // scss-docs-end theme-colors-map
 
@@ -381,11 +382,16 @@ $gradient: linear-gradient(180deg, rgba($white, .15), rgba($white, 0)) !default;
 $spacer: 1rem !default;
 $spacers: (
   0: 0,
-  1: $spacer * .25,
-  2: $spacer * .5,
-  3: $spacer,
-  4: $spacer * 1.5,
-  5: $spacer * 3,
+  "0-25": $spacer * .25,
+  "0-5": $spacer * .5,
+  1: $spacer ,
+  "1-25": $spacer * 1.25,
+  "1-5": $spacer * 1.5,
+  2: $spacer * 2,
+  "2-5": $spacer * 2.5,
+  3: $spacer * 3,
+  4: $spacer * 4,
+  5: $spacer * 5,
 ) !default;
 // scss-docs-end spacer-variables-maps
 

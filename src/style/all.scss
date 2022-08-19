@@ -1,6 +1,7 @@
 // bootstrap
 @import '../../node_modules/bootstrap/scss/functions';
 @import './utils/variables';
+@import '../../node_modules/bootstrap/scss/mixins';
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 
 // utils
@@ -8,6 +9,8 @@
 
 // components
 @import './components/components';
-@import './components/container';
+// layout
+@import './layout/nav';
+
 // pages
 @import './pages/form';
