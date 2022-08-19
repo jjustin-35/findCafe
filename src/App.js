@@ -27,7 +27,6 @@ export const App = () => {
 
   return (
     <>
-      <Navbar></Navbar>
       <MyContext.Provider value={globalHooks}>
         <Routes>
           <Route path='/add_cafe' element={<AddCafe /> } />

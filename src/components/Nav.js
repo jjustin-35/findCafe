@@ -12,7 +12,7 @@ const NavOptions = () => {
   
   if (!isLogin) {
     return (
-      <ul className="navbar-nav align-items-center" id='navbarNav'>
+      <ul className="navbar-nav align-items-center">
         <li className="nav-item"><a href="" className="nav-link p-0 searchCafe text-white fs-4">搜尋咖啡廳</a></li>
         <li className="nav-item"><a href="" type="button" className="btn btn-outline-white me-1-25 rounded-pill px-2">登入</a></li>
         <li className="nav-item"><a href="" type="button" className="btn btn-white rounded-pill px-2">註冊</a></li>
@@ -20,7 +20,7 @@ const NavOptions = () => {
     )
   } else {
     return (
-      <ul className="navbar-nav align-items-center" id='navbarNav'>
+      <ul className="navbar-nav align-items-center">
         <li className="nav-item"><a href="" className="nav-link text-white fs-4">搜尋咖啡廳</a></li>
         <li className="nav-item"><a href="" className="nav-link text-white fs-4">我的最愛</a></li>
         <li className="nav-item me-0-5"><a href="" type="button" className="nav-link text-white fs-4">新增店家</a></li>
@@ -37,7 +37,9 @@ export const Navbar = () => {
         <a href="" className="navbar-brand p-0 fs-2"><img src="/img/coffee.svg" alt="" className=' me-0-5 align-middle' /><img src="/img/findCafe.svg" alt="" /></a>
         <button className="navbar-toggler" data-bs-target="#navbarNav"><span className="navbar-toggler-icon"></span></button>
         
-        <NavOptions/>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <NavOptions/>
+        </div>
       </div>
     </nav>
   )
