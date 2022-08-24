@@ -1,11 +1,11 @@
 import React from 'react';
-import { MyContext } from '../App';
-import { useContext } from 'react';
+import { useAuth } from '../context/AuthProvider';
 
 export const Footer = () => {
-    const {loginState} = useContext(MyContext);
-    const { profile } = loginState;
-  const { isLogin } = profile;
+  const { token } = useAuth();
+  // const { profile } = loginState;
+  // const { isLogin } = profile;
+  const isLogin = true;
   
   const localUrl = process.env.PUBLIC_URL;
   return (
@@ -28,11 +28,11 @@ export const Footer = () => {
                         </ul>
                       )
                   }
-                <ul className="nav align-items-md-center">
-                    <li><a href="" className='nav-link'><img src={`${localUrl}/img/facebook.svg`} alt="facebook" className='footer__icon'/></a></li>
-                    <li><a href="" className='nav-link'><img src={`${localUrl}/img/instagram.svg`} alt="instagram" className='footer__icon'/></a></li>
-                    <li><a href="" className='nav-link'><img src={`${localUrl}/img/line.svg`} alt="line" className='footer__icon'/></a></li>
-                    <li><a href="" className='nav-link'><img src={`${localUrl}/img/email.svg`} alt="email" className='align-middle footer__icon'/></a></li>
+                <ul className="nav align-items-md-center flex-nowrap">
+                    <li><a href="" className='nav-link px-md-auto px-0-5'><img src={`${localUrl}/img/facebook.svg`} alt="facebook" className='footer__icon'/></a></li>
+                    <li><a href="" className='nav-link px-md-auto px-0-5'><img src={`${localUrl}/img/instagram.svg`} alt="instagram" className='footer__icon'/></a></li>
+                    <li><a href="" className='nav-link px-md-auto px-0-5'><img src={`${localUrl}/img/line.svg`} alt="line" className='footer__icon'/></a></li>
+                    <li><a href="" className='nav-link  px-md-auto px-0-5'><img src={`${localUrl}/img/email.svg`} alt="email" className='align-middle footer__icon'/></a></li>
                 </ul>
               </div>
               <p className="text-white text-center mb-0">Copyright © 2022 Justin Chen. All rights reserved. </p>

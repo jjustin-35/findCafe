@@ -12,16 +12,3 @@
     padding-top: $padding;
     padding-bottom: $padding;
 }
-
-// breakpoint
-@mixin pad(){
-    @media screen and (max-width: 992px) {
-        @content
-    }
-};
-
-@mixin mobile(){
-    @media screen and (max-width: 767px) {
-        @content
-    }
-}

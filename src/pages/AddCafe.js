@@ -1,17 +1,19 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { MyContext } from '../App';
 
 // components
 import { Message } from '../components/Message';
 import { Address } from '../components/Address';
 import { Select } from '../components/Select';
 
-export const AddCafe = (props) => {
+export const AddCafe = () => {
     // api url
-    const apiUrl = 'http://localhost:3600/cafe/add';
+    const api = process.env.REACT_APP_API_URL;
+    const apiUrl = `${api}/cafe/add`;
 
     // err
-    const { err, setErr } = props;
+    const { err, setErr } = useContext(MyContext).errState;
 
     // hook
     let [timeHook, setTimeHook] = useState({
@@ -172,9 +174,9 @@ export const AddCafe = (props) => {
     }
 
   return (
-      <div className='container wrap'>
-          <h2 className="title">新增咖啡廳</h2>
-          <form action={apiUrl} className="addCafe block" method='POST'>
+      <div className='container py-3'>
+          <h2 className="fs-3 text-primary fw-bold text-center mb-3">新增咖啡廳</h2>
+          <form action={apiUrl} className="form-control" method='POST'>
               <div className="addCafe__name">
                   <label htmlFor="">
                   咖啡店名: 

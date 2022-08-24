@@ -15,10 +15,10 @@ export const Board = () => {
     
     return (
         <div className='container'>
-            <div className="row flex-wrap">
-                {cafes.length !== 0 ? cafes.map((cafe, i) => {
+                {cafes.length !== 0 ? <div className="row-cols-lg-3 row-cols-md-2 row-cols-1 flex-wrap"> 
+                {cafes.map((cafe, i) => {
                     return (
-                        <div className="col-4 mb-3" key={i}>
+                        <div className="col mb-3" key={i}>
                             <div className="card">
                                 <img src="" alt="" className="card-img-top" />
                                 <div className="card-body">
@@ -31,8 +31,8 @@ export const Board = () => {
                             </div>
                         </div>
                     )
-                }) : <p className="text-normal fs-2 text-center">抱歉，目前找不到咖啡廳...</p>}
-            </div>
+                })}</div> : <p className="text-normal fs-2 text-center justify-self-center">抱歉，目前找不到咖啡廳...</p>}
+            
       </div>
     
   )
