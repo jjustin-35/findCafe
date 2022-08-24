@@ -4,6 +4,7 @@ import { MyContext } from '../App';
 import { Navigate } from 'react-router';
 import { Select } from '../components/Select';
 
+// componants
 import { Board } from '../components/Board';
 
 export const Home = () => {
@@ -14,6 +15,8 @@ export const Home = () => {
   countries.unshift('請選擇');
   const [keyword, setKeyword] = useState('');
   const [locate, setLocate] = useState('');
+
+  const localUrl = process.env.PUBLIC_URL;
 
   async function handleSearch(e) {
     e.preventDefault();
@@ -62,7 +65,7 @@ export const Home = () => {
       <div>
         <div className="container-fluid mb-2-5 text-primary cafeintro">
           <div className="row">
-            <img src="/img/cafeintro_1.png" alt="cafeintro_1" className="w-55 ps-0" />
+            <img src={`${localUrl}/img/cafeintro_1.png`} alt="cafeintro_1" className="w-55 ps-0" />
             <div className="col-5 my-auto">
               <h2 className="fw-bold fs-2 mb-1">搜尋咖啡廳</h2>
               <p className="fs-1-25">你可以在這裡尋找符合你需求的咖啡廳，為你的工作、學習，或著悠閒的午後時光找一個適合的好地方。</p>
@@ -71,7 +74,7 @@ export const Home = () => {
         </div>
         <div className="container-fluid mb-2-5 text-primary cafeintro">
           <div className="row flex-row-reverse">
-            <img src="/img/cafeintro_2.png" alt="cafeintro_2" className="w-55 pe-0" />
+            <img src={`${localUrl}/img/cafeintro_2.png`} alt="cafeintro_2" className="w-55 pe-0" />
             <div className="col-5 my-auto">
               <h2 className="fw-bold fs-2 mb-1">評價、收藏咖啡廳</h2>
               <p className="fs-1-25">為你造訪過的咖啡廳下評論吧！
@@ -81,7 +84,7 @@ export const Home = () => {
         </div>
         <div className="container-fluid mb-2-5 text-primary cafeintro">
           <div className="row">
-            <img src="/img/cafeintro_3.png" alt="cafeintro_3" className="w-55 ps-0" />
+            <img src={`${localUrl}/img/cafeintro_3.png`} alt="cafeintro_3" className="w-55 ps-0" />
             <div className="col-5 my-auto">
               <h2 className="fw-bold fs-2 mb-1">新增咖啡廳</h2>
               <p className="fs-1-25">找不到你心愛中的咖啡廳嗎？你可以自己新增上來！

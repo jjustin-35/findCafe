@@ -5,7 +5,9 @@ import { useContext } from 'react';
 export const Footer = () => {
     const {loginState} = useContext(MyContext);
     const { profile } = loginState;
-    const { isLogin } = profile;
+  const { isLogin } = profile;
+  
+  const localUrl = process.env.PUBLIC_URL;
   return (
       <footer className='bg-primary text-white pt-4 pb-3'>
           <div className="container">
@@ -27,10 +29,10 @@ export const Footer = () => {
                       )
                   }
                 <ul className="nav align-items-md-center">
-                    <li><a href="" className='nav-link'><img src="/img/facebook.svg" alt="facebook" className='footer__icon'/></a></li>
-                    <li><a href="" className='nav-link'><img src="/img/instagram.svg" alt="instagram" className='footer__icon'/></a></li>
-                    <li><a href="" className='nav-link'><img src="/img/line.svg" alt="line" className='footer__icon'/></a></li>
-                    <li><a href="" className='nav-link'><img src="/img/email.svg" alt="email" className='align-middle footer__icon'/></a></li>
+                    <li><a href="" className='nav-link'><img src={`${localUrl}/img/facebook.svg`} alt="facebook" className='footer__icon'/></a></li>
+                    <li><a href="" className='nav-link'><img src={`${localUrl}/img/instagram.svg`} alt="instagram" className='footer__icon'/></a></li>
+                    <li><a href="" className='nav-link'><img src={`${localUrl}/img/line.svg`} alt="line" className='footer__icon'/></a></li>
+                    <li><a href="" className='nav-link'><img src={`${localUrl}/img/email.svg`} alt="email" className='align-middle footer__icon'/></a></li>
                 </ul>
               </div>
               <p className="text-white text-center mb-0">Copyright © 2022 Justin Chen. All rights reserved. </p>
