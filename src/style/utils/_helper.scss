@@ -6,3 +6,18 @@
         height: $value;
     }
 }
+@each $key, $value in $percentage{
+    .w-#{$key}{
+        width: $value;
+    }
+    .h-#{$key}{
+        height: $value;
+    }
+}
+
+.w-fit{
+    width: fit-content;
+}
+.h-fit{
+    height: fit-content;
+}

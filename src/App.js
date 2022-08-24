@@ -8,6 +8,8 @@ import { Home } from './pages/Home';
 export const MyContext = createContext();
 export const App = () => {
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const [err, setErr] = useState({
     boolean: false,
     msg: ''
@@ -16,11 +18,12 @@ export const App = () => {
     isLogin: false,
     info: {}
   });
-  const [areas, setAreas] = useState([])
+  const [areas, setAreas] = useState([]);
+  const [search, setSearch] = useState({});
 
   useEffect(() => {
     (async function getData() {
-        let areas = await fetch('http://localhost:3600/data/address', {
+        let areas = await fetch(`${apiUrl}/data/address`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -42,6 +45,9 @@ export const App = () => {
     },
     address: {
       areas, setAreas
+    },
+    searchState: {
+      search, setSearch
     }
   }
 

@@ -937,6 +937,16 @@ progress {
   --bs-gutter-y: 0.5rem;
 }
 
+.g-0-75,
+.gx-0-75 {
+  --bs-gutter-x: 0.75rem;
+}
+
+.g-0-75,
+.gy-0-75 {
+  --bs-gutter-y: 0.75rem;
+}
+
 .g-1,
 .gx-1 {
   --bs-gutter-x: 1rem;
@@ -965,6 +975,16 @@ progress {
 .g-1-5,
 .gy-1-5 {
   --bs-gutter-y: 1.5rem;
+}
+
+.g-1-75,
+.gx-1-75 {
+  --bs-gutter-x: 1.75rem;
+}
+
+.g-1-75,
+.gy-1-75 {
+  --bs-gutter-y: 1.75rem;
 }
 
 .g-2,
@@ -1203,6 +1223,14 @@ progress {
   .gy-sm-0-5 {
     --bs-gutter-y: 0.5rem;
   }
+  .g-sm-0-75,
+  .gx-sm-0-75 {
+    --bs-gutter-x: 0.75rem;
+  }
+  .g-sm-0-75,
+  .gy-sm-0-75 {
+    --bs-gutter-y: 0.75rem;
+  }
   .g-sm-1,
   .gx-sm-1 {
     --bs-gutter-x: 1rem;
@@ -1226,6 +1254,14 @@ progress {
   .g-sm-1-5,
   .gy-sm-1-5 {
     --bs-gutter-y: 1.5rem;
+  }
+  .g-sm-1-75,
+  .gx-sm-1-75 {
+    --bs-gutter-x: 1.75rem;
+  }
+  .g-sm-1-75,
+  .gy-sm-1-75 {
+    --bs-gutter-y: 1.75rem;
   }
   .g-sm-2,
   .gx-sm-2 {
@@ -1455,6 +1491,14 @@ progress {
   .gy-md-0-5 {
     --bs-gutter-y: 0.5rem;
   }
+  .g-md-0-75,
+  .gx-md-0-75 {
+    --bs-gutter-x: 0.75rem;
+  }
+  .g-md-0-75,
+  .gy-md-0-75 {
+    --bs-gutter-y: 0.75rem;
+  }
   .g-md-1,
   .gx-md-1 {
     --bs-gutter-x: 1rem;
@@ -1478,6 +1522,14 @@ progress {
   .g-md-1-5,
   .gy-md-1-5 {
     --bs-gutter-y: 1.5rem;
+  }
+  .g-md-1-75,
+  .gx-md-1-75 {
+    --bs-gutter-x: 1.75rem;
+  }
+  .g-md-1-75,
+  .gy-md-1-75 {
+    --bs-gutter-y: 1.75rem;
   }
   .g-md-2,
   .gx-md-2 {
@@ -1707,6 +1759,14 @@ progress {
   .gy-lg-0-5 {
     --bs-gutter-y: 0.5rem;
   }
+  .g-lg-0-75,
+  .gx-lg-0-75 {
+    --bs-gutter-x: 0.75rem;
+  }
+  .g-lg-0-75,
+  .gy-lg-0-75 {
+    --bs-gutter-y: 0.75rem;
+  }
   .g-lg-1,
   .gx-lg-1 {
     --bs-gutter-x: 1rem;
@@ -1730,6 +1790,14 @@ progress {
   .g-lg-1-5,
   .gy-lg-1-5 {
     --bs-gutter-y: 1.5rem;
+  }
+  .g-lg-1-75,
+  .gx-lg-1-75 {
+    --bs-gutter-x: 1.75rem;
+  }
+  .g-lg-1-75,
+  .gy-lg-1-75 {
+    --bs-gutter-y: 1.75rem;
   }
   .g-lg-2,
   .gx-lg-2 {
@@ -1959,6 +2027,14 @@ progress {
   .gy-xl-0-5 {
     --bs-gutter-y: 0.5rem;
   }
+  .g-xl-0-75,
+  .gx-xl-0-75 {
+    --bs-gutter-x: 0.75rem;
+  }
+  .g-xl-0-75,
+  .gy-xl-0-75 {
+    --bs-gutter-y: 0.75rem;
+  }
   .g-xl-1,
   .gx-xl-1 {
     --bs-gutter-x: 1rem;
@@ -1982,6 +2058,14 @@ progress {
   .g-xl-1-5,
   .gy-xl-1-5 {
     --bs-gutter-y: 1.5rem;
+  }
+  .g-xl-1-75,
+  .gx-xl-1-75 {
+    --bs-gutter-x: 1.75rem;
+  }
+  .g-xl-1-75,
+  .gy-xl-1-75 {
+    --bs-gutter-y: 1.75rem;
   }
   .g-xl-2,
   .gx-xl-2 {
@@ -2211,6 +2295,14 @@ progress {
   .gy-xxl-0-5 {
     --bs-gutter-y: 0.5rem;
   }
+  .g-xxl-0-75,
+  .gx-xxl-0-75 {
+    --bs-gutter-x: 0.75rem;
+  }
+  .g-xxl-0-75,
+  .gy-xxl-0-75 {
+    --bs-gutter-y: 0.75rem;
+  }
   .g-xxl-1,
   .gx-xxl-1 {
     --bs-gutter-x: 1rem;
@@ -2234,6 +2326,14 @@ progress {
   .g-xxl-1-5,
   .gy-xxl-1-5 {
     --bs-gutter-y: 1.5rem;
+  }
+  .g-xxl-1-75,
+  .gx-xxl-1-75 {
+    --bs-gutter-x: 1.75rem;
+  }
+  .g-xxl-1-75,
+  .gy-xxl-1-75 {
+    --bs-gutter-y: 1.75rem;
   }
   .g-xxl-2,
   .gx-xxl-2 {
@@ -9314,6 +9414,10 @@ fieldset:disabled .btn {
   margin: 0.5rem !important;
 }
 
+.m-0-75 {
+  margin: 0.75rem !important;
+}
+
 .m-1 {
   margin: 1rem !important;
 }
@@ -9324,6 +9428,10 @@ fieldset:disabled .btn {
 
 .m-1-5 {
   margin: 1.5rem !important;
+}
+
+.m-1-75 {
+  margin: 1.75rem !important;
 }
 
 .m-2 {
@@ -9365,6 +9473,11 @@ fieldset:disabled .btn {
   margin-left: 0.5rem !important;
 }
 
+.mx-0-75 {
+  margin-right: 0.75rem !important;
+  margin-left: 0.75rem !important;
+}
+
 .mx-1 {
   margin-right: 1rem !important;
   margin-left: 1rem !important;
@@ -9378,6 +9491,11 @@ fieldset:disabled .btn {
 .mx-1-5 {
   margin-right: 1.5rem !important;
   margin-left: 1.5rem !important;
+}
+
+.mx-1-75 {
+  margin-right: 1.75rem !important;
+  margin-left: 1.75rem !important;
 }
 
 .mx-2 {
@@ -9425,6 +9543,11 @@ fieldset:disabled .btn {
   margin-bottom: 0.5rem !important;
 }
 
+.my-0-75 {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
 .my-1 {
   margin-top: 1rem !important;
   margin-bottom: 1rem !important;
@@ -9438,6 +9561,11 @@ fieldset:disabled .btn {
 .my-1-5 {
   margin-top: 1.5rem !important;
   margin-bottom: 1.5rem !important;
+}
+
+.my-1-75 {
+  margin-top: 1.75rem !important;
+  margin-bottom: 1.75rem !important;
 }
 
 .my-2 {
@@ -9482,6 +9610,10 @@ fieldset:disabled .btn {
   margin-top: 0.5rem !important;
 }
 
+.mt-0-75 {
+  margin-top: 0.75rem !important;
+}
+
 .mt-1 {
   margin-top: 1rem !important;
 }
@@ -9492,6 +9624,10 @@ fieldset:disabled .btn {
 
 .mt-1-5 {
   margin-top: 1.5rem !important;
+}
+
+.mt-1-75 {
+  margin-top: 1.75rem !important;
 }
 
 .mt-2 {
@@ -9530,6 +9666,10 @@ fieldset:disabled .btn {
   margin-right: 0.5rem !important;
 }
 
+.me-0-75 {
+  margin-right: 0.75rem !important;
+}
+
 .me-1 {
   margin-right: 1rem !important;
 }
@@ -9540,6 +9680,10 @@ fieldset:disabled .btn {
 
 .me-1-5 {
   margin-right: 1.5rem !important;
+}
+
+.me-1-75 {
+  margin-right: 1.75rem !important;
 }
 
 .me-2 {
@@ -9578,6 +9722,10 @@ fieldset:disabled .btn {
   margin-bottom: 0.5rem !important;
 }
 
+.mb-0-75 {
+  margin-bottom: 0.75rem !important;
+}
+
 .mb-1 {
   margin-bottom: 1rem !important;
 }
@@ -9588,6 +9736,10 @@ fieldset:disabled .btn {
 
 .mb-1-5 {
   margin-bottom: 1.5rem !important;
+}
+
+.mb-1-75 {
+  margin-bottom: 1.75rem !important;
 }
 
 .mb-2 {
@@ -9626,6 +9778,10 @@ fieldset:disabled .btn {
   margin-left: 0.5rem !important;
 }
 
+.ms-0-75 {
+  margin-left: 0.75rem !important;
+}
+
 .ms-1 {
   margin-left: 1rem !important;
 }
@@ -9636,6 +9792,10 @@ fieldset:disabled .btn {
 
 .ms-1-5 {
   margin-left: 1.5rem !important;
+}
+
+.ms-1-75 {
+  margin-left: 1.75rem !important;
 }
 
 .ms-2 {
@@ -9674,6 +9834,10 @@ fieldset:disabled .btn {
   padding: 0.5rem !important;
 }
 
+.p-0-75 {
+  padding: 0.75rem !important;
+}
+
 .p-1 {
   padding: 1rem !important;
 }
@@ -9684,6 +9848,10 @@ fieldset:disabled .btn {
 
 .p-1-5 {
   padding: 1.5rem !important;
+}
+
+.p-1-75 {
+  padding: 1.75rem !important;
 }
 
 .p-2 {
@@ -9721,6 +9889,11 @@ fieldset:disabled .btn {
   padding-left: 0.5rem !important;
 }
 
+.px-0-75 {
+  padding-right: 0.75rem !important;
+  padding-left: 0.75rem !important;
+}
+
 .px-1 {
   padding-right: 1rem !important;
   padding-left: 1rem !important;
@@ -9734,6 +9907,11 @@ fieldset:disabled .btn {
 .px-1-5 {
   padding-right: 1.5rem !important;
   padding-left: 1.5rem !important;
+}
+
+.px-1-75 {
+  padding-right: 1.75rem !important;
+  padding-left: 1.75rem !important;
 }
 
 .px-2 {
@@ -9776,6 +9954,11 @@ fieldset:disabled .btn {
   padding-bottom: 0.5rem !important;
 }
 
+.py-0-75 {
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+}
+
 .py-1 {
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
@@ -9789,6 +9972,11 @@ fieldset:disabled .btn {
 .py-1-5 {
   padding-top: 1.5rem !important;
   padding-bottom: 1.5rem !important;
+}
+
+.py-1-75 {
+  padding-top: 1.75rem !important;
+  padding-bottom: 1.75rem !important;
 }
 
 .py-2 {
@@ -9828,6 +10016,10 @@ fieldset:disabled .btn {
   padding-top: 0.5rem !important;
 }
 
+.pt-0-75 {
+  padding-top: 0.75rem !important;
+}
+
 .pt-1 {
   padding-top: 1rem !important;
 }
@@ -9838,6 +10030,10 @@ fieldset:disabled .btn {
 
 .pt-1-5 {
   padding-top: 1.5rem !important;
+}
+
+.pt-1-75 {
+  padding-top: 1.75rem !important;
 }
 
 .pt-2 {
@@ -9872,6 +10068,10 @@ fieldset:disabled .btn {
   padding-right: 0.5rem !important;
 }
 
+.pe-0-75 {
+  padding-right: 0.75rem !important;
+}
+
 .pe-1 {
   padding-right: 1rem !important;
 }
@@ -9882,6 +10082,10 @@ fieldset:disabled .btn {
 
 .pe-1-5 {
   padding-right: 1.5rem !important;
+}
+
+.pe-1-75 {
+  padding-right: 1.75rem !important;
 }
 
 .pe-2 {
@@ -9916,6 +10120,10 @@ fieldset:disabled .btn {
   padding-bottom: 0.5rem !important;
 }
 
+.pb-0-75 {
+  padding-bottom: 0.75rem !important;
+}
+
 .pb-1 {
   padding-bottom: 1rem !important;
 }
@@ -9926,6 +10134,10 @@ fieldset:disabled .btn {
 
 .pb-1-5 {
   padding-bottom: 1.5rem !important;
+}
+
+.pb-1-75 {
+  padding-bottom: 1.75rem !important;
 }
 
 .pb-2 {
@@ -9960,6 +10172,10 @@ fieldset:disabled .btn {
   padding-left: 0.5rem !important;
 }
 
+.ps-0-75 {
+  padding-left: 0.75rem !important;
+}
+
 .ps-1 {
   padding-left: 1rem !important;
 }
@@ -9970,6 +10186,10 @@ fieldset:disabled .btn {
 
 .ps-1-5 {
   padding-left: 1.5rem !important;
+}
+
+.ps-1-75 {
+  padding-left: 1.75rem !important;
 }
 
 .ps-2 {
@@ -10004,6 +10224,10 @@ fieldset:disabled .btn {
   gap: 0.5rem !important;
 }
 
+.gap-0-75 {
+  gap: 0.75rem !important;
+}
+
 .gap-1 {
   gap: 1rem !important;
 }
@@ -10014,6 +10238,10 @@ fieldset:disabled .btn {
 
 .gap-1-5 {
   gap: 1.5rem !important;
+}
+
+.gap-1-75 {
+  gap: 1.75rem !important;
 }
 
 .gap-2 {
@@ -10040,7 +10268,15 @@ fieldset:disabled .btn {
   font-family: var(--bs-font-monospace) !important;
 }
 
-.fs-1 {
+.fs-3-5 {
+  font-size: calc(1.475rem + 2.7vw) !important;
+}
+
+.fs-3 {
+  font-size: calc(1.425rem + 2.1vw) !important;
+}
+
+.fs-2-5 {
   font-size: calc(1.375rem + 1.5vw) !important;
 }
 
@@ -10048,19 +10284,19 @@ fieldset:disabled .btn {
   font-size: calc(1.325rem + 0.9vw) !important;
 }
 
-.fs-3 {
+.fs-1-75 {
   font-size: calc(1.3rem + 0.6vw) !important;
 }
 
-.fs-4 {
+.fs-1-5 {
   font-size: calc(1.275rem + 0.3vw) !important;
 }
 
-.fs-5 {
+.fs-1-25 {
   font-size: 1.25rem !important;
 }
 
-.fs-6 {
+.fs-1 {
   font-size: 1rem !important;
 }
 
@@ -10719,6 +10955,9 @@ fieldset:disabled .btn {
   .m-sm-0-5 {
     margin: 0.5rem !important;
   }
+  .m-sm-0-75 {
+    margin: 0.75rem !important;
+  }
   .m-sm-1 {
     margin: 1rem !important;
   }
@@ -10727,6 +10966,9 @@ fieldset:disabled .btn {
   }
   .m-sm-1-5 {
     margin: 1.5rem !important;
+  }
+  .m-sm-1-75 {
+    margin: 1.75rem !important;
   }
   .m-sm-2 {
     margin: 2rem !important;
@@ -10758,6 +11000,10 @@ fieldset:disabled .btn {
     margin-right: 0.5rem !important;
     margin-left: 0.5rem !important;
   }
+  .mx-sm-0-75 {
+    margin-right: 0.75rem !important;
+    margin-left: 0.75rem !important;
+  }
   .mx-sm-1 {
     margin-right: 1rem !important;
     margin-left: 1rem !important;
@@ -10769,6 +11015,10 @@ fieldset:disabled .btn {
   .mx-sm-1-5 {
     margin-right: 1.5rem !important;
     margin-left: 1.5rem !important;
+  }
+  .mx-sm-1-75 {
+    margin-right: 1.75rem !important;
+    margin-left: 1.75rem !important;
   }
   .mx-sm-2 {
     margin-right: 2rem !important;
@@ -10806,6 +11056,10 @@ fieldset:disabled .btn {
     margin-top: 0.5rem !important;
     margin-bottom: 0.5rem !important;
   }
+  .my-sm-0-75 {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
   .my-sm-1 {
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
@@ -10817,6 +11071,10 @@ fieldset:disabled .btn {
   .my-sm-1-5 {
     margin-top: 1.5rem !important;
     margin-bottom: 1.5rem !important;
+  }
+  .my-sm-1-75 {
+    margin-top: 1.75rem !important;
+    margin-bottom: 1.75rem !important;
   }
   .my-sm-2 {
     margin-top: 2rem !important;
@@ -10851,6 +11109,9 @@ fieldset:disabled .btn {
   .mt-sm-0-5 {
     margin-top: 0.5rem !important;
   }
+  .mt-sm-0-75 {
+    margin-top: 0.75rem !important;
+  }
   .mt-sm-1 {
     margin-top: 1rem !important;
   }
@@ -10859,6 +11120,9 @@ fieldset:disabled .btn {
   }
   .mt-sm-1-5 {
     margin-top: 1.5rem !important;
+  }
+  .mt-sm-1-75 {
+    margin-top: 1.75rem !important;
   }
   .mt-sm-2 {
     margin-top: 2rem !important;
@@ -10887,6 +11151,9 @@ fieldset:disabled .btn {
   .me-sm-0-5 {
     margin-right: 0.5rem !important;
   }
+  .me-sm-0-75 {
+    margin-right: 0.75rem !important;
+  }
   .me-sm-1 {
     margin-right: 1rem !important;
   }
@@ -10895,6 +11162,9 @@ fieldset:disabled .btn {
   }
   .me-sm-1-5 {
     margin-right: 1.5rem !important;
+  }
+  .me-sm-1-75 {
+    margin-right: 1.75rem !important;
   }
   .me-sm-2 {
     margin-right: 2rem !important;
@@ -10923,6 +11193,9 @@ fieldset:disabled .btn {
   .mb-sm-0-5 {
     margin-bottom: 0.5rem !important;
   }
+  .mb-sm-0-75 {
+    margin-bottom: 0.75rem !important;
+  }
   .mb-sm-1 {
     margin-bottom: 1rem !important;
   }
@@ -10931,6 +11204,9 @@ fieldset:disabled .btn {
   }
   .mb-sm-1-5 {
     margin-bottom: 1.5rem !important;
+  }
+  .mb-sm-1-75 {
+    margin-bottom: 1.75rem !important;
   }
   .mb-sm-2 {
     margin-bottom: 2rem !important;
@@ -10959,6 +11235,9 @@ fieldset:disabled .btn {
   .ms-sm-0-5 {
     margin-left: 0.5rem !important;
   }
+  .ms-sm-0-75 {
+    margin-left: 0.75rem !important;
+  }
   .ms-sm-1 {
     margin-left: 1rem !important;
   }
@@ -10967,6 +11246,9 @@ fieldset:disabled .btn {
   }
   .ms-sm-1-5 {
     margin-left: 1.5rem !important;
+  }
+  .ms-sm-1-75 {
+    margin-left: 1.75rem !important;
   }
   .ms-sm-2 {
     margin-left: 2rem !important;
@@ -10995,6 +11277,9 @@ fieldset:disabled .btn {
   .p-sm-0-5 {
     padding: 0.5rem !important;
   }
+  .p-sm-0-75 {
+    padding: 0.75rem !important;
+  }
   .p-sm-1 {
     padding: 1rem !important;
   }
@@ -11003,6 +11288,9 @@ fieldset:disabled .btn {
   }
   .p-sm-1-5 {
     padding: 1.5rem !important;
+  }
+  .p-sm-1-75 {
+    padding: 1.75rem !important;
   }
   .p-sm-2 {
     padding: 2rem !important;
@@ -11031,6 +11319,10 @@ fieldset:disabled .btn {
     padding-right: 0.5rem !important;
     padding-left: 0.5rem !important;
   }
+  .px-sm-0-75 {
+    padding-right: 0.75rem !important;
+    padding-left: 0.75rem !important;
+  }
   .px-sm-1 {
     padding-right: 1rem !important;
     padding-left: 1rem !important;
@@ -11042,6 +11334,10 @@ fieldset:disabled .btn {
   .px-sm-1-5 {
     padding-right: 1.5rem !important;
     padding-left: 1.5rem !important;
+  }
+  .px-sm-1-75 {
+    padding-right: 1.75rem !important;
+    padding-left: 1.75rem !important;
   }
   .px-sm-2 {
     padding-right: 2rem !important;
@@ -11075,6 +11371,10 @@ fieldset:disabled .btn {
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
   }
+  .py-sm-0-75 {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
   .py-sm-1 {
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
@@ -11086,6 +11386,10 @@ fieldset:disabled .btn {
   .py-sm-1-5 {
     padding-top: 1.5rem !important;
     padding-bottom: 1.5rem !important;
+  }
+  .py-sm-1-75 {
+    padding-top: 1.75rem !important;
+    padding-bottom: 1.75rem !important;
   }
   .py-sm-2 {
     padding-top: 2rem !important;
@@ -11116,6 +11420,9 @@ fieldset:disabled .btn {
   .pt-sm-0-5 {
     padding-top: 0.5rem !important;
   }
+  .pt-sm-0-75 {
+    padding-top: 0.75rem !important;
+  }
   .pt-sm-1 {
     padding-top: 1rem !important;
   }
@@ -11124,6 +11431,9 @@ fieldset:disabled .btn {
   }
   .pt-sm-1-5 {
     padding-top: 1.5rem !important;
+  }
+  .pt-sm-1-75 {
+    padding-top: 1.75rem !important;
   }
   .pt-sm-2 {
     padding-top: 2rem !important;
@@ -11149,6 +11459,9 @@ fieldset:disabled .btn {
   .pe-sm-0-5 {
     padding-right: 0.5rem !important;
   }
+  .pe-sm-0-75 {
+    padding-right: 0.75rem !important;
+  }
   .pe-sm-1 {
     padding-right: 1rem !important;
   }
@@ -11157,6 +11470,9 @@ fieldset:disabled .btn {
   }
   .pe-sm-1-5 {
     padding-right: 1.5rem !important;
+  }
+  .pe-sm-1-75 {
+    padding-right: 1.75rem !important;
   }
   .pe-sm-2 {
     padding-right: 2rem !important;
@@ -11182,6 +11498,9 @@ fieldset:disabled .btn {
   .pb-sm-0-5 {
     padding-bottom: 0.5rem !important;
   }
+  .pb-sm-0-75 {
+    padding-bottom: 0.75rem !important;
+  }
   .pb-sm-1 {
     padding-bottom: 1rem !important;
   }
@@ -11190,6 +11509,9 @@ fieldset:disabled .btn {
   }
   .pb-sm-1-5 {
     padding-bottom: 1.5rem !important;
+  }
+  .pb-sm-1-75 {
+    padding-bottom: 1.75rem !important;
   }
   .pb-sm-2 {
     padding-bottom: 2rem !important;
@@ -11215,6 +11537,9 @@ fieldset:disabled .btn {
   .ps-sm-0-5 {
     padding-left: 0.5rem !important;
   }
+  .ps-sm-0-75 {
+    padding-left: 0.75rem !important;
+  }
   .ps-sm-1 {
     padding-left: 1rem !important;
   }
@@ -11223,6 +11548,9 @@ fieldset:disabled .btn {
   }
   .ps-sm-1-5 {
     padding-left: 1.5rem !important;
+  }
+  .ps-sm-1-75 {
+    padding-left: 1.75rem !important;
   }
   .ps-sm-2 {
     padding-left: 2rem !important;
@@ -11248,6 +11576,9 @@ fieldset:disabled .btn {
   .gap-sm-0-5 {
     gap: 0.5rem !important;
   }
+  .gap-sm-0-75 {
+    gap: 0.75rem !important;
+  }
   .gap-sm-1 {
     gap: 1rem !important;
   }
@@ -11256,6 +11587,9 @@ fieldset:disabled .btn {
   }
   .gap-sm-1-5 {
     gap: 1.5rem !important;
+  }
+  .gap-sm-1-75 {
+    gap: 1.75rem !important;
   }
   .gap-sm-2 {
     gap: 2rem !important;
@@ -11541,6 +11875,9 @@ fieldset:disabled .btn {
   .m-md-0-5 {
     margin: 0.5rem !important;
   }
+  .m-md-0-75 {
+    margin: 0.75rem !important;
+  }
   .m-md-1 {
     margin: 1rem !important;
   }
@@ -11549,6 +11886,9 @@ fieldset:disabled .btn {
   }
   .m-md-1-5 {
     margin: 1.5rem !important;
+  }
+  .m-md-1-75 {
+    margin: 1.75rem !important;
   }
   .m-md-2 {
     margin: 2rem !important;
@@ -11580,6 +11920,10 @@ fieldset:disabled .btn {
     margin-right: 0.5rem !important;
     margin-left: 0.5rem !important;
   }
+  .mx-md-0-75 {
+    margin-right: 0.75rem !important;
+    margin-left: 0.75rem !important;
+  }
   .mx-md-1 {
     margin-right: 1rem !important;
     margin-left: 1rem !important;
@@ -11591,6 +11935,10 @@ fieldset:disabled .btn {
   .mx-md-1-5 {
     margin-right: 1.5rem !important;
     margin-left: 1.5rem !important;
+  }
+  .mx-md-1-75 {
+    margin-right: 1.75rem !important;
+    margin-left: 1.75rem !important;
   }
   .mx-md-2 {
     margin-right: 2rem !important;
@@ -11628,6 +11976,10 @@ fieldset:disabled .btn {
     margin-top: 0.5rem !important;
     margin-bottom: 0.5rem !important;
   }
+  .my-md-0-75 {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
   .my-md-1 {
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
@@ -11639,6 +11991,10 @@ fieldset:disabled .btn {
   .my-md-1-5 {
     margin-top: 1.5rem !important;
     margin-bottom: 1.5rem !important;
+  }
+  .my-md-1-75 {
+    margin-top: 1.75rem !important;
+    margin-bottom: 1.75rem !important;
   }
   .my-md-2 {
     margin-top: 2rem !important;
@@ -11673,6 +12029,9 @@ fieldset:disabled .btn {
   .mt-md-0-5 {
     margin-top: 0.5rem !important;
   }
+  .mt-md-0-75 {
+    margin-top: 0.75rem !important;
+  }
   .mt-md-1 {
     margin-top: 1rem !important;
   }
@@ -11681,6 +12040,9 @@ fieldset:disabled .btn {
   }
   .mt-md-1-5 {
     margin-top: 1.5rem !important;
+  }
+  .mt-md-1-75 {
+    margin-top: 1.75rem !important;
   }
   .mt-md-2 {
     margin-top: 2rem !important;
@@ -11709,6 +12071,9 @@ fieldset:disabled .btn {
   .me-md-0-5 {
     margin-right: 0.5rem !important;
   }
+  .me-md-0-75 {
+    margin-right: 0.75rem !important;
+  }
   .me-md-1 {
     margin-right: 1rem !important;
   }
@@ -11717,6 +12082,9 @@ fieldset:disabled .btn {
   }
   .me-md-1-5 {
     margin-right: 1.5rem !important;
+  }
+  .me-md-1-75 {
+    margin-right: 1.75rem !important;
   }
   .me-md-2 {
     margin-right: 2rem !important;
@@ -11745,6 +12113,9 @@ fieldset:disabled .btn {
   .mb-md-0-5 {
     margin-bottom: 0.5rem !important;
   }
+  .mb-md-0-75 {
+    margin-bottom: 0.75rem !important;
+  }
   .mb-md-1 {
     margin-bottom: 1rem !important;
   }
@@ -11753,6 +12124,9 @@ fieldset:disabled .btn {
   }
   .mb-md-1-5 {
     margin-bottom: 1.5rem !important;
+  }
+  .mb-md-1-75 {
+    margin-bottom: 1.75rem !important;
   }
   .mb-md-2 {
     margin-bottom: 2rem !important;
@@ -11781,6 +12155,9 @@ fieldset:disabled .btn {
   .ms-md-0-5 {
     margin-left: 0.5rem !important;
   }
+  .ms-md-0-75 {
+    margin-left: 0.75rem !important;
+  }
   .ms-md-1 {
     margin-left: 1rem !important;
   }
@@ -11789,6 +12166,9 @@ fieldset:disabled .btn {
   }
   .ms-md-1-5 {
     margin-left: 1.5rem !important;
+  }
+  .ms-md-1-75 {
+    margin-left: 1.75rem !important;
   }
   .ms-md-2 {
     margin-left: 2rem !important;
@@ -11817,6 +12197,9 @@ fieldset:disabled .btn {
   .p-md-0-5 {
     padding: 0.5rem !important;
   }
+  .p-md-0-75 {
+    padding: 0.75rem !important;
+  }
   .p-md-1 {
     padding: 1rem !important;
   }
@@ -11825,6 +12208,9 @@ fieldset:disabled .btn {
   }
   .p-md-1-5 {
     padding: 1.5rem !important;
+  }
+  .p-md-1-75 {
+    padding: 1.75rem !important;
   }
   .p-md-2 {
     padding: 2rem !important;
@@ -11853,6 +12239,10 @@ fieldset:disabled .btn {
     padding-right: 0.5rem !important;
     padding-left: 0.5rem !important;
   }
+  .px-md-0-75 {
+    padding-right: 0.75rem !important;
+    padding-left: 0.75rem !important;
+  }
   .px-md-1 {
     padding-right: 1rem !important;
     padding-left: 1rem !important;
@@ -11864,6 +12254,10 @@ fieldset:disabled .btn {
   .px-md-1-5 {
     padding-right: 1.5rem !important;
     padding-left: 1.5rem !important;
+  }
+  .px-md-1-75 {
+    padding-right: 1.75rem !important;
+    padding-left: 1.75rem !important;
   }
   .px-md-2 {
     padding-right: 2rem !important;
@@ -11897,6 +12291,10 @@ fieldset:disabled .btn {
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
   }
+  .py-md-0-75 {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
   .py-md-1 {
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
@@ -11908,6 +12306,10 @@ fieldset:disabled .btn {
   .py-md-1-5 {
     padding-top: 1.5rem !important;
     padding-bottom: 1.5rem !important;
+  }
+  .py-md-1-75 {
+    padding-top: 1.75rem !important;
+    padding-bottom: 1.75rem !important;
   }
   .py-md-2 {
     padding-top: 2rem !important;
@@ -11938,6 +12340,9 @@ fieldset:disabled .btn {
   .pt-md-0-5 {
     padding-top: 0.5rem !important;
   }
+  .pt-md-0-75 {
+    padding-top: 0.75rem !important;
+  }
   .pt-md-1 {
     padding-top: 1rem !important;
   }
@@ -11946,6 +12351,9 @@ fieldset:disabled .btn {
   }
   .pt-md-1-5 {
     padding-top: 1.5rem !important;
+  }
+  .pt-md-1-75 {
+    padding-top: 1.75rem !important;
   }
   .pt-md-2 {
     padding-top: 2rem !important;
@@ -11971,6 +12379,9 @@ fieldset:disabled .btn {
   .pe-md-0-5 {
     padding-right: 0.5rem !important;
   }
+  .pe-md-0-75 {
+    padding-right: 0.75rem !important;
+  }
   .pe-md-1 {
     padding-right: 1rem !important;
   }
@@ -11979,6 +12390,9 @@ fieldset:disabled .btn {
   }
   .pe-md-1-5 {
     padding-right: 1.5rem !important;
+  }
+  .pe-md-1-75 {
+    padding-right: 1.75rem !important;
   }
   .pe-md-2 {
     padding-right: 2rem !important;
@@ -12004,6 +12418,9 @@ fieldset:disabled .btn {
   .pb-md-0-5 {
     padding-bottom: 0.5rem !important;
   }
+  .pb-md-0-75 {
+    padding-bottom: 0.75rem !important;
+  }
   .pb-md-1 {
     padding-bottom: 1rem !important;
   }
@@ -12012,6 +12429,9 @@ fieldset:disabled .btn {
   }
   .pb-md-1-5 {
     padding-bottom: 1.5rem !important;
+  }
+  .pb-md-1-75 {
+    padding-bottom: 1.75rem !important;
   }
   .pb-md-2 {
     padding-bottom: 2rem !important;
@@ -12037,6 +12457,9 @@ fieldset:disabled .btn {
   .ps-md-0-5 {
     padding-left: 0.5rem !important;
   }
+  .ps-md-0-75 {
+    padding-left: 0.75rem !important;
+  }
   .ps-md-1 {
     padding-left: 1rem !important;
   }
@@ -12045,6 +12468,9 @@ fieldset:disabled .btn {
   }
   .ps-md-1-5 {
     padding-left: 1.5rem !important;
+  }
+  .ps-md-1-75 {
+    padding-left: 1.75rem !important;
   }
   .ps-md-2 {
     padding-left: 2rem !important;
@@ -12070,6 +12496,9 @@ fieldset:disabled .btn {
   .gap-md-0-5 {
     gap: 0.5rem !important;
   }
+  .gap-md-0-75 {
+    gap: 0.75rem !important;
+  }
   .gap-md-1 {
     gap: 1rem !important;
   }
@@ -12078,6 +12507,9 @@ fieldset:disabled .btn {
   }
   .gap-md-1-5 {
     gap: 1.5rem !important;
+  }
+  .gap-md-1-75 {
+    gap: 1.75rem !important;
   }
   .gap-md-2 {
     gap: 2rem !important;
@@ -12363,6 +12795,9 @@ fieldset:disabled .btn {
   .m-lg-0-5 {
     margin: 0.5rem !important;
   }
+  .m-lg-0-75 {
+    margin: 0.75rem !important;
+  }
   .m-lg-1 {
     margin: 1rem !important;
   }
@@ -12371,6 +12806,9 @@ fieldset:disabled .btn {
   }
   .m-lg-1-5 {
     margin: 1.5rem !important;
+  }
+  .m-lg-1-75 {
+    margin: 1.75rem !important;
   }
   .m-lg-2 {
     margin: 2rem !important;
@@ -12402,6 +12840,10 @@ fieldset:disabled .btn {
     margin-right: 0.5rem !important;
     margin-left: 0.5rem !important;
   }
+  .mx-lg-0-75 {
+    margin-right: 0.75rem !important;
+    margin-left: 0.75rem !important;
+  }
   .mx-lg-1 {
     margin-right: 1rem !important;
     margin-left: 1rem !important;
@@ -12413,6 +12855,10 @@ fieldset:disabled .btn {
   .mx-lg-1-5 {
     margin-right: 1.5rem !important;
     margin-left: 1.5rem !important;
+  }
+  .mx-lg-1-75 {
+    margin-right: 1.75rem !important;
+    margin-left: 1.75rem !important;
   }
   .mx-lg-2 {
     margin-right: 2rem !important;
@@ -12450,6 +12896,10 @@ fieldset:disabled .btn {
     margin-top: 0.5rem !important;
     margin-bottom: 0.5rem !important;
   }
+  .my-lg-0-75 {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
   .my-lg-1 {
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
@@ -12461,6 +12911,10 @@ fieldset:disabled .btn {
   .my-lg-1-5 {
     margin-top: 1.5rem !important;
     margin-bottom: 1.5rem !important;
+  }
+  .my-lg-1-75 {
+    margin-top: 1.75rem !important;
+    margin-bottom: 1.75rem !important;
   }
   .my-lg-2 {
     margin-top: 2rem !important;
@@ -12495,6 +12949,9 @@ fieldset:disabled .btn {
   .mt-lg-0-5 {
     margin-top: 0.5rem !important;
   }
+  .mt-lg-0-75 {
+    margin-top: 0.75rem !important;
+  }
   .mt-lg-1 {
     margin-top: 1rem !important;
   }
@@ -12503,6 +12960,9 @@ fieldset:disabled .btn {
   }
   .mt-lg-1-5 {
     margin-top: 1.5rem !important;
+  }
+  .mt-lg-1-75 {
+    margin-top: 1.75rem !important;
   }
   .mt-lg-2 {
     margin-top: 2rem !important;
@@ -12531,6 +12991,9 @@ fieldset:disabled .btn {
   .me-lg-0-5 {
     margin-right: 0.5rem !important;
   }
+  .me-lg-0-75 {
+    margin-right: 0.75rem !important;
+  }
   .me-lg-1 {
     margin-right: 1rem !important;
   }
@@ -12539,6 +13002,9 @@ fieldset:disabled .btn {
   }
   .me-lg-1-5 {
     margin-right: 1.5rem !important;
+  }
+  .me-lg-1-75 {
+    margin-right: 1.75rem !important;
   }
   .me-lg-2 {
     margin-right: 2rem !important;
@@ -12567,6 +13033,9 @@ fieldset:disabled .btn {
   .mb-lg-0-5 {
     margin-bottom: 0.5rem !important;
   }
+  .mb-lg-0-75 {
+    margin-bottom: 0.75rem !important;
+  }
   .mb-lg-1 {
     margin-bottom: 1rem !important;
   }
@@ -12575,6 +13044,9 @@ fieldset:disabled .btn {
   }
   .mb-lg-1-5 {
     margin-bottom: 1.5rem !important;
+  }
+  .mb-lg-1-75 {
+    margin-bottom: 1.75rem !important;
   }
   .mb-lg-2 {
     margin-bottom: 2rem !important;
@@ -12603,6 +13075,9 @@ fieldset:disabled .btn {
   .ms-lg-0-5 {
     margin-left: 0.5rem !important;
   }
+  .ms-lg-0-75 {
+    margin-left: 0.75rem !important;
+  }
   .ms-lg-1 {
     margin-left: 1rem !important;
   }
@@ -12611,6 +13086,9 @@ fieldset:disabled .btn {
   }
   .ms-lg-1-5 {
     margin-left: 1.5rem !important;
+  }
+  .ms-lg-1-75 {
+    margin-left: 1.75rem !important;
   }
   .ms-lg-2 {
     margin-left: 2rem !important;
@@ -12639,6 +13117,9 @@ fieldset:disabled .btn {
   .p-lg-0-5 {
     padding: 0.5rem !important;
   }
+  .p-lg-0-75 {
+    padding: 0.75rem !important;
+  }
   .p-lg-1 {
     padding: 1rem !important;
   }
@@ -12647,6 +13128,9 @@ fieldset:disabled .btn {
   }
   .p-lg-1-5 {
     padding: 1.5rem !important;
+  }
+  .p-lg-1-75 {
+    padding: 1.75rem !important;
   }
   .p-lg-2 {
     padding: 2rem !important;
@@ -12675,6 +13159,10 @@ fieldset:disabled .btn {
     padding-right: 0.5rem !important;
     padding-left: 0.5rem !important;
   }
+  .px-lg-0-75 {
+    padding-right: 0.75rem !important;
+    padding-left: 0.75rem !important;
+  }
   .px-lg-1 {
     padding-right: 1rem !important;
     padding-left: 1rem !important;
@@ -12686,6 +13174,10 @@ fieldset:disabled .btn {
   .px-lg-1-5 {
     padding-right: 1.5rem !important;
     padding-left: 1.5rem !important;
+  }
+  .px-lg-1-75 {
+    padding-right: 1.75rem !important;
+    padding-left: 1.75rem !important;
   }
   .px-lg-2 {
     padding-right: 2rem !important;
@@ -12719,6 +13211,10 @@ fieldset:disabled .btn {
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
   }
+  .py-lg-0-75 {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
   .py-lg-1 {
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
@@ -12730,6 +13226,10 @@ fieldset:disabled .btn {
   .py-lg-1-5 {
     padding-top: 1.5rem !important;
     padding-bottom: 1.5rem !important;
+  }
+  .py-lg-1-75 {
+    padding-top: 1.75rem !important;
+    padding-bottom: 1.75rem !important;
   }
   .py-lg-2 {
     padding-top: 2rem !important;
@@ -12760,6 +13260,9 @@ fieldset:disabled .btn {
   .pt-lg-0-5 {
     padding-top: 0.5rem !important;
   }
+  .pt-lg-0-75 {
+    padding-top: 0.75rem !important;
+  }
   .pt-lg-1 {
     padding-top: 1rem !important;
   }
@@ -12768,6 +13271,9 @@ fieldset:disabled .btn {
   }
   .pt-lg-1-5 {
     padding-top: 1.5rem !important;
+  }
+  .pt-lg-1-75 {
+    padding-top: 1.75rem !important;
   }
   .pt-lg-2 {
     padding-top: 2rem !important;
@@ -12793,6 +13299,9 @@ fieldset:disabled .btn {
   .pe-lg-0-5 {
     padding-right: 0.5rem !important;
   }
+  .pe-lg-0-75 {
+    padding-right: 0.75rem !important;
+  }
   .pe-lg-1 {
     padding-right: 1rem !important;
   }
@@ -12801,6 +13310,9 @@ fieldset:disabled .btn {
   }
   .pe-lg-1-5 {
     padding-right: 1.5rem !important;
+  }
+  .pe-lg-1-75 {
+    padding-right: 1.75rem !important;
   }
   .pe-lg-2 {
     padding-right: 2rem !important;
@@ -12826,6 +13338,9 @@ fieldset:disabled .btn {
   .pb-lg-0-5 {
     padding-bottom: 0.5rem !important;
   }
+  .pb-lg-0-75 {
+    padding-bottom: 0.75rem !important;
+  }
   .pb-lg-1 {
     padding-bottom: 1rem !important;
   }
@@ -12834,6 +13349,9 @@ fieldset:disabled .btn {
   }
   .pb-lg-1-5 {
     padding-bottom: 1.5rem !important;
+  }
+  .pb-lg-1-75 {
+    padding-bottom: 1.75rem !important;
   }
   .pb-lg-2 {
     padding-bottom: 2rem !important;
@@ -12859,6 +13377,9 @@ fieldset:disabled .btn {
   .ps-lg-0-5 {
     padding-left: 0.5rem !important;
   }
+  .ps-lg-0-75 {
+    padding-left: 0.75rem !important;
+  }
   .ps-lg-1 {
     padding-left: 1rem !important;
   }
@@ -12867,6 +13388,9 @@ fieldset:disabled .btn {
   }
   .ps-lg-1-5 {
     padding-left: 1.5rem !important;
+  }
+  .ps-lg-1-75 {
+    padding-left: 1.75rem !important;
   }
   .ps-lg-2 {
     padding-left: 2rem !important;
@@ -12892,6 +13416,9 @@ fieldset:disabled .btn {
   .gap-lg-0-5 {
     gap: 0.5rem !important;
   }
+  .gap-lg-0-75 {
+    gap: 0.75rem !important;
+  }
   .gap-lg-1 {
     gap: 1rem !important;
   }
@@ -12900,6 +13427,9 @@ fieldset:disabled .btn {
   }
   .gap-lg-1-5 {
     gap: 1.5rem !important;
+  }
+  .gap-lg-1-75 {
+    gap: 1.75rem !important;
   }
   .gap-lg-2 {
     gap: 2rem !important;
@@ -13185,6 +13715,9 @@ fieldset:disabled .btn {
   .m-xl-0-5 {
     margin: 0.5rem !important;
   }
+  .m-xl-0-75 {
+    margin: 0.75rem !important;
+  }
   .m-xl-1 {
     margin: 1rem !important;
   }
@@ -13193,6 +13726,9 @@ fieldset:disabled .btn {
   }
   .m-xl-1-5 {
     margin: 1.5rem !important;
+  }
+  .m-xl-1-75 {
+    margin: 1.75rem !important;
   }
   .m-xl-2 {
     margin: 2rem !important;
@@ -13224,6 +13760,10 @@ fieldset:disabled .btn {
     margin-right: 0.5rem !important;
     margin-left: 0.5rem !important;
   }
+  .mx-xl-0-75 {
+    margin-right: 0.75rem !important;
+    margin-left: 0.75rem !important;
+  }
   .mx-xl-1 {
     margin-right: 1rem !important;
     margin-left: 1rem !important;
@@ -13235,6 +13775,10 @@ fieldset:disabled .btn {
   .mx-xl-1-5 {
     margin-right: 1.5rem !important;
     margin-left: 1.5rem !important;
+  }
+  .mx-xl-1-75 {
+    margin-right: 1.75rem !important;
+    margin-left: 1.75rem !important;
   }
   .mx-xl-2 {
     margin-right: 2rem !important;
@@ -13272,6 +13816,10 @@ fieldset:disabled .btn {
     margin-top: 0.5rem !important;
     margin-bottom: 0.5rem !important;
   }
+  .my-xl-0-75 {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
   .my-xl-1 {
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
@@ -13283,6 +13831,10 @@ fieldset:disabled .btn {
   .my-xl-1-5 {
     margin-top: 1.5rem !important;
     margin-bottom: 1.5rem !important;
+  }
+  .my-xl-1-75 {
+    margin-top: 1.75rem !important;
+    margin-bottom: 1.75rem !important;
   }
   .my-xl-2 {
     margin-top: 2rem !important;
@@ -13317,6 +13869,9 @@ fieldset:disabled .btn {
   .mt-xl-0-5 {
     margin-top: 0.5rem !important;
   }
+  .mt-xl-0-75 {
+    margin-top: 0.75rem !important;
+  }
   .mt-xl-1 {
     margin-top: 1rem !important;
   }
@@ -13325,6 +13880,9 @@ fieldset:disabled .btn {
   }
   .mt-xl-1-5 {
     margin-top: 1.5rem !important;
+  }
+  .mt-xl-1-75 {
+    margin-top: 1.75rem !important;
   }
   .mt-xl-2 {
     margin-top: 2rem !important;
@@ -13353,6 +13911,9 @@ fieldset:disabled .btn {
   .me-xl-0-5 {
     margin-right: 0.5rem !important;
   }
+  .me-xl-0-75 {
+    margin-right: 0.75rem !important;
+  }
   .me-xl-1 {
     margin-right: 1rem !important;
   }
@@ -13361,6 +13922,9 @@ fieldset:disabled .btn {
   }
   .me-xl-1-5 {
     margin-right: 1.5rem !important;
+  }
+  .me-xl-1-75 {
+    margin-right: 1.75rem !important;
   }
   .me-xl-2 {
     margin-right: 2rem !important;
@@ -13389,6 +13953,9 @@ fieldset:disabled .btn {
   .mb-xl-0-5 {
     margin-bottom: 0.5rem !important;
   }
+  .mb-xl-0-75 {
+    margin-bottom: 0.75rem !important;
+  }
   .mb-xl-1 {
     margin-bottom: 1rem !important;
   }
@@ -13397,6 +13964,9 @@ fieldset:disabled .btn {
   }
   .mb-xl-1-5 {
     margin-bottom: 1.5rem !important;
+  }
+  .mb-xl-1-75 {
+    margin-bottom: 1.75rem !important;
   }
   .mb-xl-2 {
     margin-bottom: 2rem !important;
@@ -13425,6 +13995,9 @@ fieldset:disabled .btn {
   .ms-xl-0-5 {
     margin-left: 0.5rem !important;
   }
+  .ms-xl-0-75 {
+    margin-left: 0.75rem !important;
+  }
   .ms-xl-1 {
     margin-left: 1rem !important;
   }
@@ -13433,6 +14006,9 @@ fieldset:disabled .btn {
   }
   .ms-xl-1-5 {
     margin-left: 1.5rem !important;
+  }
+  .ms-xl-1-75 {
+    margin-left: 1.75rem !important;
   }
   .ms-xl-2 {
     margin-left: 2rem !important;
@@ -13461,6 +14037,9 @@ fieldset:disabled .btn {
   .p-xl-0-5 {
     padding: 0.5rem !important;
   }
+  .p-xl-0-75 {
+    padding: 0.75rem !important;
+  }
   .p-xl-1 {
     padding: 1rem !important;
   }
@@ -13469,6 +14048,9 @@ fieldset:disabled .btn {
   }
   .p-xl-1-5 {
     padding: 1.5rem !important;
+  }
+  .p-xl-1-75 {
+    padding: 1.75rem !important;
   }
   .p-xl-2 {
     padding: 2rem !important;
@@ -13497,6 +14079,10 @@ fieldset:disabled .btn {
     padding-right: 0.5rem !important;
     padding-left: 0.5rem !important;
   }
+  .px-xl-0-75 {
+    padding-right: 0.75rem !important;
+    padding-left: 0.75rem !important;
+  }
   .px-xl-1 {
     padding-right: 1rem !important;
     padding-left: 1rem !important;
@@ -13508,6 +14094,10 @@ fieldset:disabled .btn {
   .px-xl-1-5 {
     padding-right: 1.5rem !important;
     padding-left: 1.5rem !important;
+  }
+  .px-xl-1-75 {
+    padding-right: 1.75rem !important;
+    padding-left: 1.75rem !important;
   }
   .px-xl-2 {
     padding-right: 2rem !important;
@@ -13541,6 +14131,10 @@ fieldset:disabled .btn {
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
   }
+  .py-xl-0-75 {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
   .py-xl-1 {
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
@@ -13552,6 +14146,10 @@ fieldset:disabled .btn {
   .py-xl-1-5 {
     padding-top: 1.5rem !important;
     padding-bottom: 1.5rem !important;
+  }
+  .py-xl-1-75 {
+    padding-top: 1.75rem !important;
+    padding-bottom: 1.75rem !important;
   }
   .py-xl-2 {
     padding-top: 2rem !important;
@@ -13582,6 +14180,9 @@ fieldset:disabled .btn {
   .pt-xl-0-5 {
     padding-top: 0.5rem !important;
   }
+  .pt-xl-0-75 {
+    padding-top: 0.75rem !important;
+  }
   .pt-xl-1 {
     padding-top: 1rem !important;
   }
@@ -13590,6 +14191,9 @@ fieldset:disabled .btn {
   }
   .pt-xl-1-5 {
     padding-top: 1.5rem !important;
+  }
+  .pt-xl-1-75 {
+    padding-top: 1.75rem !important;
   }
   .pt-xl-2 {
     padding-top: 2rem !important;
@@ -13615,6 +14219,9 @@ fieldset:disabled .btn {
   .pe-xl-0-5 {
     padding-right: 0.5rem !important;
   }
+  .pe-xl-0-75 {
+    padding-right: 0.75rem !important;
+  }
   .pe-xl-1 {
     padding-right: 1rem !important;
   }
@@ -13623,6 +14230,9 @@ fieldset:disabled .btn {
   }
   .pe-xl-1-5 {
     padding-right: 1.5rem !important;
+  }
+  .pe-xl-1-75 {
+    padding-right: 1.75rem !important;
   }
   .pe-xl-2 {
     padding-right: 2rem !important;
@@ -13648,6 +14258,9 @@ fieldset:disabled .btn {
   .pb-xl-0-5 {
     padding-bottom: 0.5rem !important;
   }
+  .pb-xl-0-75 {
+    padding-bottom: 0.75rem !important;
+  }
   .pb-xl-1 {
     padding-bottom: 1rem !important;
   }
@@ -13656,6 +14269,9 @@ fieldset:disabled .btn {
   }
   .pb-xl-1-5 {
     padding-bottom: 1.5rem !important;
+  }
+  .pb-xl-1-75 {
+    padding-bottom: 1.75rem !important;
   }
   .pb-xl-2 {
     padding-bottom: 2rem !important;
@@ -13681,6 +14297,9 @@ fieldset:disabled .btn {
   .ps-xl-0-5 {
     padding-left: 0.5rem !important;
   }
+  .ps-xl-0-75 {
+    padding-left: 0.75rem !important;
+  }
   .ps-xl-1 {
     padding-left: 1rem !important;
   }
@@ -13689,6 +14308,9 @@ fieldset:disabled .btn {
   }
   .ps-xl-1-5 {
     padding-left: 1.5rem !important;
+  }
+  .ps-xl-1-75 {
+    padding-left: 1.75rem !important;
   }
   .ps-xl-2 {
     padding-left: 2rem !important;
@@ -13714,6 +14336,9 @@ fieldset:disabled .btn {
   .gap-xl-0-5 {
     gap: 0.5rem !important;
   }
+  .gap-xl-0-75 {
+    gap: 0.75rem !important;
+  }
   .gap-xl-1 {
     gap: 1rem !important;
   }
@@ -13722,6 +14347,9 @@ fieldset:disabled .btn {
   }
   .gap-xl-1-5 {
     gap: 1.5rem !important;
+  }
+  .gap-xl-1-75 {
+    gap: 1.75rem !important;
   }
   .gap-xl-2 {
     gap: 2rem !important;
@@ -14007,6 +14635,9 @@ fieldset:disabled .btn {
   .m-xxl-0-5 {
     margin: 0.5rem !important;
   }
+  .m-xxl-0-75 {
+    margin: 0.75rem !important;
+  }
   .m-xxl-1 {
     margin: 1rem !important;
   }
@@ -14015,6 +14646,9 @@ fieldset:disabled .btn {
   }
   .m-xxl-1-5 {
     margin: 1.5rem !important;
+  }
+  .m-xxl-1-75 {
+    margin: 1.75rem !important;
   }
   .m-xxl-2 {
     margin: 2rem !important;
@@ -14046,6 +14680,10 @@ fieldset:disabled .btn {
     margin-right: 0.5rem !important;
     margin-left: 0.5rem !important;
   }
+  .mx-xxl-0-75 {
+    margin-right: 0.75rem !important;
+    margin-left: 0.75rem !important;
+  }
   .mx-xxl-1 {
     margin-right: 1rem !important;
     margin-left: 1rem !important;
@@ -14057,6 +14695,10 @@ fieldset:disabled .btn {
   .mx-xxl-1-5 {
     margin-right: 1.5rem !important;
     margin-left: 1.5rem !important;
+  }
+  .mx-xxl-1-75 {
+    margin-right: 1.75rem !important;
+    margin-left: 1.75rem !important;
   }
   .mx-xxl-2 {
     margin-right: 2rem !important;
@@ -14094,6 +14736,10 @@ fieldset:disabled .btn {
     margin-top: 0.5rem !important;
     margin-bottom: 0.5rem !important;
   }
+  .my-xxl-0-75 {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
   .my-xxl-1 {
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
@@ -14105,6 +14751,10 @@ fieldset:disabled .btn {
   .my-xxl-1-5 {
     margin-top: 1.5rem !important;
     margin-bottom: 1.5rem !important;
+  }
+  .my-xxl-1-75 {
+    margin-top: 1.75rem !important;
+    margin-bottom: 1.75rem !important;
   }
   .my-xxl-2 {
     margin-top: 2rem !important;
@@ -14139,6 +14789,9 @@ fieldset:disabled .btn {
   .mt-xxl-0-5 {
     margin-top: 0.5rem !important;
   }
+  .mt-xxl-0-75 {
+    margin-top: 0.75rem !important;
+  }
   .mt-xxl-1 {
     margin-top: 1rem !important;
   }
@@ -14147,6 +14800,9 @@ fieldset:disabled .btn {
   }
   .mt-xxl-1-5 {
     margin-top: 1.5rem !important;
+  }
+  .mt-xxl-1-75 {
+    margin-top: 1.75rem !important;
   }
   .mt-xxl-2 {
     margin-top: 2rem !important;
@@ -14175,6 +14831,9 @@ fieldset:disabled .btn {
   .me-xxl-0-5 {
     margin-right: 0.5rem !important;
   }
+  .me-xxl-0-75 {
+    margin-right: 0.75rem !important;
+  }
   .me-xxl-1 {
     margin-right: 1rem !important;
   }
@@ -14183,6 +14842,9 @@ fieldset:disabled .btn {
   }
   .me-xxl-1-5 {
     margin-right: 1.5rem !important;
+  }
+  .me-xxl-1-75 {
+    margin-right: 1.75rem !important;
   }
   .me-xxl-2 {
     margin-right: 2rem !important;
@@ -14211,6 +14873,9 @@ fieldset:disabled .btn {
   .mb-xxl-0-5 {
     margin-bottom: 0.5rem !important;
   }
+  .mb-xxl-0-75 {
+    margin-bottom: 0.75rem !important;
+  }
   .mb-xxl-1 {
     margin-bottom: 1rem !important;
   }
@@ -14219,6 +14884,9 @@ fieldset:disabled .btn {
   }
   .mb-xxl-1-5 {
     margin-bottom: 1.5rem !important;
+  }
+  .mb-xxl-1-75 {
+    margin-bottom: 1.75rem !important;
   }
   .mb-xxl-2 {
     margin-bottom: 2rem !important;
@@ -14247,6 +14915,9 @@ fieldset:disabled .btn {
   .ms-xxl-0-5 {
     margin-left: 0.5rem !important;
   }
+  .ms-xxl-0-75 {
+    margin-left: 0.75rem !important;
+  }
   .ms-xxl-1 {
     margin-left: 1rem !important;
   }
@@ -14255,6 +14926,9 @@ fieldset:disabled .btn {
   }
   .ms-xxl-1-5 {
     margin-left: 1.5rem !important;
+  }
+  .ms-xxl-1-75 {
+    margin-left: 1.75rem !important;
   }
   .ms-xxl-2 {
     margin-left: 2rem !important;
@@ -14283,6 +14957,9 @@ fieldset:disabled .btn {
   .p-xxl-0-5 {
     padding: 0.5rem !important;
   }
+  .p-xxl-0-75 {
+    padding: 0.75rem !important;
+  }
   .p-xxl-1 {
     padding: 1rem !important;
   }
@@ -14291,6 +14968,9 @@ fieldset:disabled .btn {
   }
   .p-xxl-1-5 {
     padding: 1.5rem !important;
+  }
+  .p-xxl-1-75 {
+    padding: 1.75rem !important;
   }
   .p-xxl-2 {
     padding: 2rem !important;
@@ -14319,6 +14999,10 @@ fieldset:disabled .btn {
     padding-right: 0.5rem !important;
     padding-left: 0.5rem !important;
   }
+  .px-xxl-0-75 {
+    padding-right: 0.75rem !important;
+    padding-left: 0.75rem !important;
+  }
   .px-xxl-1 {
     padding-right: 1rem !important;
     padding-left: 1rem !important;
@@ -14330,6 +15014,10 @@ fieldset:disabled .btn {
   .px-xxl-1-5 {
     padding-right: 1.5rem !important;
     padding-left: 1.5rem !important;
+  }
+  .px-xxl-1-75 {
+    padding-right: 1.75rem !important;
+    padding-left: 1.75rem !important;
   }
   .px-xxl-2 {
     padding-right: 2rem !important;
@@ -14363,6 +15051,10 @@ fieldset:disabled .btn {
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
   }
+  .py-xxl-0-75 {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
   .py-xxl-1 {
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
@@ -14374,6 +15066,10 @@ fieldset:disabled .btn {
   .py-xxl-1-5 {
     padding-top: 1.5rem !important;
     padding-bottom: 1.5rem !important;
+  }
+  .py-xxl-1-75 {
+    padding-top: 1.75rem !important;
+    padding-bottom: 1.75rem !important;
   }
   .py-xxl-2 {
     padding-top: 2rem !important;
@@ -14404,6 +15100,9 @@ fieldset:disabled .btn {
   .pt-xxl-0-5 {
     padding-top: 0.5rem !important;
   }
+  .pt-xxl-0-75 {
+    padding-top: 0.75rem !important;
+  }
   .pt-xxl-1 {
     padding-top: 1rem !important;
   }
@@ -14412,6 +15111,9 @@ fieldset:disabled .btn {
   }
   .pt-xxl-1-5 {
     padding-top: 1.5rem !important;
+  }
+  .pt-xxl-1-75 {
+    padding-top: 1.75rem !important;
   }
   .pt-xxl-2 {
     padding-top: 2rem !important;
@@ -14437,6 +15139,9 @@ fieldset:disabled .btn {
   .pe-xxl-0-5 {
     padding-right: 0.5rem !important;
   }
+  .pe-xxl-0-75 {
+    padding-right: 0.75rem !important;
+  }
   .pe-xxl-1 {
     padding-right: 1rem !important;
   }
@@ -14445,6 +15150,9 @@ fieldset:disabled .btn {
   }
   .pe-xxl-1-5 {
     padding-right: 1.5rem !important;
+  }
+  .pe-xxl-1-75 {
+    padding-right: 1.75rem !important;
   }
   .pe-xxl-2 {
     padding-right: 2rem !important;
@@ -14470,6 +15178,9 @@ fieldset:disabled .btn {
   .pb-xxl-0-5 {
     padding-bottom: 0.5rem !important;
   }
+  .pb-xxl-0-75 {
+    padding-bottom: 0.75rem !important;
+  }
   .pb-xxl-1 {
     padding-bottom: 1rem !important;
   }
@@ -14478,6 +15189,9 @@ fieldset:disabled .btn {
   }
   .pb-xxl-1-5 {
     padding-bottom: 1.5rem !important;
+  }
+  .pb-xxl-1-75 {
+    padding-bottom: 1.75rem !important;
   }
   .pb-xxl-2 {
     padding-bottom: 2rem !important;
@@ -14503,6 +15217,9 @@ fieldset:disabled .btn {
   .ps-xxl-0-5 {
     padding-left: 0.5rem !important;
   }
+  .ps-xxl-0-75 {
+    padding-left: 0.75rem !important;
+  }
   .ps-xxl-1 {
     padding-left: 1rem !important;
   }
@@ -14511,6 +15228,9 @@ fieldset:disabled .btn {
   }
   .ps-xxl-1-5 {
     padding-left: 1.5rem !important;
+  }
+  .ps-xxl-1-75 {
+    padding-left: 1.75rem !important;
   }
   .ps-xxl-2 {
     padding-left: 2rem !important;
@@ -14536,6 +15256,9 @@ fieldset:disabled .btn {
   .gap-xxl-0-5 {
     gap: 0.5rem !important;
   }
+  .gap-xxl-0-75 {
+    gap: 0.75rem !important;
+  }
   .gap-xxl-1 {
     gap: 1rem !important;
   }
@@ -14544,6 +15267,9 @@ fieldset:disabled .btn {
   }
   .gap-xxl-1-5 {
     gap: 1.5rem !important;
+  }
+  .gap-xxl-1-75 {
+    gap: 1.75rem !important;
   }
   .gap-xxl-2 {
     gap: 2rem !important;
@@ -14572,16 +15298,22 @@ fieldset:disabled .btn {
 }
 
 @media (min-width: 1200px) {
-  .fs-1 {
+  .fs-3-5 {
+    font-size: 3.5rem !important;
+  }
+  .fs-3 {
+    font-size: 3rem !important;
+  }
+  .fs-2-5 {
     font-size: 2.5rem !important;
   }
   .fs-2 {
     font-size: 2rem !important;
   }
-  .fs-3 {
+  .fs-1-75 {
     font-size: 1.75rem !important;
   }
-  .fs-4 {
+  .fs-1-5 {
     font-size: 1.5rem !important;
   }
 }
@@ -14648,6 +15380,14 @@ fieldset:disabled .btn {
   height: 0.5rem;
 }
 
+.w-0-75 {
+  width: 0.75rem;
+}
+
+.h-0-75 {
+  height: 0.75rem;
+}
+
 .w-1 {
   width: 1rem;
 }
@@ -14670,6 +15410,14 @@ fieldset:disabled .btn {
 
 .h-1-5 {
   height: 1.5rem;
+}
+
+.w-1-75 {
+  width: 1.75rem;
+}
+
+.h-1-75 {
+  height: 1.75rem;
 }
 
 .w-2 {
@@ -14712,6 +15460,186 @@ fieldset:disabled .btn {
   height: 5rem;
 }
 
+.w-0 {
+  width: 0%;
+}
+
+.h-0 {
+  height: 0%;
+}
+
+.w-5 {
+  width: 5%;
+}
+
+.h-5 {
+  height: 5%;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.h-10 {
+  height: 10%;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.h-15 {
+  height: 15%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.h-20 {
+  height: 20%;
+}
+
+.w-25 {
+  width: 25%;
+}
+
+.h-25 {
+  height: 25%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.h-30 {
+  height: 30%;
+}
+
+.w-35 {
+  width: 35%;
+}
+
+.h-35 {
+  height: 35%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.h-40 {
+  height: 40%;
+}
+
+.w-45 {
+  width: 45%;
+}
+
+.h-45 {
+  height: 45%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.h-50 {
+  height: 50%;
+}
+
+.w-55 {
+  width: 55%;
+}
+
+.h-55 {
+  height: 55%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.h-60 {
+  height: 60%;
+}
+
+.w-65 {
+  width: 65%;
+}
+
+.h-65 {
+  height: 65%;
+}
+
+.w-70 {
+  width: 70%;
+}
+
+.h-70 {
+  height: 70%;
+}
+
+.w-75 {
+  width: 75%;
+}
+
+.h-75 {
+  height: 75%;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.h-80 {
+  height: 80%;
+}
+
+.w-85 {
+  width: 85%;
+}
+
+.h-85 {
+  height: 85%;
+}
+
+.w-90 {
+  width: 90%;
+}
+
+.h-90 {
+  height: 90%;
+}
+
+.w-95 {
+  width: 95%;
+}
+
+.h-95 {
+  height: 95%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.w-fit {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.h-fit {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
 .title {
   font-size: 36px;
   line-height: 48px;
@@ -14728,8 +15656,8 @@ fieldset:disabled .btn {
 }
 
 .footer__item a {
-  font-size: 14px !important;
-  line-height: 16px !important;
+  font-size: 18px !important;
+  line-height: 22px !important;
 }
 
 @media (min-width: 768px) {
@@ -14744,7 +15672,7 @@ fieldset:disabled .btn {
 
 @media (min-width: 768px) {
   .footer__icon {
-    width: 50px;
+    width: 40px;
   }
 }
 
@@ -14796,13 +15724,13 @@ fieldset:disabled .btn {
 }
 
 .banner {
-  background-image: url("/img/Frame4.png");
+  background-image: url("../../../public/img/Frame4.png");
   background-position: center;
   background-repeat: none;
   min-height: 645px;
 }
 
-.searchbar {
-  margin-right: 20%;
+.cafeintro {
+  background-color: #F7F6F6;
 }
 /*# sourceMappingURL=all.css.map */

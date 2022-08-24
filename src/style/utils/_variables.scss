@@ -384,9 +384,11 @@ $spacers: (
   0: 0,
   "0-25": $spacer * .25,
   "0-5": $spacer * .5,
+  "0-75": $spacer * .75,
   1: $spacer ,
   "1-25": $spacer * 1.25,
   "1-5": $spacer * 1.5,
+  "1-75": $spacer * 1.75,
   2: $spacer * 2,
   "2-5": $spacer * 2.5,
   3: $spacer * 3,
@@ -585,16 +587,20 @@ $h3-font-size:                $font-size-base * 1.75 !default;
 $h4-font-size:                $font-size-base * 1.5 !default;
 $h5-font-size:                $font-size-base * 1.25 !default;
 $h6-font-size:                $font-size-base !default;
+$r3-font-size:               $font-size-base * 3;
+$r35-font-size:              $font-size-base * 3.5 !default;
 // scss-docs-end font-variables
 
 // scss-docs-start font-sizes
 $font-sizes: (
-  1: $h1-font-size,
-  2: $h2-font-size,
-  3: $h3-font-size,
-  4: $h4-font-size,
-  5: $h5-font-size,
-  6: $h6-font-size
+  "3-5": $r35-font-size,
+  "3": $r3-font-size,
+  "2-5": $h1-font-size,
+  "2": $h2-font-size,
+  "1-75": $h3-font-size,
+  "1-5": $h4-font-size,
+  "1-25": $h5-font-size,
+  1: $h6-font-size,
 ) !default;
 // scss-docs-end font-sizes
 
@@ -1644,3 +1650,28 @@ $kbd-bg:                            var(--#{$prefix}body-color) !default;
 $nested-kbd-font-weight:            null !default; // Deprecated in v5.2.0, removing in v6
 
 $pre-color:                         null !default;
+
+$base-percent: 5%;
+$percentage: (
+  0: $base-percent * 0,
+  5: $base-percent * 1,
+  10: $base-percent * 2,
+  15: $base-percent * 3,
+  20: $base-percent * 4,
+  25: $base-percent * 5,
+  30: $base-percent * 6,
+  35: $base-percent * 7,
+  40: $base-percent * 8,
+  45: $base-percent * 9,
+  50: $base-percent * 10,
+  55: $base-percent * 11,
+  60: $base-percent * 12,
+  65: $base-percent * 13,
+  70: $base-percent * 14,
+  75: $base-percent * 15,
+  80: $base-percent * 16,
+  85: $base-percent * 17,
+  90: $base-percent * 18,
+  95: $base-percent * 19,
+  100: $base-percent * 20,
+)
