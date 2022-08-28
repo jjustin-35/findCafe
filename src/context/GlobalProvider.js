@@ -10,14 +10,15 @@ export const GlobalProvider = ({ children }) => {
         boolean: false,
         msg: ''
       });
-      const [profile, setProfile] = useState({
+    const [profile, setProfile] = useState({
         isLogin: false,
         info: {}
       });
-      const [areas, setAreas] = useState([]);
-      const [search, setSearch] = useState({});
+    const [areas, setAreas] = useState([]);
+    const [search, setSearch] = useState({});
+    const [token, setToken] = useState(true);
     
-      useEffect(() => {
+    useEffect(() => {
         (async function getData() {
             let areas = await fetch(`${apiUrl}/data/address`, {
                 method: "GET",
@@ -33,15 +34,18 @@ export const GlobalProvider = ({ children }) => {
     }, []);
     
     const globalHooks = {
-    errState: {
-        err, setErr
-    },
-    address: {
-        areas, setAreas
-    },
-    searchState: {
-        search, setSearch
-    }
+        errState: {
+            err, setErr
+        },
+        address: {
+            areas, setAreas
+        },
+        searchState: {
+            search, setSearch
+        },
+        auth: {
+            token, setToken
+        }
     }
 
     return (

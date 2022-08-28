@@ -1,12 +1,12 @@
 import React from 'react';
 import { useState, useEffect, useContext } from 'react';
-import { MyContext } from '../App';
+import { useGlobal } from '../context/GlobalProvider';
 
 export const Address = (props) => {
 
     const { className } = props;
 
-    const { address } = useContext(MyContext);
+    const { address } = useGlobal();
     const { areas, setAreas } = address;
     const [dist, setDist] = useState([]);
 

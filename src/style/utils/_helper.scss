@@ -1,17 +1,24 @@
-@each $key, $value in $spacers{
+@each $key, $value in map-merge($spacers, $percentage){
     .w-#{$key}{
-        width: $value;
+        width: $value!important;
     }
-    .h-#{$key}{
-        height: $value;
+    .h-#{value}{
+        height: $value!important;
     }
 }
-@each $key, $value in $percentage{
-    .w-#{$key}{
-        width: $value;
-    }
-    .h-#{$key}{
-        height: $value;
+
+@each  $breakpoint in map-keys($grid-breakpoints) {
+    @each $key, $value in map-merge($spacers, $percentage){
+        .w-#{$breakpoint}-#{$key}{
+            @include media-breakpoint-up($breakpoint){
+                width: $value!important;
+            }
+        }
+        .h-#{$breakpoint}-#{$key}{
+            @include media-breakpoint-up($breakpoint){
+                height: $value!important;
+            }
+        }
     }
 }
 

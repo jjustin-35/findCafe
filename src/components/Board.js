@@ -5,13 +5,13 @@ export const Board = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const [cafes, setCafes] = useState([]);
-    // useEffect(() => {
-    //     (async () => {
-    //         let result = await fetch(`${apiUrl}/cafe/find`);
+    useEffect(() => {
+        (async () => {
+            let result = await fetch(`${apiUrl}/cafe/find`);
 
-    //         setCafes(result);
-    //     })();
-    // }, []);
+            setCafes(result);
+        })();
+    }, []);
     
     return (
         <div className='container'>
@@ -24,9 +24,24 @@ export const Board = () => {
                                 <div className="card-body">
                                     <div className="d-flex justify-content-center">
                                         <div className="card-tilte"></div>
-                                        <span>Stars</span>
+                                        <ul className="d-flex">
+                                            {(() => {
+                                                const starArray = [];
+                                                const fill = Math.round(cafe.stars);
+                                                const empty = 5 - fill;
+                                                for (let i = 0; i < fill; i++){
+                                                    const starsFill = <li><i className="bi bi-star-fill"></i></li>
+                                                    starArray.push(starsFill);
+                                                };
+                                                for (let i = 0; i < empty; i++){
+                                                    const starEmpty = <li><i className="bi bi-star"></i></li>
+                                                    starArray.push(starEmpty);
+                                                }
+                                                return starArray;
+                                            })()}
+                                        </ul>
                                     </div>
-                                    <div>Tags</div>
+                                    <div>tags</div>
                                 </div>
                             </div>
                         </div>

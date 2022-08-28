@@ -1,6 +1,7 @@
 import React from 'react';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { MyContext } from '../App';
+import { useGlobal } from '../context/GlobalProvider';
 
 // components
 import { Message } from '../components/Message';
@@ -13,7 +14,7 @@ export const AddCafe = () => {
     const apiUrl = `${api}/cafe/add`;
 
     // err
-    const { err, setErr } = useContext(MyContext).errState;
+    const { err, setErr } = useGlobal().errState;
 
     // hook
     let [timeHook, setTimeHook] = useState({
@@ -25,6 +26,7 @@ export const AddCafe = () => {
     });
     // set time array
     let [timeArray, setTimeArray] = useState([]);
+    let [timeDisplay, setTimeDisplay] = useState([]);
     let [menu, setMenu] = useState([]);
     let [pics, setPics] = useState([]);
 
@@ -67,22 +69,18 @@ export const AddCafe = () => {
 
         setTimeArray(timeArray => [...timeArray, timeAdded]);
 
-        let timeDisplay = document.querySelector('.timeDisplay');
-
-        let p = document.createElement('p');
-        p.innerHTML = `${weekday}　${timezone1, open} ～ ${timezone2, close}`;
-        timeDisplay.appendChild(p);
+        setTimeDisplay([...timeDisplay, `${weekday}　${timezone1, open} ～ ${timezone2, close}`])
     }
 
     // file
-    function getArrayBuffer(file) {
+    function getBase64(file) {
         return new Promise((resolve, reject) => {
-          // STEP 3: 轉成 ArrayBuffer, i.e., reader.result
+          // STEP 3: 轉成base64 ,reader.result
           const reader = new FileReader();
           reader.addEventListener('load', () => {
             resolve(reader.result);
           });
-          reader.readAsArrayBuffer(file);
+          reader.readAsDataURL(file);
         })
     }
 
@@ -91,9 +89,8 @@ export const AddCafe = () => {
         let newFiles = [];
 
         for (let file of files) {
-            let arrayBuffer = await getArrayBuffer(file);
-            file = Array.from(new Uint8Array(arrayBuffer));
-            newFiles = [...newFiles, ...file];
+            let base64 = await getBase64(file);
+            newFiles = [...newFiles, base64];
         }
         
         if (name === 'menu') {
@@ -105,7 +102,7 @@ export const AddCafe = () => {
     
     function submit(e) {
         e.preventDefault();
-        const form = document.querySelector('.addCafe');
+        const form = document.querySelector('#addCafe');
 
         // get the data
         let cafeForm = new FormData(form);
@@ -155,14 +152,14 @@ export const AddCafe = () => {
         });
 
         // user
-        cafeObj.user = {email: 'test6@email.com'}
+        // cafeObj.append('user', cafeForm.get('user'));
 
         // send data
         fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExODIwMDcxODU3NzgwMTM1Njg3OCIsImVtYWlsIjoiMTA2MjA2MDAyQGcubmNjdS5lZHUudHciLCJpYXQiOjE2NjA2NjIyMDMsImV4cCI6MTY2MDc0ODYwM30.nhClcfhH_DtQ0P8qeh5inDq9ClrmILafeZP6-nGUGrM'
+                "Content-Type": "application/json",
+                'Authorization': 'jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZlZWM2NGVkLTAwM2ItNDU5ZS04MDYyLTJlNDY4ZDlhZTI1YSIsImVtYWlsIjoidGVzdDZAZW1haWwuY29tIiwiaWF0IjoxNjYxNjgzNzU1LCJleHAiOjE2NjE3NzAxNTV9.ANzRUYTEx7LlXnld0albu0VNX_8yTFc-TfM1ejXJdtY'
             },
             mode: 'cors',
             body: JSON.stringify(cafeObj),
@@ -170,13 +167,14 @@ export const AddCafe = () => {
             console.log('Data has been upload.')
         })
 
-        window.location.reload();
+        // reload the page
+        // window.location.reload();
     }
 
   return (
       <div className='container py-3'>
           <h2 className="fs-3 text-primary fw-bold text-center mb-3">新增咖啡廳</h2>
-          <form action={apiUrl} className="form-control" method='POST'>
+          <form action={apiUrl} method='POST' id='addCafe'>
               <div className="addCafe__name">
                   <label htmlFor="">
                   咖啡店名: 
@@ -217,7 +215,9 @@ export const AddCafe = () => {
                       <button onClick={addTime}>add</button>
                   </span>
               </label>
-              <div className="timeDisplay"></div>
+              <div className="timeDisplay">
+                  {timeDisplay !== 0 && timeDisplay.map((time)=><p>{ time }</p>)}
+              </div>
 
               <label htmlFor="">
                   平均價格: 
@@ -236,7 +236,9 @@ export const AddCafe = () => {
                       type="file"
                       multiple='mutiple'
                       accept='image/*'
-                      className="addCafe__item" name='menu' />
+                      className="addCafe__item" name='menu'
+                      onChange={getFile}
+                  />
               </label>
               <div className="displayPics displayPics--menu"></div>
               <label htmlFor="">

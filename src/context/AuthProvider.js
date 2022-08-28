@@ -1,13 +1,17 @@
-import { createContext, useContext, useState } from "react";
+import {useContext} from "react";
 import { Outlet } from 'react-router';
+import { Navigate } from "react-router";
+import { useGlobal } from "./GlobalProvider";
 
-const AuthContext = createContext();
-
-export const AuthProvider = ({ children }) => {
-    const [token, setToken] = useState(null);
-    return <AuthContext.Provider value={{ token, setToken }}>{ <Outlet/> }</AuthContext.Provider>
-}
-
-export const useAuth = () => {
-    return useContext(AuthContext);
+export const Authentication = ({children}) => {
+    const { token } = useGlobal().auth;
+    if (token) {
+        return (
+            <>
+                {children}
+            </>
+        )
+    } else {
+        return <Navigate to={'/'} replace={true} />
+    }
 }

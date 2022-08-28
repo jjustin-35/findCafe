@@ -1,8 +1,5 @@
 .banner{
     background-image: url('../../../public/img/banner_mobile.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: none;
     min-height: 350px;
     @include media-breakpoint-up(md){
         background-image: url('../../../public/img/Frame4.png');
@@ -21,16 +18,6 @@
         }
         @include media-breakpoint-up(lg){
             width: 36%;
-        }
-    }
-}
-
-.cafeintro{
-    background-color: #F7F6F6;
-    &__img{
-        width: 100%;
-        @include media-breakpoint-up(md){
-            width: 55%;
         }
     }
 }

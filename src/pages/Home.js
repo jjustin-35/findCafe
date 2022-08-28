@@ -26,7 +26,7 @@ export const Home = () => {
 
   return (
       <div>
-      <div className="container-fluid banner d-flex align-items-center">
+      <div className="container-fluid bg-img banner d-flex align-items-center">
         <div className='container'>
           <div className="row justify-content-end">
             <div className="col offset-md-1">
@@ -61,18 +61,18 @@ export const Home = () => {
       </div>
 
       <div>
-        <div className="container-fluid mb-md-2-5 pb-md-0 pb-2 text-primary cafeintro">
+        <div className="container-fluid mb-md-2-5 pb-md-0 pb-2 text-primary bg-gray-50">
           <div className="row">
-            <img src={`${localUrl}/img/cafeintro_1.png`} alt="cafeintro_1" className="cafeintro__img ps-md-0 px-0 mb-md-0 mb-1" />
+            <img src={`${localUrl}/img/cafeintro_1.png`} alt="cafeintro_1" className="w-100 w-md-55 ps-md-0 px-0 mb-md-0 mb-1" />
             <div className="col-md-5 col my-auto">
               <h2 className="fw-bold fs-2 mb-md-1 mb-0-25">搜尋咖啡廳</h2>
               <p className="fs-1-25">你可以在這裡尋找符合你需求的咖啡廳，為你的工作、學習，或著悠閒的午後時光找一個適合的好地方。</p>
             </div>
           </div>
         </div>
-        <div className="container-fluid mb-md-2-5 pb-md-0 pb-2 text-primary cafeintro">
+        <div className="container-fluid mb-md-2-5 pb-md-0 pb-2 text-primary bg-gray-50">
           <div className="row flex-row-reverse">
-            <img src={`${localUrl}/img/cafeintro_2.png`} alt="cafeintro_2" className="cafeintro__img pe-md-0 px-0 mb-md-0 mb-1" />
+            <img src={`${localUrl}/img/cafeintro_2.png`} alt="cafeintro_2" className="w-100 w-md-55 pe-md-0 px-0 mb-md-0 mb-1" />
             <div className="col-md-5 col my-auto">
               <h2 className="fw-bold fs-2 mb-md-1 mb-0-25">評價、收藏咖啡廳</h2>
               <p className="fs-1-25">為你造訪過的咖啡廳下評論吧！
@@ -80,9 +80,9 @@ export const Home = () => {
             </div>
           </div>
         </div>
-        <div className="container-fluid mb-2-5 pb-md-0 pb-2 text-primary cafeintro">
+        <div className="container-fluid mb-2-5 pb-md-0 pb-2 text-primary bg-gray-50">
           <div className="row">
-            <img src={`${localUrl}/img/cafeintro_3.png`} alt="cafeintro_3" className="cafeintro__img ps-md-0 px-0 mb-md-0 mb-1" />
+            <img src={`${localUrl}/img/cafeintro_3.png`} alt="cafeintro_3" className="w-100 w-md-55 ps-md-0 px-0 mb-md-0 mb-1" />
             <div className="col-md-5 col my-auto">
               <h2 className="fw-bold fs-2 mb-md-1 mb-0-25">新增咖啡廳</h2>
               <p className="fs-1-25">找不到你心愛中的咖啡廳嗎？你可以自己新增上來！

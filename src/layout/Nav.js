@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { MyContext } from '../App'; 
-import { useAuth } from '../context/AuthProvider';
+import { useGlobal } from '../context/GlobalProvider';
 
 const localUrl = process.env.PUBLIC_URL;
 
 const NavOptions = () => {
-  const {token} = useAuth();
+  const {token} = useGlobal().auth;
   
   if (!token) {
     return (

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useAuth } from '../context/AuthProvider';
+import { useGlobal } from '../context/GlobalProvider';
 
 export const Footer = () => {
-  const { token } = useAuth();
+  const { token } = useGlobal().auth;
   // const { profile } = loginState;
   // const { isLogin } = profile;
   const isLogin = true;
