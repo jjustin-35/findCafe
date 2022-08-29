@@ -2,18 +2,11 @@ import { useState, createContext, useContext, useEffect} from 'react';
 
 const MyContext = createContext();
 
-export const GlobalProvider = ({ children }) => {
-    
+export const GlobalProvider = ({ children }) => { 
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    const [err, setErr] = useState({
-        boolean: false,
-        msg: ''
-      });
-    const [profile, setProfile] = useState({
-        isLogin: false,
-        info: {}
-      });
+    const [err, setErr] = useState(null);
+    const [profile, setProfile] = useState(null);
     const [areas, setAreas] = useState([]);
     const [search, setSearch] = useState({});
     const [token, setToken] = useState(true);

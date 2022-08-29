@@ -53,17 +53,12 @@ export const AddCafe = () => {
 
         for (let element of timeArray) {
             if (element.weekday === weekday) {
-                setErr({
-                    boolean: true,
-                    msg: 'Weekday should not repeat.'
-                });
+                setErr( 'Weekday should not repeat.'
+                );
 
                 return;
             } else {
-                setErr({
-                    boolean: false,
-                    msg: ''
-                })
+                setErr(null);
             }
         }
 
@@ -126,16 +121,11 @@ export const AddCafe = () => {
         let address = {};
         for (let item of ['country', 'districts', 'location']) {
             if (cafeForm.get(item) == "null") {
-                setErr({
-                    boolean: true,
-                    msg: 'Please choose a country/district.'
-                })
+                setErr('Please choose a country/district.'
+                )
                 return "";
             } else {
-                setErr({
-                    boolean: false,
-                    msg: ""
-                })
+                setErr(null);
             }
             address[item] = cafeForm.get(item);
         }

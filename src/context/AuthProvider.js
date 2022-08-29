@@ -12,6 +12,6 @@ export const Authentication = ({children}) => {
             </>
         )
     } else {
-        return <Navigate to={'/'} replace={true} />
+        return <Navigate to={'/login'} replace={true} />
     }
 }

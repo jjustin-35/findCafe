@@ -1,14 +1,11 @@
 import React from 'react';
 
-export const Message = (props) => {
+export const Message = ({err}) => {
 
-    const { err, setErr } = props;
-    const { boolean, msg } = err;
-
-    if (boolean) {
+    if (err) {
         return (
-            <div className='errMsg'>
-                <p>{ msg }</p>
+            <div className='bg-danger opacity-25 text-danger'>
+                <p>{ err }</p>
             </div>
         )
     }

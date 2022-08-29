@@ -17,7 +17,7 @@ export const App = () => {
       <GlobalProvider>
         <Routes>
           <Route path='/' element={<Layout1 />}>
-            <Route path='/' element={<Home />} />
+            <Route index element={<Home />} />
             <Route path='/add_cafe' element={<Authentication>
               <AddCafe/>
             </Authentication> } />
