@@ -9,7 +9,7 @@ export const GlobalProvider = ({ children }) => {
     const [profile, setProfile] = useState(null);
     const [areas, setAreas] = useState([]);
     const [search, setSearch] = useState({});
-    const [token, setToken] = useState(true);
+    const [token, setToken] = useState(false);
     
     useEffect(() => {
         (async function getData() {

@@ -305,7 +305,7 @@ $success:       #CBCFC2 !default;
 $success-dark:  #5A653D !default;
 $info:          #E5DCD4 !default;
 $warning:       #F4D35E !default;
-$danger:        $red !default;
+$danger:        $red-100 !default;
 $light:         #D9D9D9 !default;
 $normal:        #ABA7A4 !default;
 $dark:          #44413F !default;
@@ -313,7 +313,7 @@ $dark:          #44413F !default;
 // scss-docs-end theme-color-variables
 
 // scss-docs-start theme-colors-map
-$theme-colors: (
+$theme-colors: map-merge((
   "primary":    $primary,
   "secondary":  $secondary,
   "success-light": $success-light,
@@ -327,7 +327,7 @@ $theme-colors: (
   "dark":       $dark,
   "white":      $white,
   "gray-50":    #F7F6F6,
-) !default;
+), $colors) !default;
 // scss-docs-end theme-colors-map
 
 // Characters which are escaped by the escape-svg function

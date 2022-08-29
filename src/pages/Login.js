@@ -1,57 +1,69 @@
 import React from 'react'
-import { Navigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { useGlobal } from '../context/GlobalProvider';
 import { Message } from '../components/Message';
-import { useState } from 'react';
+import {useForm} from 'react-hook-form';
 
 export const Login = () => {
-    const authapi = `${process.env.REACT_APP_API_URL2}/auth/login`;
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
+
+    const api = process.env.REACT_APP_API_URL2
+    const authapi = `${api}/auth/login`;
+    const GoogleAuth = `${api}/auth/google`;
+    const FbAuth = `${api}/auth/facebook`;
+
     const { token } = useGlobal().auth;
     const { err, setErr } = useGlobal().errState;
     if (token) {
-        return Navigate({ to: '/', replace: false });
+        return navigate(-1);
     }
 
-    const handleLogin = async(e) => {
-        const form = e.target.parentElement;
-        const formdata = new FormData(form);
+    const onSubmit = async (data) => {
 
-        const email = formdata.get('email');
-        const password = formdata.get('password');
-
-        if (email.length < 5 || !/[@]/.test(email)) {
-            setErr('Email格式錯誤');
-            return setIsErr('email');
+        try {
+            console.log(data);
+            // await fetch(authapi, {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify(data)
+            // });
+        } catch (err) {
+            console.log(err);
         }
-        if (password.length < 8 || !/[a-zA-Z0-9!@#$%^&*_]+/.test('pwd')) {
-            setErr('密碼格式錯誤');
-            return setIsErr('pwd');
-        }
+    }
 
-        await fetch(authapi, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ email, password })
-        });
+    async function onAuth(authPath){
+        await fetch(authPath, {
+            method: 'GET',
+        })
     }
 
   return (
       <div className='container'>
           <h2>登入</h2>
-          <form action="">
+          <form action="" onSubmit={handleSubmit(onSubmit)} className='mb-2'>
               <label htmlFor="email">email</label>
-              <input type="text" id="email" className="form-control" name="email" required />
-              {isErr === 'email' && <Message err={err} />}
+              <input type="text" id="email" className="form-control"{...register('email', {
+                  required: { value: true, message: '請填寫email' },
+                  pattern: { value: /[@]+/, message: '格式錯誤' },
+                  minLength: {value: 5, message: '格式錯誤'}
+              })} />
+              <Message err={errors.email?.message} />
               <label htmlFor="pwd">密碼</label>
-              <input type="text" id="pwd" className="form-control" name="password" required />
-              {isErr === 'pwd' && <Message err={err} />}
-              <button className="btn btn-primary text-white" onSubmit={handleLogin}>登入</button>
+              <input type="text" id="pwd" className="form-control" {...register('password', {
+                  required: { value: true, message: '密碼錯誤' },
+                  pattern: { value: /.*[A-Z]+.*[0-9]+.*|.*[0-9]+.*[A-Z]+.*/g, message: '密碼錯誤' },
+                  minLength: {value:8, message: '密碼錯誤'}
+              })} />
+              <Message err={errors.password?.message} />
+              <button className="btn btn-primary text-white d-block my-0 mx-auto">登入</button>
           </form>
-          <div>
-              <button className="btn btn-blue text-white">Facebook 登入</button>
-              <button className="btn btn-orange text-white">Google 登入</button>
+          <div className='w-fit mx-auto'>
+              <button className="btn btn-blue text-white d-block mb-1" onClick={''}>Facebook 登入</button>
+              <button className="btn btn-orange text-white d-block mx-auto" onClick={''}>Google 登入</button>
           </div>
       </div>
   )

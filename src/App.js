@@ -9,6 +9,7 @@ import { Home } from './pages/Home';
 import { Notfound } from './pages/Notfound';
 import { Authentication } from './context/AuthProvider';
 import { GlobalProvider } from './context/GlobalProvider';
+import { Login } from './pages/Login';
 
 export const MyContext = createContext();
 export const App = () => {
@@ -20,7 +21,8 @@ export const App = () => {
             <Route index element={<Home />} />
             <Route path='/add_cafe' element={<Authentication>
               <AddCafe/>
-            </Authentication> } />
+            </Authentication>} />
+            <Route path="/login" element={<Login/>} />
           </Route>
           <Route path='*' element={<Notfound />} />
         </Routes>
