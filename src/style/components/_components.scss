@@ -1,12 +1,27 @@
-.title{
-    font-size: 36px;
-    line-height: 48px;
-    border-bottom: 1px solid #000;
-    margin-bottom: 24px;
-}
+
 
 .bg-img{
     background-size: cover;
     background-position: center;
     background-repeat: none;
+}
+
+.seperator{
+    border: $gray-500 solid 1px;
+    position: relative;
+    
+    @each $key, $value in map-merge($colors, $theme-colors){
+        &-#{$key}{
+            border-color: $value;
+        }
+    }
+
+    &-font{
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 0 0.5rem;
+        background-color: inherit;
+    }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { Select } from '../components/Select';
 import { useGlobal } from '../context/GlobalProvider';
+import { Link } from 'react-router-dom';
 // componants
 import { Board } from '../components/Board';
 
@@ -80,7 +81,7 @@ export const Home = () => {
             </div>
           </div>
         </div>
-        <div className="container-fluid mb-2-5 pb-md-0 pb-2 text-primary bg-gray-50">
+        <div className="container-fluid pb-md-0 pb-2 text-primary bg-gray-50">
           <div className="row">
             <img src={`${localUrl}/img/cafeintro_3.png`} alt="cafeintro_3" className="w-100 w-md-55 ps-md-0 px-0 mb-md-0 mb-1" />
             <div className="col-md-5 col my-auto">
@@ -92,9 +93,10 @@ export const Home = () => {
         </div>
       </div>
 
-      <div>
-        <h2 className="fs-3 fw-bold text-center mb-3">精選店家</h2>
-        <Board />
+      <div className='py-5'>
+        <h2 className="fs-3 fw-bold text-center mb-3 text-primary">精選店家</h2>
+        <Board nowPage={0} perpage={9} />
+        <Link to='/search' className="btn btn-primary px-2 py-0-75 rounded-pill d-block w-fit mx-auto" role='button'>瀏覽更多</Link>
       </div>
     </div>
   )

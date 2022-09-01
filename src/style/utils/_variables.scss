@@ -62,6 +62,7 @@ $colors: (
   "cyan":       $cyan,
   "black":      $black,
   "white":      $white,
+  "gray-light":  $gray-200,
   "gray":       $gray-600,
   "gray-dark":  $gray-800
 ) !default;
@@ -1675,4 +1676,4 @@ $percentage: (
   90: $base-percent * 18,
   95: $base-percent * 19,
   100: $base-percent * 20,
-)
+);

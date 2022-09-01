@@ -10,6 +10,9 @@ import { Notfound } from './pages/Notfound';
 import { Authentication } from './context/AuthProvider';
 import { GlobalProvider } from './context/GlobalProvider';
 import { Login } from './pages/Login';
+import { Signup } from './pages/Signup';
+import { Forgotpwd } from './pages/Forgotpwd';
+import { Find } from './pages/Find';
 
 export const MyContext = createContext();
 export const App = () => {
@@ -19,10 +22,13 @@ export const App = () => {
         <Routes>
           <Route path='/' element={<Layout1 />}>
             <Route index element={<Home />} />
+            <Route path="/search" element={<Find/>} />
             <Route path='/add_cafe' element={<Authentication>
               <AddCafe/>
             </Authentication>} />
             <Route path="/login" element={<Login/>} />
+            <Route path="/signup" element={<Signup/>} />
+            <Route path="/forgotpwd" element={<Forgotpwd/>} />
           </Route>
           <Route path='*' element={<Notfound />} />
         </Routes>

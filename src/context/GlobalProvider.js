@@ -3,7 +3,7 @@ import { useState, createContext, useContext, useEffect} from 'react';
 const MyContext = createContext();
 
 export const GlobalProvider = ({ children }) => { 
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const apiUrl = process.env.REACT_APP_API_URL2;
 
     const [err, setErr] = useState(null);
     const [profile, setProfile] = useState(null);
@@ -25,6 +25,15 @@ export const GlobalProvider = ({ children }) => {
             setAreas(areas);
         }());
     }, []);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setToken(token);
+
+        let profile = localStorage.getItem('profile');
+        profile = JSON.parse(profile);
+        setProfile(profile);
+    })
     
     const globalHooks = {
         errState: {
@@ -38,6 +47,9 @@ export const GlobalProvider = ({ children }) => {
         },
         auth: {
             token, setToken
+        },
+        userInfo: {
+            profile, setProfile
         }
     }
 

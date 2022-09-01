@@ -1,22 +1,29 @@
-@each $key, $value in map-merge($spacers, $percentage){
-    .w-#{$key}{
-        width: $value!important;
-    }
-    .h-#{value}{
-        height: $value!important;
-    }
-}
 
 @each  $breakpoint in map-keys($grid-breakpoints) {
     @each $key, $value in map-merge($spacers, $percentage){
-        .w-#{$breakpoint}-#{$key}{
-            @include media-breakpoint-up($breakpoint){
+        @if $breakpoint == "xs"{
+            .w-#{$key}{
                 width: $value!important;
             }
-        }
-        .h-#{$breakpoint}-#{$key}{
-            @include media-breakpoint-up($breakpoint){
+            .h-#{$key}{
                 height: $value!important;
+            }
+            .minw-#{$key}{
+                min-width: $value!important;
+            }
+            .minh-#{$key}{
+                min-height: $value!important;
+            }
+        }@else{
+            .w-#{$breakpoint}-#{$key}{
+                @include media-breakpoint-up($breakpoint){
+                    width: $value!important;
+                }
+            }
+            .h-#{$breakpoint}-#{$key}{
+                @include media-breakpoint-up($breakpoint){
+                    height: $value!important;
+                }
             }
         }
     }
@@ -27,4 +34,8 @@
 }
 .h-fit{
     height: fit-content;
+}
+
+.vw-50{
+    width: 50vw;
 }
