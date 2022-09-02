@@ -122,7 +122,7 @@ export const Board = (props) => {
                 {wantCafes.length !== 0 ? <div className="row flex-wrap"> 
                 {wantCafes.map((cafe, i) => {
                     return (
-                        <div className="col-4 mb-3" key={cafe.id}>
+                        <div className="col-md-4 col-sm-6 col-12 mb-3" key={cafe.id}>
                             <a href="" className='text-decoration-none'>
                             <div className="card h-100">
                                 <img src={cafe.img ? cafe.img : "https://fakeimg.pl/350x200/?text=noPic"} alt={`${cafe.name} img`} className="card-img-top" />

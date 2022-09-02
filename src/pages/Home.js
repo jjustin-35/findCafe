@@ -2,14 +2,15 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { Select } from '../components/Select';
 import { useGlobal } from '../context/GlobalProvider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // componants
 import { Board } from '../components/Board';
+import { Find } from './Find';
 
 export const Home = () => {
-
-  const { address } = useGlobal();
-  const { areas } = address;
+  const navigate = useNavigate();
+  const { areas } = useGlobal().address;
+  const { setSearch } = useGlobal().searchState;
   const countries = areas.map((area) => area.name);
   countries.unshift('請選擇');
   const [keyword, setKeyword] = useState('');
@@ -19,10 +20,9 @@ export const Home = () => {
 
   async function handleSearch(e) {
     e.preventDefault();
-
-    const result = await fetch(`${process.env.REACT_APP_API_URL}/cafe/find?keyword=${keyword}&country=${locate}`);
-
-    console.log(result);
+    
+    setSearch({ keyword, locate });
+    navigate('/search');
   }
 
   return (

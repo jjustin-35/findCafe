@@ -4,7 +4,11 @@ import { useGlobal } from '../context/GlobalProvider';
 
 export const Address = (props) => {
 
-    const { className } = props;
+    const { parentClass, childClass, getLocation } = props;
+    let isOpen = "";
+    if (!getLocation) {
+        isOpen = "d-none";
+    }
 
     const { address } = useGlobal();
     const { areas, setAreas } = address;
@@ -23,20 +27,30 @@ export const Address = (props) => {
     }
 
   return (
-      <div>
-          <select name="country" className={className} id="" onChange={handleCountry}>
-              <option value="null">請選擇</option>
-              {countriesOpt}
-          </select>
-          <select name="districts" className={className} id="">
-            <option value="null">請選擇</option>
-              {dist.map((item) => {
-                  return (
-                      <option value={item.name} key={JSON.stringify(item)}>{ item.name }</option>
-                  )
-              })}
-          </select>
-          <input type="text" className={className} name='location'/>
+      <div className={`d-flex justify-content-between ${parentClass}`}>
+          <div>
+          <label htmlFor="country" className='me-0-5'>縣市: </label>
+            <select name="country" className={`form-select d-inline align-middle w-fit ${childClass}`} id="country" onChange={handleCountry}>
+                <option value="null">請選擇</option>
+                {countriesOpt}
+            </select>
+          </div>
+          <div>
+          <label htmlFor="districts" className='me-0-5'>地區: </label>
+            <select name="districts" className={`d-inline align-middle form-select w-fit ${childClass}`} id="districts">
+                <option value="null">請選擇</option>
+                {dist.map((item) => {
+                    return (
+                        <option value={item.name} key={JSON.stringify(item)}>{ item.name }</option>
+                    )
+                })}
+            </select>
+          </div>
+          
+          <div className={`${isOpen}`}>
+          <label htmlFor="location" className={`me-0-5`}>地址</label>
+            <input type="text" className={`form-control-inline w-fit ${childClass}`} name='location'/>
+          </div>
     </div>
   )
 }
