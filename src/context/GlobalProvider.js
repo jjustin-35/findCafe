@@ -33,7 +33,7 @@ export const GlobalProvider = ({ children }) => {
         let profile = localStorage.getItem('profile');
         profile = JSON.parse(profile);
         setProfile(profile);
-    })
+    }, [])
     
     const globalHooks = {
         errState: {
