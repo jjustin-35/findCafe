@@ -9,7 +9,7 @@ export const Board = (props) => {
     // address = {country, district, location, mrt}
     const nomad = process.env.REACT_APP_NOMAD_URL;
     const proxy = process.env.REACT_APP_PROXY_URL;
-
+    const localUrl = process.env.PUBLIC_URL;
     const [cafes, setCafes] = useState([]);
     const [wantCafes, setWantCafes] = useState([]);
 
@@ -154,8 +154,11 @@ export const Board = (props) => {
         let queryResult = queryAddress(cafes);
         queryResult = queryCafe(queryResult);
 
-        const thePages = Math.ceil(queryResult.length / perpage);
-        setPages(thePages);
+        if (setPages) {
+            const thePages = Math.ceil(queryResult.length / perpage);
+            setPages(thePages);
+        }
+        
         let start = nowPage * perpage;
         let end = (start + perpage) + nowPage * perpage;
         queryResult = ranking(queryResult);
@@ -187,7 +190,7 @@ export const Board = (props) => {
                     <div className="col-lg-4 col-md-6 col-12 mb-3" key={cafe.id}>
                         <a href="" className='text-decoration-none'>
                         <div className="card h-100">
-                            <img src={cafe.img ? cafe.img : "https://fakeimg.pl/350x200/?text=noPic"} alt={`${cafe.name} img`} className="card-img-top" />
+                            <img src={cafe.img ? cafe.img : `${localUrl}/img/cafe.png`} alt={`${cafe.name} img`} className="card-img-top" />
                             <div className="card-body d-flex flex-column justify-content-between">
                                 <div className="d-flex justify-content-between">
                                     <div className="card-tilte fs-1-5 fw-bold">{cafe.name}</div>
@@ -201,7 +204,7 @@ export const Board = (props) => {
                                                 starArray.push(starsFill);
                                             };
                                             for (let i = 0; i < empty; i++){
-                                                const starEmpty = <li key={`${cafe.id} ${i}emptystar`}><i className="bi bi-star fs-1-5 text-gray"></i></li>
+                                                const starEmpty = <li key={`${cafe.id} ${i}emptystar`}><i className="bi bi-star fs-1-5 text-gray-500"></i></li>
                                                 starArray.push(starEmpty);
                                             }
                                             return starArray;

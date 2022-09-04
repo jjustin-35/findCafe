@@ -36,6 +36,7 @@ export const Login = () => {
             } else {
                 const res = await response.json();
                 const { token, user } = res;
+
                 setToken(token);
                 setProfile(user);
 
@@ -92,7 +93,7 @@ export const Login = () => {
               
           </form>
           <div className=' mx-auto row flex-column align-items-center'>
-              <div className="col-5 mb-2 seperator bg-white">
+              <div className="col-lg-5 col-md-7 col-9 mb-2 seperator bg-white">
                   <p className="seperator-font fs-1-25">or</p>
               </div>
               <button className="btn btn-blue text-white mb-1 col-3" onClick={()=>onAuth(FbAuth)}>Facebook 登入</button>

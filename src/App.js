@@ -13,6 +13,7 @@ import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { Forgotpwd } from './pages/Forgotpwd';
 import { Find } from './pages/Find';
+import { Profile } from './pages/Profile';
 
 export const MyContext = createContext();
 export const App = () => {
@@ -22,6 +23,9 @@ export const App = () => {
         <Routes>
           <Route path='/' element={<Layout1 />}>
             <Route index element={<Home />} />
+            <Route path='/profile' element={<Authentication>
+              <Profile/>
+            </Authentication> } />
             <Route path="/search" element={<Find/>} />
             <Route path='/add_cafe' element={<Authentication>
               <AddCafe/>
