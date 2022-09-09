@@ -1,41 +1,8 @@
-
-@each  $breakpoint in map-keys($grid-breakpoints) {
-    @each $key, $value in map-merge($spacers, $percentage){
-        @if $breakpoint == "xs"{
-            .w-#{$key}{
-                width: $value!important;
-            }
-            .h-#{$key}{
-                height: $value!important;
-            }
-            .minw-#{$key}{
-                min-width: $value!important;
-            }
-            .minh-#{$key}{
-                min-height: $value!important;
-            }
-        }@else{
-            .w-#{$breakpoint}-#{$key}{
-                @include media-breakpoint-up($breakpoint){
-                    width: $value!important;
-                }
-            }
-            .h-#{$breakpoint}-#{$key}{
-                @include media-breakpoint-up($breakpoint){
-                    height: $value!important;
-                }
-            }
+.btn-hover{
+    transition: all 0.25s ease;
+    &.btn-hover{
+        &-pill:hover{
+            border-radius: 50rem !important;
         }
     }
-}
-
-.w-fit{
-    width: fit-content;
-}
-.h-fit{
-    height: fit-content;
-}
-
-.vw-50{
-    width: 50vw;
 }

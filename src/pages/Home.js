@@ -6,7 +6,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 // componants
 import { Board } from '../components/Board';
-import { Find } from './Find';
 
 export const Home = () => {
   const navigate = useNavigate();

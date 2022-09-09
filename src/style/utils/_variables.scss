@@ -399,16 +399,38 @@ $spacers: (
 ) !default;
 // scss-docs-end spacer-variables-maps
 
+// percentage
+$base-percent: 5%;
+$percentage: (
+  0: $base-percent * 0,
+  5: $base-percent * 1,
+  10: $base-percent * 2,
+  15: $base-percent * 3,
+  20: $base-percent * 4,
+  25: $base-percent * 5,
+  30: $base-percent * 6,
+  35: $base-percent * 7,
+  40: $base-percent * 8,
+  45: $base-percent * 9,
+  50: $base-percent * 10,
+  55: $base-percent * 11,
+  60: $base-percent * 12,
+  65: $base-percent * 13,
+  70: $base-percent * 14,
+  75: $base-percent * 15,
+  80: $base-percent * 16,
+  85: $base-percent * 17,
+  90: $base-percent * 18,
+  95: $base-percent * 19,
+  100: $base-percent * 20,
+);
+
 // Position
 //
 // Define the edge positioning anchors of the position utilities.
 
 // scss-docs-start position-map
-$position-values: (
-  0: 0,
-  50: 50%,
-  100: 100%
-) !default;
+$position-values: $percentage !default;
 // scss-docs-end position-map
 
 // Body
@@ -1652,28 +1674,3 @@ $kbd-bg:                            var(--#{$prefix}body-color) !default;
 $nested-kbd-font-weight:            null !default; // Deprecated in v5.2.0, removing in v6
 
 $pre-color:                         null !default;
-
-$base-percent: 5%;
-$percentage: (
-  0: $base-percent * 0,
-  5: $base-percent * 1,
-  10: $base-percent * 2,
-  15: $base-percent * 3,
-  20: $base-percent * 4,
-  25: $base-percent * 5,
-  30: $base-percent * 6,
-  35: $base-percent * 7,
-  40: $base-percent * 8,
-  45: $base-percent * 9,
-  50: $base-percent * 10,
-  55: $base-percent * 11,
-  60: $base-percent * 12,
-  65: $base-percent * 13,
-  70: $base-percent * 14,
-  75: $base-percent * 15,
-  80: $base-percent * 16,
-  85: $base-percent * 17,
-  90: $base-percent * 18,
-  95: $base-percent * 19,
-  100: $base-percent * 20,
-);
