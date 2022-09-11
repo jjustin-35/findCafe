@@ -16,7 +16,11 @@ on:
 env:
   REACT_APP_API_URL: http://localhost:3600
   REACT_APP_API_URL2: https://findcafe.herokuapp.com
+  PUBLIC_URL: ''
   REACT_APP_NOMAD_URL: https://cafenomad.tw/api/v1.2/cafes
+  REACT_APP_PROXY_URL: https://cors-anywhere.herokuapp.com/
+
+  REACT_APP_MAP: AIzaSyAlb0SraIt1T_1oRpkx9-yZK0G5V0Ui25s
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
