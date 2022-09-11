@@ -66,7 +66,9 @@ export const Board = (props) => {
             }
             try {
                 let result = await fetch(queryUrl + `?perPage=${perpage}&page=${nowPage}` + queryString);
+                console.log(result)
                 result = await result.json();
+                console.log(result)
 
                 const { length, cafes } = result;
 
