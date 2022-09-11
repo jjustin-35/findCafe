@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/findCafe/static/css/main.5464a72b.css",
-    "main.js": "/findCafe/static/js/main.5ed382c8.js",
+    "main.css": "/findCafe/static/css/main.87a58351.css",
+    "main.js": "/findCafe/static/js/main.666bb54d.js",
     "static/media/Frame4.png": "/findCafe/static/media/Frame4.269b0671aecde6185548.png",
     "static/media/banner_mobile.png": "/findCafe/static/media/banner_mobile.6e9f32cad7a08c49970d.png",
     "static/media/bootstrap-icons.woff?": "/findCafe/static/media/bootstrap-icons.e559bf06bc84fd9525e6.woff",
     "static/media/bootstrap-icons.woff2?": "/findCafe/static/media/bootstrap-icons.ea98e12d2d58747f9fc5.woff2",
     "index.html": "/findCafe/index.html",
-    "main.5464a72b.css.map": "/findCafe/static/css/main.5464a72b.css.map",
-    "main.5ed382c8.js.map": "/findCafe/static/js/main.5ed382c8.js.map"
+    "main.87a58351.css.map": "/findCafe/static/css/main.87a58351.css.map",
+    "main.666bb54d.js.map": "/findCafe/static/js/main.666bb54d.js.map"
   },
   "entrypoints": [
-    "static/css/main.5464a72b.css",
-    "static/js/main.5ed382c8.js"
+    "static/css/main.87a58351.css",
+    "static/js/main.666bb54d.js"
   ]
 }
