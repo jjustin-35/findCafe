@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useGlobal } from '../context/GlobalProvider';
 import { Link } from 'react-router-dom';
 
-export const Board = (props) => {
+export const BoardVertical = ({className, ...props}) => {
     const { nowPage, perpage, pages, setPages, setNowPage} = props;
     const { search } = useGlobal().searchState;
     const { address, keyword, ...querys } = search;
@@ -95,7 +95,7 @@ export const Board = (props) => {
             {cafes.length !== 0 ? <div className="row flex-wrap"> 
             {cafes.map((cafe, i) => {
                 return (
-                    <div className="col-lg-4 col-md-6 col-12 mb-3" key={cafe._id}>
+                    <div className="col-xl-12 col-md-6 col-12 mb-3" key={cafe._id}>
                         <Link to={`/cafe/${cafe.name}`} className='text-decoration-none'>
                         <div className="card h-100">
                             <img src={cafe.img[0] ? cafe.img[0] : `${localUrl}/img/cafe.png`} alt={`${cafe.name} img`} className="card-img-top" />

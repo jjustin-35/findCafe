@@ -27,12 +27,40 @@ export const GlobalProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        setToken(token);
+        (async () => {
+            let token = localStorage.getItem('token');
+            if (token) {
+                try{
+                    let res = await fetch(apiUrl + "/auth/check", {
+                        method: "GET",
+                        headers: {
+                            "Authorization": token,
+                            'Content-Type': 'application/json',
+                        }
+                    });
+                    res = await res.json();
 
-        let profile = localStorage.getItem('profile');
-        profile = JSON.parse(profile);
-        setProfile(profile);
+                    if (!res.isAuth) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('profile');
+                        token = ""
+                    }
+                } catch (err) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('profile');
+                    token = ""
+                }
+            }
+            
+            setToken(token);
+
+            let profile = localStorage.getItem('profile');
+            profile = JSON.parse(profile);
+            if (!profile) {
+                profile = {};
+            }
+            setProfile(profile);
+        })()
     }, [])
     
     const globalHooks = {

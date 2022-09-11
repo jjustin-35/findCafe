@@ -8,6 +8,8 @@ import { Select } from '../components/Select';
 import { Board } from '../components/Board';
 
 export const Find = () => {
+  document.title = "找找咖啡 | 搜尋"
+
   const mrtApi = 'https://ptx.transportdata.tw/MOTC/v2/Rail/Metro/Line/TRTC?%24format=JSON';
   const mrtStation = 'https://ptx.transportdata.tw/MOTC/v2/Rail/Metro/Line/TRTC?%24format=JSON'
   const tags = ['有wifi', '座位多', '環境安靜', '餐點好吃', '東西便宜', '音樂好聽'];

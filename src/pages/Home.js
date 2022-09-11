@@ -98,7 +98,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className='py-5'>
+      <div className='py-5 container'>
         <h2 className="fs-3 fw-bold text-center mb-3 text-primary">精選店家</h2>
         <Board nowPage={0} perpage={9} />
         <Link to='/search' className="btn btn-primary px-2 py-0-75 rounded-pill d-block w-fit mx-auto" role='button'>瀏覽更多</Link>

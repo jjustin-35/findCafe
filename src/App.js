@@ -14,6 +14,7 @@ import { Signup } from './pages/Signup';
 import { Forgotpwd } from './pages/Forgotpwd';
 import { Find } from './pages/Find';
 import { Profile } from './pages/Profile';
+import { Cafe } from './pages/Cafe';
 
 export const MyContext = createContext();
 export const App = () => {
@@ -26,7 +27,8 @@ export const App = () => {
             <Route path='/profile' element={<Authentication>
               <Profile/>
             </Authentication> } />
-            <Route path="/search" element={<Find/>} />
+            <Route path="/search" element={<Find />} />
+            <Route path="/cafe/:cafeName" element={<Cafe />} />
             <Route path='/add_cafe' element={<Authentication>
               <AddCafe/>
             </Authentication>} />
