@@ -21,7 +21,7 @@ export const Find = () => {
   const { setSearch } = useGlobal().searchState;
   const [line, setLine] = useState([]);
   const [station, setStation] = useState([]);
-  const [pages, setPages] = useState(1);
+  const [pages, setPages] = useState(0);
   const [nowPage, setNowPage] = useState(0);
   const countries = areas.map((area) => area.name);
   countries.unshift('請選擇');
@@ -86,7 +86,7 @@ export const Find = () => {
           <form action="" onSubmit={handleSubmit(onSubmit)} className=" text-primary border border-black bg-info rounded-3 accordion pb-1">
             <div className='fs-1 accordion-item bg-info'>
                 <h3 className="accordion-header">
-                  <button className="accordion-button bg-info" data-bs-toggle="collapse" data-bs-target="#accordion1" aria-expanded="true">
+                  <button className="accordion-button bg-info" data-bs-toggle="collapse" data-bs-target="#accordion1" aria-expanded="true" onClick={(e)=>{e.preventDefault()}}>
                     地區
                   </button>
                 </h3>
@@ -109,7 +109,7 @@ export const Find = () => {
             
             <div className='fs-1'>
                 <h3 className="accordion-header">
-                  <button className="accordion-button bg-info" data-bs-toggle="collapse" data-bs-target="#accordion2" aria-expanded="true">評價</button>
+                  <button className="accordion-button bg-info" data-bs-toggle="collapse" data-bs-target="#accordion2" aria-expanded="true" onClick={(e)=>{e.preventDefault()}}>評價</button>
                 </h3>
                 <div className='accordion-collapse collapse show' id='accordion2'>
                   <div className='accordion-body bg-info d-flex justify-content-between flex-wrap'>
@@ -124,7 +124,7 @@ export const Find = () => {
 
             <div className="fs-1">
                 <h3 className="accordion-header">
-                  <button className="accordion-button bg-info" data-bs-toggle="collapse" data-bs-target="#accordion3">
+                  <button className="accordion-button bg-info" data-bs-toggle="collapse" data-bs-target="#accordion3" onClick={(e)=>{e.preventDefault()}}>
                     進階
                   </button>
                 </h3>

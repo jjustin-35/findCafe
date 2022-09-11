@@ -11,7 +11,6 @@ export const Board = (props) => {
     const queryUrl = process.env.REACT_APP_API_URL2 + "/cafe";
     const localUrl = process.env.PUBLIC_URL;
     const [cafes, setCafes] = useState([]);
-    const [wantCafes, setWantCafes] = useState([]);
 
     // function
     const isEmpty = (obj) => {
@@ -65,11 +64,16 @@ export const Board = (props) => {
                     }
                 }
             }
-            try {                
+            try {
                 let result = await fetch(queryUrl + `?perPage=${perpage}&page=${nowPage}` + queryString);
                 result = await result.json();
 
-                setCafes(result);
+                const { length, cafes } = result;
+
+                setCafes(cafes);
+                if (setPages) {
+                    setPages(length);
+                }
             } catch (err) {
                 console.log(err)
             };
