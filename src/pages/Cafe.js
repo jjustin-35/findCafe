@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { useGlobal } from '../context/GlobalProvider';
 import { Message } from '../components/Message';
-import { BoardVertical } from '../components/Board_vertical';
+import { Board } from '../components/Board';
 
 export const Cafe = () => {
   const [theCafe, setTheCafe] = useState({});
@@ -18,8 +18,9 @@ export const Cafe = () => {
   const [hoverStar, setHoverStar] = useState(0);
   const [comment, setComment] = useState("");
 
-  const { token, setToken } = useGlobal().auth;
-  const { profile, setProfile } = useGlobal().userInfo;
+  const { token } = useGlobal().auth;
+  const { profile } = useGlobal().userInfo;
+  const { search, setSearch } = useGlobal().searchState;
   const { register, handleSubmit, formState: { errors } } = useForm();
   const apiUrl = process.env.REACT_APP_API_URL2;
 
@@ -33,8 +34,10 @@ export const Cafe = () => {
         res = await res.json();
 
         const { address, time, ...cafe } = res;
+        const { country, districts } = address;
 
         setAddress(address);
+        setSearch({address: {country, districts}});
         setTime(time);
         setTheCafe(cafe);
       } catch (err) {
@@ -96,12 +99,12 @@ export const Cafe = () => {
             <div className="d-flex mb-0-25 align-items-lg-center flex-wrap">
               <iframe
                 loading="lazy"
-                className='me-md-1 mb-1 mb-md-0 map'
+                className='me-md-1 mb-1 mb-lg-0 map'
                 src={`https://www.google.com/maps/embed/v1/place?key=${process.env.REACT_APP_MAP}&q=${theCafe.name}&center=${address.latitude},${address.longitude}&zoom=15`}></iframe>
               <div>
                 <p>店家地址: {address.country + address.districts + address.location }</p>
                 <p>有無限時: { theCafe.limited_time }</p>
-                <p>網頁連結: { theCafe.url }</p>
+                <p>網頁連結: <a href={theCafe.url}>{ theCafe.name }</a></p>
                 <p>店家電話: { theCafe.tel ? theCafe.tel : "無" }</p>
                 <p className='mb-0'>營業時間: { time.open_time }</p>
               </div>
@@ -175,7 +178,7 @@ export const Cafe = () => {
             </form>}
           </section>
           <section className="col">
-            <BoardVertical nowPage={0} perpage={6} />
+            <Board nowPage={0} perpage={6} />
           </section>
         </div>
         </div>

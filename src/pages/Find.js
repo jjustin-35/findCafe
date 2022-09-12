@@ -40,6 +40,8 @@ export const Find = () => {
 
       setLine(mrtLine);
     })()
+    
+    setSearch({});
   }, []);
 
   const getStation = async (e) => {

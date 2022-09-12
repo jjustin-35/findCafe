@@ -49,38 +49,61 @@ export const Board = (props) => {
     }
 
     useEffect(() => {
-        (async () => {
-            let queryString = "";
-            for (let query of [address, querys]) {
-                if (!isEmpty(query)) {
-                    for (let i in query) {
-                        let star = i.match(/star/);
+        let queryString = "";
+        for (let query of [address, querys]) {
+            if (!isEmpty(query)) {
+                for (let i in query) {
+                    let star = i.match(/star/);
 
-                        if (star && query[i]) {
-                            queryString += `&${star}=${i.replace(star, "")}`
-                        }else if (query[i]) {
-                            queryString += `&${i}=${query[i]}`;
-                        }
+                    if (star && query[i]) {
+                        queryString += `&${star}=${i.replace(star, "")}`
+                    }else if (query[i]) {
+                        queryString += `&${i}=${query[i]}`;
                     }
                 }
             }
-            try {
-                let result = await fetch(queryUrl + `?perPage=${perpage}&page=${nowPage}` + queryString);
-                console.log(result)
-                result = await result.json();
-                console.log(result)
+        }
 
-                const { length, cafes } = result;
+        console.log(queryString);
 
-                setCafes(cafes);
-                if (setPages) {
-                    setPages(length);
-                }
-            } catch (err) {
-                console.log(err)
-            };
-        })();
-    }, [cafes, search, nowPage]);
+        if (queryString) {
+            setTimeout(async () => {
+                try {
+                    let result = await fetch(queryUrl + `?perPage=${perpage}&page=${nowPage}` + queryString);
+                    console.log(result);
+                    result = await result.json();
+    
+                    const { length, cafes } = result;
+                    console.log(cafes);
+    
+                    setCafes(cafes);
+                    if (setPages) {
+                        setPages(length);
+                    }
+                } catch (err) {
+                    console.log(err)
+                };
+            }, 500);
+        } else {
+            (async () => {
+                try {
+                    let result = await fetch(queryUrl + `?perPage=${perpage}&page=${nowPage}` + queryString);
+                    console.log(result);
+                    result = await result.json();
+    
+                    const { length, cafes } = result;
+                    console.log(cafes);
+    
+                    setCafes(cafes);
+                    if (setPages) {
+                        setPages(length);
+                    }
+                } catch (err) {
+                    console.log(err)
+                };
+            })();
+        }
+    }, [search]);
 
     // handle fn
     const handlePage = (e) => {
@@ -95,23 +118,40 @@ export const Board = (props) => {
             setNowPage(turn);
         }
     }
+
+    const handleAddress = (address) => {
+        const { country, districts } = address;
+        const newAddress = [country, districts];
+        
+        let str = "";
+        newAddress.forEach((element, i) => {
+            if (element === "unknown") {
+                element = "";
+            } else if(i === 0) {
+                element += ",";
+            }
+            str += element;
+        })
+
+        return str;
+    }
     
     return (
         <div>
             {cafes.length !== 0 ? <div className="row flex-wrap"> 
             {cafes.map((cafe, i) => {
                 return (
-                    <div className="col-lg-4 col-md-6 col-12 mb-3" key={cafe._id}>
+                    <div className="col-12 mb-1-5" key={cafe._id}>
                         <Link to={`/cafe/${cafe.name}`} className='text-decoration-none'>
                         <div className="card h-100">
-                            <img src={cafe.img[0] ? cafe.img[0] : `${localUrl}/img/cafe.png`} alt={`${cafe.name} img`} className="card-img-top" />
-                            <div className="card-body d-flex flex-column justify-content-between">
+                            {/* <img src={cafe.img[0] ? cafe.img[0] : `${localUrl}/img/cafe.png`} alt={`${cafe.name} img`} className="card-img-top" /> */}
+                            <div className="card-body">
                                 <div className="d-flex justify-content-between">
                                     <div className="card-tilte fs-1-5 fw-bold">{cafe.name}</div>
                                     <ul className="d-flex list-unstyled">
                                         {(() => {
                                             const starArray = [];
-                                            const fill = cafe.stars;
+                                            const fill = Math.round(cafe.stars);
                                             const empty = 5 - fill;
                                             for (let i = 0; i < fill; i++){
                                                 const starsFill = <li key={`${cafe._id} ${i}fillstar`}><i className="bi bi-star-fill fs-1-5 text-yellow"></i></li>
@@ -125,7 +165,8 @@ export const Board = (props) => {
                                         })()}
                                     </ul>
                                 </div>
-                                    <ul className='d-flex list-unstyled'>{getTag(cafe).map((tag, i) => <li className='me-0-25 bg-gray-light rounded-pill px-0-75 py-0-25' key={tag + i}>{ tag }</li>)}</ul>
+                                    <p className="text-normal">{ handleAddress(cafe.address) }</p>
+                                <ul className='d-flex list-unstyled'>{getTag(cafe).map((tag, i) => <li className='me-0-25 bg-gray-light rounded-pill px-0-75 py-0-25' key={tag + i}>{ tag }</li>)}</ul>
                             </div>
                         </div>
                         </Link>
