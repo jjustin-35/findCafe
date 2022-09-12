@@ -31590,6 +31590,26 @@ fieldset:disabled .btn {
   }
 }
 
+.loading path {
+  stroke-dasharray: 30px;
+  -webkit-animation: name duration timing-function delay iteration-count direction fill-mode;
+          animation: name duration timing-function delay iteration-count direction fill-mode;
+  -webkit-animation: loading 2s linear infinite;
+          animation: loading 2s linear infinite;
+}
+
+@-webkit-keyframes loading {
+  to {
+    stroke-dashoffset: 120px;
+  }
+}
+
+@keyframes loading {
+  to {
+    stroke-dashoffset: 120px;
+  }
+}
+
 .addCafe {
   display: block;
 }

@@ -20,7 +20,7 @@ export const Home = () => {
 
   async function handleSearch(e) {
     e.preventDefault();
-    if (keyword && address) {
+    if (keyword || address) {
       setSearch({ keyword, address });
     }
     

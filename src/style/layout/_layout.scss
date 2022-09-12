@@ -23,3 +23,17 @@
         }
     }
 }
+
+.loading{
+    path{
+        stroke-dasharray: 30px;
+        animation: name duration timing-function delay iteration-count direction fill-mode;
+        animation: loading 2s linear infinite;
+    }
+}
+
+@keyframes loading {
+    to{
+        stroke-dashoffset: 120px;
+    }
+  }

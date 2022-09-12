@@ -7,15 +7,16 @@ export const Address = (props) => {
   const { register } = useFormContext();
     const { parentClass = "", childClass = "", getLocation = false, labelClass = ""} = props;
 
-    const { address } = useGlobal();
-    const { areas, setAreas } = address;
-    const [dist, setDist] = useState([]);
+    const { areas, setAreas } = useGlobal().address;
+  const [dist, setDist] = useState([]);
+  const [country, setCountry] = useState("");
 
     const countries = areas.map(area => area.name);
     const countriesOpt = countries.map(country => <option value={country} key={country}>{country}</option>);
 
     const handleCountry = (e) => {
-        const country = e.target.value;
+      const country = e.target.value;
+      setCountry(country)
 
         let [theCountry] = areas.filter(area => area.name == country);
         const {districts} = theCountry;
@@ -27,15 +28,15 @@ export const Address = (props) => {
       <div className={`d-flex justify-content-between ${parentClass}`}>
           <div>
           <label htmlFor="country" className={`me-0-5 ${labelClass}`}>縣市: </label>
-            <select {...register("country")} className={`form-select d-inline align-middle w-fit ${childClass}`} id="country" onChange={handleCountry}>
-            <option value="null">請選擇</option>
+            <select {...register("country")} className={`form-select d-inline align-middle w-fit ${childClass}`} id="country" onChange={handleCountry} value={country}>
+              <option value="">請選擇</option>
                 {countriesOpt}
             </select>
           </div>
           <div>
           <label htmlFor="districts" className={`me-0-5 ${labelClass}`}>地區: </label>
             <select {...register("districts")} className={`d-inline align-middle form-select w-fit ${childClass}`} id="districts">
-            <option value="null">請選擇</option>
+            <option value="">請選擇</option>
                 {dist.map((item) => {
                     return (
                         <option value={item.name} key={JSON.stringify(item)}>{ item.name }</option>

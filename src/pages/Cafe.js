@@ -46,6 +46,19 @@ export const Cafe = () => {
     })()
   }, [])
 
+  function isEmpty(obj) {
+    for (let i in obj) {
+      return false;
+    }
+    return true;
+  }
+
+  if (!isEmpty(theCafe)) {
+    const { address } = theCafe;
+
+    console.log(address);
+  }
+
   const handleStar = (e) => {
     e.preventDefault();
     setStars(e.target.id);
@@ -74,7 +87,7 @@ export const Cafe = () => {
         <div className="row">
           <section className="col-xl-9 col-12 mb-xl-0 mb-2">
             <div className="d-flex mb-2 flex-wrap">
-              <img src="" alt="" className='title-img me-md-1'/>
+              {/* {the<img src="" alt="" className='title-img me-md-1' />} */}
               <div>
                 <h2 className="fs-2 mb-1">{theCafe.name} <span className="bi bi-bookmark"></span></h2>
                 <p className="text-gray-500">{ address.country + "," + address.districts + " ," + address.mrt }</p>
@@ -178,7 +191,7 @@ export const Cafe = () => {
             </form>}
           </section>
           <section className="col">
-            <Board nowPage={0} perpage={6} />
+            {!isEmpty(search) && <Board nowPage={0} perpage={6} />}
           </section>
         </div>
         </div>

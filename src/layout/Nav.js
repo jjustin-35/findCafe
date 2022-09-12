@@ -7,6 +7,7 @@ const localUrl = process.env.PUBLIC_URL;
 const NavOptions = () => {
   const { token, setToken } = useGlobal().auth;
   const { profile, setProfile } = useGlobal().userInfo;
+  const { setSearch } = useGlobal().searchState;
 
   const onLogout = (e) => {
     e.preventDefault();
@@ -16,11 +17,15 @@ const NavOptions = () => {
     setToken(null);
     setProfile(null);
   }
+
+  const navToSearch = () => {
+    setSearch({})
+  }
   
   if (!token) {
     return (
       <ul className="navbar-nav align-items-center">
-        <li className="nav-item"><Link to="/search" className="nav-link p-lg-0 searchCafe text-white fs-1-5">搜尋咖啡廳</Link></li>
+        <li className="nav-item"><Link to="/search" className="nav-link p-lg-0 searchCafe text-white fs-1-5" onClick={navToSearch}>搜尋咖啡廳</Link></li>
         <li className="nav-item"><Link to='/login' type="button" className="btn btn-outline-white me-md-1-25 rounded-pill px-2 d-lg-block d-none">登入</Link></li>
         <li className="nav-item"><Link to='/signup' type="button" className="btn btn-white rounded-pill px-2 d-lg-block d-none">註冊</Link></li>
         <li className="nav-item d-lg-none">
@@ -34,7 +39,7 @@ const NavOptions = () => {
   } else {
     return (
       <ul className="navbar-nav align-items-center">
-        <li className="nav-item"><Link to="/search" className="nav-link text-white fs-1-5">搜尋咖啡廳</Link></li>
+        <li className="nav-item"><Link to="/search" className="nav-link text-white fs-1-5" onClick={navToSearch}>搜尋咖啡廳</Link></li>
         <li className="nav-item"><a href="" className="nav-link text-white fs-1-5">我的最愛</a></li>
         <li className="nav-item me-lg-0-5"><Link to="/add_cafe" className="nav-link text-white fs-1-5">新增店家</Link></li>
         <li className="nav-item dropdown">

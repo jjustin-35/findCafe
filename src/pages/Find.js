@@ -39,9 +39,7 @@ export const Find = () => {
       })
 
       setLine(mrtLine);
-    })()
-    
-    setSearch({});
+    })();
   }, []);
 
   const getStation = async (e) => {
@@ -62,20 +60,26 @@ export const Find = () => {
   const onSubmit = (data) => {
     let querys = {};
     let { country, districts, location, station, mrtLine, ...datas } = data;
-    querys.address = { country, districts, location, mrt: station };
-    
-    let stars = [];
-    for (let prop in data) {
-      const star = prop.match("star");
-      if (star) {
-        if (data[prop]) {
-          stars = [...stars, Number(prop.replace(star, ""))]
-        }
-      } else if(data[prop]) {
-        querys[prop] = data[prop]
+    let address = { country, districts, location, mrt: station }
+    for (let i in address) {
+      if (!address[i]) {
+        delete address[i]
       }
     }
-    querys.stars = stars;
+    querys.address = address;
+    
+    let stars = [];
+    for (let prop in datas) {
+      const star = prop.match("star");
+      if (star) {
+        if (datas[prop]) {
+          stars = [...stars, Number(prop.replace(star[0], ""))]
+        }
+      } else if(data[prop]) {
+        querys[prop] = datas[prop]
+      }
+    }
+    querys.star = stars;
 
     setSearch(querys);
   }
@@ -99,7 +103,7 @@ export const Find = () => {
                       <fieldset className='w-100'>
                         <legend className='w-fit me-0-5 fs-1'>捷運站: </legend>
                         <div className='d-flex'>
-                        <Select opt={['請選擇', ...(line.map(elem => elem.name))]} optValue={[0, ...(line.map(elem => elem.id))]} onChange={getStation} name='mrtLine' />
+                          <Select opt={['請選擇', ...(line.map(elem => elem.name))]} optValue={[null, ...(line.map(elem => elem.id))]} onChange={getStation} name='mrtLine' />
                           <Select opt={station} name="station"/>
                         </div>
                       </fieldset>
@@ -151,7 +155,7 @@ export const Find = () => {
           </form>
           </div>
           <div className='col'>
-          <Board nowPage={nowPage} setNowPage={setNowPage} perpage={15} pages={ pages } setPages={setPages}/>
+          <Board nowPage={nowPage} setNowPage={setNowPage} perpage={5} pages={ pages } setPages={setPages}/>
           </div>
         </div>
         <button className="btn btn-black rounded-start rounded-0 py-2 px-0-5 d-lg-none position-fixed top-15 end-0" data-bs-scroll="true" data-bs-toggle="offcanvas" data-bs-target="#condition">篩<br />選</button>
