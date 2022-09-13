@@ -31426,6 +31426,14 @@ fieldset:disabled .btn {
   color: #343a40 !important;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+.z-1 {
+  z-index: 1;
+}
+
 .bg-img {
   background-size: cover;
   background-position: center;
@@ -31433,126 +31441,28 @@ fieldset:disabled .btn {
 }
 
 .seperator {
-  border: #adb5bd solid 1px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.seperator:before, .seperator:after {
+  background-color: #000;
+  content: "";
+  display: inline-block;
+  height: 1px;
   position: relative;
+  vertical-align: middle;
+  width: 50%;
 }
 
-.seperator-blue {
-  border-color: #0d6efd;
+.seperator:before {
+  right: 0.5em;
+  margin-left: -50%;
 }
 
-.seperator-indigo {
-  border-color: #6610f2;
-}
-
-.seperator-purple {
-  border-color: #6f42c1;
-}
-
-.seperator-pink {
-  border-color: #d63384;
-}
-
-.seperator-red {
-  border-color: #dc3545;
-}
-
-.seperator-orange {
-  border-color: #fd7e14;
-}
-
-.seperator-yellow {
-  border-color: #ffc107;
-}
-
-.seperator-green {
-  border-color: #198754;
-}
-
-.seperator-teal {
-  border-color: #20c997;
-}
-
-.seperator-cyan {
-  border-color: #0dcaf0;
-}
-
-.seperator-black {
-  border-color: #000;
-}
-
-.seperator-white {
-  border-color: #fff;
-}
-
-.seperator-gray-light {
-  border-color: #e9ecef;
-}
-
-.seperator-gray {
-  border-color: #6c757d;
-}
-
-.seperator-gray-dark {
-  border-color: #343a40;
-}
-
-.seperator-primary {
-  border-color: #68472B;
-}
-
-.seperator-secondary {
-  border-color: #825936;
-}
-
-.seperator-success-light {
-  border-color: #F4F5F1;
-}
-
-.seperator-success {
-  border-color: #CBCFC2;
-}
-
-.seperator-success-dark {
-  border-color: #5A653D;
-}
-
-.seperator-info {
-  border-color: #E5DCD4;
-}
-
-.seperator-warning {
-  border-color: #F4D35E;
-}
-
-.seperator-danger {
-  border-color: #f8d7da;
-}
-
-.seperator-light {
-  border-color: #D9D9D9;
-}
-
-.seperator-normal {
-  border-color: #ABA7A4;
-}
-
-.seperator-dark {
-  border-color: #44413F;
-}
-
-.seperator-gray-50 {
-  border-color: #F7F6F6;
-}
-
-.seperator-font {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  padding: 0 0.5rem;
-  background-color: inherit;
+.seperator:after {
+  left: 0.5em;
+  margin-right: -50%;
 }
 
 .searchCafe {
@@ -31563,6 +31473,10 @@ fieldset:disabled .btn {
   .searchCafe {
     margin-right: 27px !important;
   }
+}
+
+.nav-logo path {
+  stroke: white;
 }
 
 .footer__item {
@@ -31717,5 +31631,23 @@ fieldset:disabled .btn {
     height: 230px;
     width: 250px;
   }
+}
+
+.bg-image {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.bg-image-login {
+  background-image: url("../../../public/img/login-bg.jpg");
+}
+
+.bg-image-signup {
+  background-image: url("../../../public/img/signup-bg.jpg");
+}
+
+.bg-auth {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 /*# sourceMappingURL=all.css.map */

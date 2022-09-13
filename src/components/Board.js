@@ -3,16 +3,21 @@ import { useEffect, useState } from 'react';
 import { useGlobal } from '../context/GlobalProvider';
 import { Link } from 'react-router-dom';
 
+import { Tag } from './Tag';
+import { Stars } from './Stars';
+
 export const Board = (props) => {
     const { nowPage, perpage, pages, setPages, setNowPage } = props;
     const { search } = useGlobal().searchState;
-    const { address, keyword, ...querys } = search;
+    const { address, ...querys } = search;
     // address = {country, district, location, mrt}
-    const queryUrl = process.env.REACT_APP_API_URL2 + "/cafe";
+    const queryUrl = process.env.REACT_APP_API_URL + "/cafe";
     const localUrl = process.env.PUBLIC_URL;
     const [cafes, setCafes] = useState([]);
     const [perCafe, setPerCafe] = useState([]);
     const [isData, setIsData] = useState(true);
+
+    console.log(queryUrl)
 
     // function
     const isEmpty = (obj) => {
@@ -21,33 +26,6 @@ export const Board = (props) => {
         }
 
         return true;
-    }
-
-    const getTag = (obj) => {
-        const { rank } = obj;
-        let rankList = [];
-        for (let i in rank) {
-            rankList.push({ name: i, rank: rank[i] })
-        }
-
-        rankList.sort((a, b) => {
-            return b.rank - a.rank
-        })
-        rankList = rankList.slice(0, 3);
-        rankList = rankList.map((element) => {
-            element = element.name;
-
-            const chinese = ['有wifi', '座位多', '環境安靜', '餐點好吃', '東西便宜', '音樂好聽'];
-            
-            ['wifi', 'seat', 'quiet', 'tasty', 'cheap', 'music'].forEach((tag, i) => {
-                if (element === tag) {
-                    element = chinese[i];
-                }
-            })
-            return element;
-        });
-
-        return rankList;
     }
 
     useEffect(() => {
@@ -67,7 +45,7 @@ export const Board = (props) => {
                 }
             }
         }
-
+        console.log(queryUrl);
         console.log(queryString);
 
         (async () => {
@@ -155,29 +133,13 @@ export const Board = (props) => {
                                 <div className="col-12 mb-1-5" key={cafe._id}>
                                     <Link to={`/cafe/${cafe.name}`} className='text-decoration-none'>
                                     <div className="card h-100">
-                                        {/* <img src={cafe.img[0] ? cafe.img[0] : `${localUrl}/img/cafe.png`} alt={`${cafe.name} img`} className="card-img-top" /> */}
                                         <div className="card-body">
                                             <div className="d-flex justify-content-between">
                                                 <div className="card-tilte fs-1-5 fw-bold">{cafe.name}</div>
-                                                <ul className="d-flex list-unstyled">
-                                                    {(() => {
-                                                        const starArray = [];
-                                                        const fill = Math.round(cafe.stars);
-                                                        const empty = 5 - fill;
-                                                        for (let i = 0; i < fill; i++){
-                                                            const starsFill = <li key={`${cafe._id} ${i}fillstar`}><i className="bi bi-star-fill fs-1-5 text-yellow"></i></li>
-                                                            starArray.push(starsFill);
-                                                        };
-                                                        for (let i = 0; i < empty; i++){
-                                                            const starEmpty = <li key={`${cafe._id} ${i}emptystar`}><i className="bi bi-star-fill fs-1-5 text-normal"></i></li>
-                                                            starArray.push(starEmpty);
-                                                        }
-                                                        return starArray;
-                                                    })()}
-                                                </ul>
+                                                <Stars cafe={ cafe } />
                                             </div>
                                                 <p className="text-normal">{ handleAddress(cafe.address) }</p>
-                                            <ul className='d-flex list-unstyled'>{getTag(cafe).map((tag, i) => <li className='me-0-25 bg-gray-light rounded-pill px-0-75 py-0-25' key={tag + i}>{ tag }</li>)}</ul>
+                                                <Tag cafe={ cafe } />
                                         </div>
                                     </div>
                                     </Link>

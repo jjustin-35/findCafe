@@ -3,7 +3,7 @@ import { useState, createContext, useContext, useEffect} from 'react';
 const MyContext = createContext();
 
 export const GlobalProvider = ({ children }) => { 
-    const apiUrl = process.env.REACT_APP_API_URL2;
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const [err, setErr] = useState(null);
     const [profile, setProfile] = useState(null);

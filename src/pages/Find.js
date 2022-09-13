@@ -59,7 +59,12 @@ export const Find = () => {
 
   const onSubmit = (data) => {
     let querys = {};
-    let { country, districts, location, station, mrtLine, ...datas } = data;
+    let { country, districts, location, station, mrtLine, other, keyword, ...datas } = data;
+    // other
+    if (other && keyword) {
+      querys.keyword = keyword;
+    }
+    // address
     let address = { country, districts, location, mrt: station }
     for (let i in address) {
       if (!address[i]) {
@@ -151,7 +156,7 @@ export const Find = () => {
                 })}
                 <div className="form-check">
                   <input type="checkbox" {...register("other")} className="form-check-input" id="other" />
-                  <label htmlFor="other" className="form-check-label me-1">其他</label><input type="text" className="form-control-inline rounded-1" {...register("otherInput")} /></div>
+                  <label htmlFor="other" className="form-check-label me-1">其他</label><input type="text" className="form-control-inline rounded-1" {...register("keyword")} /></div>
                   </div>
               </div>
             </div>

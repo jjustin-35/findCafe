@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { useGlobal } from '../context/GlobalProvider';
 import { Message } from '../components/Message';
 import { Board } from '../components/Board';
+import { Tag } from '../components/Tag';
+import { Stars } from '../components/Stars';
 
 export const Cafe = () => {
   const [theCafe, setTheCafe] = useState({});
@@ -22,7 +24,7 @@ export const Cafe = () => {
   const { profile } = useGlobal().userInfo;
   const { search, setSearch } = useGlobal().searchState;
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const apiUrl = process.env.REACT_APP_API_URL2;
+  const apiUrl = process.env.REACT_APP_API_URL;
   const local = process.env.PUBLIC_URL; 
 
   const theName = useParams().cafeName;
@@ -30,6 +32,7 @@ export const Cafe = () => {
 
   useEffect(() => {
     const fetchCafe = async () => {
+      let result = false;
       try {
         let res = await fetch(`${apiUrl}/cafe/${theName}`);
         res = await res.json();
@@ -41,22 +44,38 @@ export const Cafe = () => {
         setSearch({ address: { country, districts } });
         setTime(time);
         setTheCafe(cafe);
+
+        result = true;
       } catch (err) {
         console.log(err);
       }
+
+      return result;
     };
 
     const fetchComment = async () => {
-      let res = await fetch(`${apiUrl}/comment/${theName}`);
-      res = res.json();
+      let result = false;
+      try{
+        let res = await fetch(`${apiUrl}/comment/${theName}`);
+        res = await res.json();
+        console.log("res:" + res);
 
-      setComment(res);
+        setComment(res);
+
+        result = true
+      } catch (err) {
+        console.log(err)
+      }
+
+      return result;
     }
 
     (async () => {
-      await Promise.all([fetchCafe(), fetchComment()]);
+      const [cafeResult, commentResult] = await Promise.all([fetchCafe(), fetchComment()]);
+
+      console.log("cafe statement:" + cafeResult, "comment statement:" + commentResult)
     })()
-  }, [])
+  }, [theName])
 
   function isEmpty(obj) {
     for (let i in obj) {
@@ -88,9 +107,22 @@ export const Cafe = () => {
     }
   }
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    data.cafe = theCafe._id;
+    data.user = profile.email;
     data.tags = tags;
-    setComment(data.comment);
+    data.stars = stars;
+
+    const result = await fetch(apiUrl + `/comment/add`, {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": token
+      },
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+
+    console.log(result);
   }
 
   return (
@@ -101,24 +133,9 @@ export const Cafe = () => {
             <div className="d-flex mb-2 flex-wrap">
               {theCafe.photo ? <img src={theCafe.photo[0]} alt="" className='title-img me-md-1' /> : <div className='title-img me-md-1'><img src={`${local}/img/noPic.png`} alt="no picture" className='w-100 h-100'/></div>}
               <div>
-                <h2 className="fs-2 mb-1">{theCafe.name} <span className="bi bi-bookmark"></span></h2>
+                <h2 className="fs-2 mb-1">{theCafe.name} </h2>
                 <p className="text-gray-500">{ address.country + "," + address.districts + " ," + address.mrt }</p>
-                <ul className="d-flex list-unstyled">
-                    {(() => {
-                        const starArray = [];
-                        const fill = Math.round(theCafe.stars);
-                        const empty = 5 - fill;
-                        for (let i = 0; i < fill; i++){
-                            const starsFill = <li key={`${theCafe._id} ${i}fillstar`}><i className="bi bi-star-fill fs-1-5 text-yellow"></i></li>
-                            starArray.push(starsFill);
-                        };
-                        for (let i = 0; i < empty; i++){
-                            const starEmpty = <li key={`${theCafe._id} ${i}emptystar`}><i className="bi bi-star fs-1-5 text-gray-500"></i></li>
-                            starArray.push(starEmpty);
-                        }
-                        return starArray;
-                    })()}
-                </ul>
+                <Stars cafe={ theCafe } />
               </div>
             </div>
             <div className="d-flex mb-0-25 align-items-lg-center flex-wrap">
@@ -135,39 +152,31 @@ export const Cafe = () => {
               </div>
             </div>
             {/* tag */}
-            <div className='mb-1-5'>
-              <span className='badge rounded-pill bg-light'>tag</span>
+            <div className='mt-0-5 mb-1-5'>
+              <Tag cafe={ theCafe } />
             </div>
             {/* comment */}
-            {theCafe.comment.length !== 0 ? <div>
-              <div className="d-flex justify-content-between">
-                <img src="" alt="" className="rounded-circle me-1" height="50" width="50" />
-                <div className="d-flex w-100 justify-content-between">
-                  <div>
-                    <h4 className="fs-1-5 fw-bold">userName <span className='fs-1 text-light d-block d-md-inline'>time</span></h4>
-                    <div>
-                      <p>content</p>
-                      <img src="" alt="" />
+            {comment.length != 0 ? <div>
+              {comment.map((aComment) => {
+                let date = new Date(aComment.time);
+
+                date = date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                return (
+                  <div className="d-flex justify-content-between mb-1">
+                    {aComment.user.thumbnail ? <img src={aComment.user.thumbnail} alt="" className="rounded-circle me-1" height="50" width="50" /> : <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-person-circle me-1" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" /><path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" /></svg>}
+                    <div className="d-flex w-100 justify-content-between">
+                      <div>
+                        <h4 className="fs-1-5 fw-bold">{ aComment.user.name }<span className='ms-0-5 fs-1 text-light d-block d-md-inline'>{date}</span></h4>
+                        <div>
+                          <p>{aComment.post}</p>
+                          <Tag cafe={ aComment } />
+                        </div>
+                      </div>
+                      <Stars cafe={ aComment } />
                     </div>
-                  </div>
-                  <ul className="d-flex list-unstyled">
-                    {(() => {
-                        const starArray = [];
-                        const fill = Math.round(theCafe.stars);
-                        const empty = 5 - fill;
-                        for (let i = 0; i < fill; i++){
-                            const starsFill = <li key={`${theCafe._id} ${i}fillstar`}><i className="bi bi-star-fill fs-1-5 text-yellow"></i></li>
-                            starArray.push(starsFill);
-                        };
-                        for (let i = 0; i < empty; i++){
-                            const starEmpty = <li key={`${theCafe._id} ${i}emptystar`}><i className="bi bi-star-fill fs-1-5 text-light"></i></li>
-                            starArray.push(starEmpty);
-                        }
-                        return starArray;
-                    })()}
-                </ul>
-                </div>
               </div>
+                )
+              })}
             </div> : <p className="fs-1 text-center text-light">留下第一筆留言!</p>}
             {/* myComment */}
             {!token ? <p className="fs-1-5 text-gray text-center">請先<Link to="/login" className="text-blue">登入</Link>再留言</p> : <form action="" onSubmit={handleSubmit(onSubmit)}>
@@ -189,10 +198,10 @@ export const Cafe = () => {
                   {tags.map((tag) => {
                     return <span className='me-0-5 badge rounded-pill px-0-5 bg-light'>{ tag }<i className="bi bi-cross"></i></span>
                   })}
-                  <input type="text" placeholder='tag...' className='form-control border-0 w-100 shadow-none' onChange={(e) => { setTagContent(e.target.value) }} onKeyDown={handleTag} value={tagContent } />
+                  <input type="text" placeholder='tag...' className='form-control border-0 w-100 shadow-none' onChange={(e) => { setTagContent(e.target.value) }} onKeyDown={handleTag} value={ tagContent } />
                 </div>
                 <p className='text-normal'>請按enter鍵輸入標籤，backspace鍵刪除標籤</p>
-              <textarea rows={5} placeholder='留言...' className='form-control' {...register('comment',{
+              <textarea rows={5} placeholder='留言...' className='form-control' {...register('post',{
                   required: {
                   value: true, message: "請留言"
                   },
