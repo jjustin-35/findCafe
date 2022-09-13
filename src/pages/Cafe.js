@@ -16,19 +16,20 @@ export const Cafe = () => {
   const [tags, setTags] = useState([]);
   const [stars, setStars] = useState(0);
   const [hoverStar, setHoverStar] = useState(0);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState([]);
 
   const { token } = useGlobal().auth;
   const { profile } = useGlobal().userInfo;
   const { search, setSearch } = useGlobal().searchState;
   const { register, handleSubmit, formState: { errors } } = useForm();
   const apiUrl = process.env.REACT_APP_API_URL2;
+  const local = process.env.PUBLIC_URL; 
 
   const theName = useParams().cafeName;
   document.title = theName;
 
   useEffect(() => {
-    (async () => {
+    const fetchCafe = async () => {
       try {
         let res = await fetch(`${apiUrl}/cafe/${theName}`);
         res = await res.json();
@@ -37,12 +38,23 @@ export const Cafe = () => {
         const { country, districts } = address;
 
         setAddress(address);
-        setSearch({address: {country, districts}});
+        setSearch({ address: { country, districts } });
         setTime(time);
         setTheCafe(cafe);
       } catch (err) {
         console.log(err);
       }
+    };
+
+    const fetchComment = async () => {
+      let res = await fetch(`${apiUrl}/comment/${theName}`);
+      res = res.json();
+
+      setComment(res);
+    }
+
+    (async () => {
+      await Promise.all([fetchCafe(), fetchComment()]);
     })()
   }, [])
 
@@ -78,16 +90,16 @@ export const Cafe = () => {
 
   const onSubmit = (data) => {
     data.tags = tags;
-    setComment(comment);
+    setComment(data.comment);
   }
 
   return (
     <div>
       <div className="container py-5">
         <div className="row">
-          <section className="col-xl-9 col-12 mb-xl-0 mb-2">
+          <section className="col-xl-9 col-lg-8 col-12 mb-xl-0 mb-2">
             <div className="d-flex mb-2 flex-wrap">
-              {/* {the<img src="" alt="" className='title-img me-md-1' />} */}
+              {theCafe.photo ? <img src={theCafe.photo[0]} alt="" className='title-img me-md-1' /> : <div className='title-img me-md-1'><img src={`${local}/img/noPic.png`} alt="no picture" className='w-100 h-100'/></div>}
               <div>
                 <h2 className="fs-2 mb-1">{theCafe.name} <span className="bi bi-bookmark"></span></h2>
                 <p className="text-gray-500">{ address.country + "," + address.districts + " ," + address.mrt }</p>
@@ -127,7 +139,7 @@ export const Cafe = () => {
               <span className='badge rounded-pill bg-light'>tag</span>
             </div>
             {/* comment */}
-            <div>
+            {theCafe.comment.length !== 0 ? <div>
               <div className="d-flex justify-content-between">
                 <img src="" alt="" className="rounded-circle me-1" height="50" width="50" />
                 <div className="d-flex w-100 justify-content-between">
@@ -156,7 +168,7 @@ export const Cafe = () => {
                 </ul>
                 </div>
               </div>
-            </div>
+            </div> : <p className="fs-1 text-center text-light">留下第一筆留言!</p>}
             {/* myComment */}
             {!token ? <p className="fs-1-5 text-gray text-center">請先<Link to="/login" className="text-blue">登入</Link>再留言</p> : <form action="" onSubmit={handleSubmit(onSubmit)}>
               <div className="d-flex justify-content-between mb-1">
@@ -190,7 +202,7 @@ export const Cafe = () => {
               <button className="btn btn-primary px-1-5 py-0-5">留言</button>
             </form>}
           </section>
-          <section className="col">
+          <section className="col-xl-3 col-lg-4 col">
             {!isEmpty(search) && <Board nowPage={0} perpage={6} />}
           </section>
         </div>

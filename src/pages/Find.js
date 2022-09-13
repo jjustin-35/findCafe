@@ -75,7 +75,12 @@ export const Find = () => {
         if (datas[prop]) {
           stars = [...stars, Number(prop.replace(star[0], ""))]
         }
-      } else if(data[prop]) {
+      } else if (datas[prop]) {
+        for (let tag of enTags) {
+          if (prop === tag) {
+            datas[prop] = "$gte4";
+          }
+        }
         querys[prop] = datas[prop]
       }
     }

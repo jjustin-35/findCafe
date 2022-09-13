@@ -11,6 +11,7 @@ export const Board = (props) => {
     const queryUrl = process.env.REACT_APP_API_URL2 + "/cafe";
     const localUrl = process.env.PUBLIC_URL;
     const [cafes, setCafes] = useState([]);
+    const [perCafe, setPerCafe] = useState([]);
     const [isData, setIsData] = useState(true);
 
     // function
@@ -71,7 +72,7 @@ export const Board = (props) => {
 
         (async () => {
             try {
-                let result = await fetch(queryUrl + `?perPage=${perpage}&page=${nowPage}` + queryString);
+                let result = await fetch(queryUrl + "?" + queryString);
                 console.log(result);
                 result = await result.json();
 
@@ -83,14 +84,22 @@ export const Board = (props) => {
                 }
                 setCafes(cafes);
                 if (setPages) {
-                    setPages((length/perpage));
+                    setPages((length%perpage === 0 ? length/perpage : (length/perpage + 1)));
                 }
             } catch (err) {
                 console.log(err)
             };
         })();
         
-    }, [search, nowPage]);
+    }, [search]);
+
+    useEffect(() => {
+        const start = 0 + (nowPage * perpage);
+        const end = start + perpage;
+        const percafe = cafes.slice(start, end);
+
+        setPerCafe(percafe);
+    }, [search, nowPage, cafes])
 
     // handle fn
     const handlePage = (e) => {
@@ -141,7 +150,7 @@ export const Board = (props) => {
                         )
                     } else {
                         return (<div className="row flex-wrap"> 
-                        {cafes.map((cafe, i) => {
+                        {perCafe.map((cafe, i) => {
                             return (
                                 <div className="col-12 mb-1-5" key={cafe._id}>
                                     <Link to={`/cafe/${cafe.name}`} className='text-decoration-none'>
