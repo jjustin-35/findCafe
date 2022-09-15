@@ -6,6 +6,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { Address } from '../components/Address';
 import { Message } from '../components/Message';
 import { MyFav } from '../components/MyFav';
+import { MyComment } from '../components/MyComment';
 
 export const Profile = () => {
     document.title = "找找咖啡 | 我的頁面"
@@ -148,7 +149,7 @@ export const Profile = () => {
               </ul>
               
               <div>
-                  {current === "myFavorite" ? <MyFav/> : current === "myComment" ? "" : ""}
+                  {current === "myFavorite" ? <MyFav/> : current === "myComment" ? <MyComment/> : ""}
               </div>
           </div>
       </div>
