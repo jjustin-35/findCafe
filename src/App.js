@@ -15,6 +15,7 @@ import { Forgotpwd } from './pages/Forgotpwd';
 import { Find } from './pages/Find';
 import { Profile } from './pages/Profile';
 import { Cafe } from './pages/Cafe';
+import { MyFav } from './components/MyFav';
 
 export const MyContext = createContext();
 export const App = () => {
@@ -26,7 +27,7 @@ export const App = () => {
             <Route index element={<Home />} />
             <Route path='/profile' element={<Authentication>
               <Profile/>
-            </Authentication> } />
+            </Authentication>} />
             <Route path="/search" element={<Find />} />
             <Route path="/cafe/:cafeName" element={<Cafe />} />
             <Route path='/add_cafe' element={<Authentication>

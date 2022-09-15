@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import { useGlobal } from '../context/GlobalProvider';
 import { Message } from '../components/Message';
@@ -16,7 +16,7 @@ export const Login = () => {
     const FbAuth = `${api}/auth/facebook`;
 
     const { token, setToken } = useGlobal().auth;
-    const { err, setErr } = useGlobal().errState;
+    const [ err, setErr ] = useState("");
     const { profile, setProfile } = useGlobal().userInfo;
 
     const [loading, setLoading] = useState(false);

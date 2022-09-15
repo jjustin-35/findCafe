@@ -9,6 +9,12 @@
 
 .hover{
     transition: all 0.25s ease;
+    &-show{
+        opacity: 0;
+        &:hover{
+            opacity: 1;
+        }
+    }
     @each $key, $value in $theme_colors{
         &.hover-text-#{$key}:hover{
             color: $value !important;

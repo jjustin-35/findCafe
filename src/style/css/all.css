@@ -31318,6 +31318,14 @@ fieldset:disabled .btn {
   transition: all 0.25s ease;
 }
 
+.hover-show {
+  opacity: 0;
+}
+
+.hover-show:hover {
+  opacity: 1;
+}
+
 .hover.hover-text-primary:hover {
   color: #68472B !important;
 }
@@ -31473,6 +31481,12 @@ fieldset:disabled .btn {
   .searchCafe {
     margin-right: 27px !important;
   }
+}
+
+.nav-profile {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
 }
 
 .nav-logo path {
@@ -31649,5 +31663,15 @@ fieldset:disabled .btn {
 
 .bg-auth {
   background-color: rgba(255, 255, 255, 0.8);
+}
+
+.profile-thumbnail {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
+
+.profile-board {
+  min-height: 100vh;
 }
 /*# sourceMappingURL=all.css.map */

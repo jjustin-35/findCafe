@@ -7,6 +7,7 @@ export const GlobalProvider = ({ children }) => {
 
     const [err, setErr] = useState(null);
     const [profile, setProfile] = useState(null);
+    const [newInfo, setNewInfo] = useState({});
     const [areas, setAreas] = useState([]);
     const [search, setSearch] = useState({});
     const [token, setToken] = useState(false);
@@ -62,7 +63,37 @@ export const GlobalProvider = ({ children }) => {
             setProfile(profile);
         })()
     }, [])
-    
+
+    const isEmpty = (obj) => {
+        for (let i in obj) {
+            return false
+        }
+        return true
+    }
+
+    useEffect(() => {
+        if (!isEmpty(newInfo)) {
+            (async () => {
+                const res = await fetch(`${apiUrl}/auth/user`, {
+                  method: "PATCH",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                  },
+                  body: JSON.stringify({_id: profile._id, data: newInfo})
+                })
+          
+                console.log(res)
+              })()
+        }
+    }, [newInfo])
+
+    useEffect(() => {
+        if (!isEmpty(profile)) {
+            localStorage.setItem("profile", JSON.stringify(profile));
+        }
+    }, [profile])
+
     const globalHooks = {
         errState: {
             err, setErr
@@ -77,7 +108,7 @@ export const GlobalProvider = ({ children }) => {
             token, setToken
         },
         userInfo: {
-            profile, setProfile
+            profile, setProfile, newInfo, setNewInfo
         }
     }
 

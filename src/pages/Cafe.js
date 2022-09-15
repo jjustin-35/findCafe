@@ -18,10 +18,12 @@ export const Cafe = () => {
   const [tags, setTags] = useState([]);
   const [stars, setStars] = useState(0);
   const [hoverStar, setHoverStar] = useState(0);
+  const [isComment, setIsComment] = useState(false);
   const [comment, setComment] = useState([]);
+  const [isFav, setIsFav] = useState(false);
 
   const { token } = useGlobal().auth;
-  const { profile } = useGlobal().userInfo;
+  const { profile, setProfile, setNewInfo } = useGlobal().userInfo;
   const { search, setSearch } = useGlobal().searchState;
   const { register, handleSubmit, formState: { errors } } = useForm();
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -31,6 +33,7 @@ export const Cafe = () => {
   document.title = theName;
 
   useEffect(() => {
+    
     const fetchCafe = async () => {
       let result = false;
       try {
@@ -58,7 +61,6 @@ export const Cafe = () => {
       try{
         let res = await fetch(`${apiUrl}/comment/${theName}`);
         res = await res.json();
-        console.log("res:" + res);
 
         setComment(res);
 
@@ -77,17 +79,24 @@ export const Cafe = () => {
     })()
   }, [theName])
 
+  useEffect(() => {
+    const { myFav = [] } = profile;
+    let [Fav] = myFav.filter(elem => elem._id === theCafe._id);
+
+    if (Fav) {
+      setIsFav(true);
+    }
+  }, [theCafe])
+
+  useEffect(() => {
+    setNewInfo({ myFav: profile.myFav._id });
+  }, [isFav])
+
   function isEmpty(obj) {
     for (let i in obj) {
       return false;
     }
     return true;
-  }
-
-  if (!isEmpty(theCafe)) {
-    const { address } = theCafe;
-
-    console.log(address);
   }
 
   const handleStar = (e) => {
@@ -107,7 +116,27 @@ export const Cafe = () => {
     }
   }
 
+  const handleMyFav = (e) => {
+    e.preventDefault();
+
+    if (!token) { return alert('請先登入') };
+
+    setIsFav(!isFav);
+
+    const { myFav = [] } = profile;
+    const newProfile = { ...profile };
+    if (!isFav) {
+      newProfile.myFav = [...myFav, theCafe];
+    } else {
+      newProfile.myFav = myFav.filter(elem => elem._id !== theCafe._id);
+    }
+
+    setProfile(newProfile)
+  }
+
   const onSubmit = async (data) => {
+    setIsComment(true);
+
     data.cafe = theCafe._id;
     data.user = profile.email;
     data.tags = tags;
@@ -123,6 +152,8 @@ export const Cafe = () => {
     })
 
     console.log(result);
+
+    window.location.reload();
   }
 
   return (
@@ -133,7 +164,7 @@ export const Cafe = () => {
             <div className="d-flex mb-2 flex-wrap">
               {theCafe.photo ? <img src={theCafe.photo[0]} alt="" className='title-img me-md-1' /> : <div className='title-img me-md-1'><img src={`${local}/img/noPic.png`} alt="no picture" className='w-100 h-100'/></div>}
               <div>
-                <h2 className="fs-2 mb-1">{theCafe.name} </h2>
+                <h2 className="fs-2 mb-1 me-1">{theCafe.name} <a href="" className={'hover ' + (!isFav ? "hover-show" : "")} onClick={handleMyFav}><span className={"bi " + (isFav ? "bi-bookmark-fill text-red" : "bi-bookmark text-black")}></span></a></h2>
                 <p className="text-gray-500">{ address.country + "," + address.districts + " ," + address.mrt }</p>
                 <Stars cafe={ theCafe } />
               </div>
@@ -162,8 +193,8 @@ export const Cafe = () => {
 
                 date = date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
                 return (
-                  <div className="d-flex justify-content-between mb-1">
-                    {aComment.user.thumbnail ? <img src={aComment.user.thumbnail} alt="" className="rounded-circle me-1" height="50" width="50" /> : <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-person-circle me-1" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" /><path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" /></svg>}
+                  <div className="d-flex justify-content-between align-items-start mb-1">
+                    {aComment.user.thumbnail ? <div className="rounded-circle text-center nav-profile bg-white me-0-5"><img src={aComment.user.thumbnail} alt="" className='h-100'/></div> : <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-person-circle me-1" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" /><path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" /></svg>}
                     <div className="d-flex w-100 justify-content-between">
                       <div>
                         <h4 className="fs-1-5 fw-bold">{ aComment.user.name }<span className='ms-0-5 fs-1 text-light d-block d-md-inline'>{date}</span></h4>
@@ -182,8 +213,8 @@ export const Cafe = () => {
             {!token ? <p className="fs-1-5 text-gray text-center">請先<Link to="/login" className="text-blue">登入</Link>再留言</p> : <form action="" onSubmit={handleSubmit(onSubmit)}>
               <div className="d-flex justify-content-between mb-1">
                 <div className="d-flex align-items-center">
-                {profile.thumbnail ? <img src={profile.thumbnail} alt="" className='rounded-circle me-1' width="50" height="50"/> : <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-person-circle me-1" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" /><path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" /></svg>}
-                  <h4 className="fs-2">{profile.name}</h4>
+                {profile.thumbnail ? <div className="rounded-circle text-center nav-profile bg-white me-0-25"><img src={profile.thumbnail} alt="" className='h-100'/></div> : <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-person-circle me-1" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" /><path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" /></svg>}
+                  <h4 className="fs-2 mb-0">{profile.name}</h4>
                 </div>
                 <div>
                   <a className={'bi bi-star-fill text-light fs-1-5 hover hover-text-yellow' + (stars >= 1 ? " text-yellow" : "") + (hoverStar >= 1 ? " text-yellow" : "")} onClick={handleStar} onMouseEnter={(e)=>{setHoverStar(e.target.id)}} id="1"></a>

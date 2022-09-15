@@ -96,7 +96,7 @@ export const Find = () => {
 
     return (
       <div className='py-5 container position-relative'>
-        <h2 className="fs-3 fw-bold mb-3 text-center text-primary">搜尋</h2>
+        {/* <h2 className="fs-3 fw-bold mb-3 text-center text-primary">搜尋</h2> */}
         <div className="row">
           <div className="col-lg-3 mb-1-5 mb-md-0 d-none d-lg-block">
           <form action="" onSubmit={handleSubmit(onSubmit)} className=" text-primary border border-black bg-info rounded-3 accordion pb-1">

@@ -17,8 +17,6 @@ export const Board = (props) => {
     const [perCafe, setPerCafe] = useState([]);
     const [isData, setIsData] = useState(true);
 
-    console.log(queryUrl)
-
     // function
     const isEmpty = (obj) => {
         for (let i in obj) {
@@ -45,13 +43,11 @@ export const Board = (props) => {
                 }
             }
         }
-        console.log(queryUrl);
         console.log(queryString);
 
         (async () => {
             try {
                 let result = await fetch(queryUrl + "?" + queryString);
-                console.log(result);
                 result = await result.json();
 
                 const { length, cafes } = result;

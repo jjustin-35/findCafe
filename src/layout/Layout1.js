@@ -11,7 +11,6 @@ export const Layout1 = ({ outlet }) => {
       setLoad(false)
     }, 2000)
   }, [])
-
   
   if (load) {
     return (

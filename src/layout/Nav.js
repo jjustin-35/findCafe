@@ -41,11 +41,11 @@ const NavOptions = () => {
     return (
       <ul className="navbar-nav align-items-center">
         <li className="nav-item"><Link to="/search" className="nav-link text-white fs-1-5" onClick={navToSearch}>搜尋咖啡廳</Link></li>
-        <li className="nav-item"><a href="" className="nav-link text-white fs-1-5">我的最愛</a></li>
+        <li className="nav-item"><Link to="/profile" className="nav-link text-white fs-1-5">我的最愛</Link></li>
         {/* <li className="nav-item me-lg-0-5"><Link to="/add_cafe" className="nav-link text-white fs-1-5">新增店家</Link></li> */}
         <li className="nav-item dropdown">
-          <a href="" className="nav-link text-white rounded-circle d-none d-lg-inline" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="navbarDropdownMenuLink">
-            {false ? <img src="" alt="" /> : <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" /><path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" /></svg>}
+          <a href="" className="nav-link text-white rounded-circle d-none d-lg-block" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="navbarDropdownMenuLink">
+            {profile.thumbnail ? <div className="rounded-circle text-center nav-profile bg-white"><img src={profile.thumbnail} alt="" className='h-100'/></div> : <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" /><path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" /></svg>}
           </a>
           <ul className="dropdown-menu dropdown-menu-dark m-0" aria-labelledby="navbarDropdownMenuLink">
             <li><p className='text-center pt-0-5 text-white'>{profile.name}，您好</p></li>
