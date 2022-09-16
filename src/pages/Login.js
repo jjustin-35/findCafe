@@ -106,11 +106,11 @@ export const Login = () => {
                     </div>
                     
                     </form>
-                    <div className=' mx-auto row flex-column align-items-center'>
+                    {/* <div className=' mx-auto row flex-column align-items-center'>
                         <p className="seperator fs-1-25">or</p>
                         <button className="btn btn-blue text-white mb-1 w-50" onClick={()=>onAuth(FbAuth)}>Facebook 登入</button>
                         <button className="btn btn-orange text-white w-50" onClick={()=>onAuth(GoogleAuth)}>Google 登入</button>
-                    </div>  
+                    </div>   */}
                   </div>
               </div>
           </div>
