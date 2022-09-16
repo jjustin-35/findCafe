@@ -126,9 +126,9 @@ export const Cafe = () => {
     const { myFav = [] } = profile;
     const newProfile = { ...profile };
     if (!isFav) {
-      newProfile.myFav = [...myFav, theCafe];
+      newProfile.myFav = [...myFav, theCafe._id];
     } else {
-      newProfile.myFav = myFav.filter(elem => elem._id !== theCafe._id);
+      newProfile.myFav = myFav.filter(elem => elem !== theCafe._id);
     }
 
     setProfile(newProfile)
