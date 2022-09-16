@@ -89,7 +89,9 @@ export const Cafe = () => {
   }, [theCafe])
 
   useEffect(() => {
-    setNewInfo({ myFav: profile.myFav._id });
+    if (profile.myFav?._id) {
+      setNewInfo({ myFav: profile.myFav._id });
+    }
   }, [isFav])
 
   function isEmpty(obj) {
