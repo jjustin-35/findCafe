@@ -27,10 +27,10 @@ const NavOptions = () => {
     return (
       <ul className="navbar-nav align-items-center">
         <li className="nav-item"><Link to="/search" className="nav-link p-lg-0 searchCafe text-white fs-1-5" onClick={navToSearch}>搜尋咖啡廳</Link></li>
-        <li className="nav-item"><Link to='/login' replace={true} type="button" className="btn btn-outline-white me-md-1-25 rounded-pill px-2 d-lg-block d-none" onClick={()=>{setErr("")}}>登入</Link></li>
+        <li className="nav-item"><Link to='/login' type="button" className="btn btn-outline-white me-md-1-25 rounded-pill px-2 d-lg-block d-none" onClick={()=>{setErr("")}}>登入</Link></li>
         <li className="nav-item"><Link to='/signup' replace={true} type="button" className="btn btn-white rounded-pill px-2 d-lg-block d-none" onClick={()=>{setErr("")}}>註冊</Link></li>
         <li className="nav-item d-lg-none">
-          <Link to='/login' replace={true} className='nav-link text-white fs-1-5 text-decoration-none' onClick={()=>{setErr("")}}>登入</Link>
+          <Link to='/login' className='nav-link text-white fs-1-5 text-decoration-none' onClick={()=>{setErr("")}}>登入</Link>
         </li>
         <li className="nav-item d-lg-none">
           <Link to='/signup' replace={true} className='nav-link text-white fs-1-5 text-decoration-none' onClick={()=>{setErr("")}}>註冊</Link>

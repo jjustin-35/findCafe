@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useGlobal } from '../context/GlobalProvider';
 import { Message } from '../components/Message';
 import {useForm} from 'react-hook-form';
@@ -9,6 +9,7 @@ export const Login = () => {
     document.title = "找找咖啡 | 登入"
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
+    const { state } = useLocation();
 
     const api = process.env.REACT_APP_API_URL;
     const authapi = `${api}/auth/login`;
@@ -47,7 +48,7 @@ export const Login = () => {
                 localStorage.setItem('token', token);
                 localStorage.setItem('profile', JSON.stringify(user));
                 alert('登入成功!')
-                navigate(-1);
+                navigate(state);
             }
         } catch (err) {
             setErr('出現問題，請稍後再試');

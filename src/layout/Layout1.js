@@ -6,11 +6,16 @@ import { useEffect, useState } from 'react';
 
 export const Layout1 = ({ outlet }) => {
   const [load, setLoad] = useState(true);
+  const [top, setTop] = useState(0);
   useEffect(() => {
     setTimeout(() => {
       setLoad(false)
     }, 2000)
   }, [])
+
+  window.addEventListener('scroll', (e) => {
+    setTop(window.scrollY)
+  })
   
   if (load) {
     return (
@@ -26,10 +31,15 @@ export const Layout1 = ({ outlet }) => {
     )
   }
   return (
-      <div>
-          <Navbar />
-          <Outlet/>
-          <Footer/>
+    <div>
+      <Navbar />
+      {top !== 0 && (<div className='position-fixed w-fit end-3 bottom-4 rounded-circle w-lg-5 h-5 bg-normal opacity-75 d-flex justify-content-center align-items-center'>
+        <a href="" onClick={e => { e.preventDefault(); window.scroll(0, 0) }}>
+          <span className='fs-2-5 bi bi-chevron-double-up text-white'></span>
+        </a>
+      </div>)}
+      <Outlet />
+      <Footer/>
     </div>
   )
 }

@@ -403,7 +403,7 @@ $spacers: (
 $base-percent: 5%;
 $percentage: (
   0: $base-percent * 0,
-  5: $base-percent * 1,
+  "5per": $base-percent * 1,
   10: $base-percent * 2,
   15: $base-percent * 3,
   20: $base-percent * 4,

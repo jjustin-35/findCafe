@@ -19,7 +19,12 @@ export const MyComment = () => {
             if (comment.length !== 0) {
                 let condition = "";
                 for (let aComment of comment) {
-                    condition += `_id=${aComment.cafe}&`;
+                    if (!aComment.cafe._id) {
+                        condition += `_id=${aComment.cafe}&`;
+                    } else {
+                        condition +=  `_id=${aComment.cafe._id}&`
+                    }
+                    
                 }
                 console.log(condition);
                 let res = await fetch(`${apiUrl}/cafe?${condition}`);
@@ -38,7 +43,7 @@ export const MyComment = () => {
                 setLoading(false);
             }
         })()
-    }, [])
+    }, [comment])
 
     const handleAddress = (address) => {
         const { country, districts } = address;

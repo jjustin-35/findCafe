@@ -19,6 +19,7 @@ export const MyFav = () => {
             if (myFav.length !== 0) {
                 let condition = "";
                 for (let fav of myFav) {
+                    console.log(fav);
                     condition += `_id=${fav}&`
                 }
                 console.log(condition);
@@ -26,10 +27,10 @@ export const MyFav = () => {
                 res = await res.json();
 
                 setTheFav(res.cafes);
-                setLoading(false);
             }
+            setLoading(false);
         })()
-    }, [])
+    }, [myFav])
 
     const handleAddress = (address) => {
         const { country, districts } = address;
