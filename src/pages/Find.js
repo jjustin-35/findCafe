@@ -98,6 +98,7 @@ export const Find = () => {
     querys.star = stars;
 
     setSearch(querys);
+    setNowPage(0);
   }
 
     return (
