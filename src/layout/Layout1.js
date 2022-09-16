@@ -37,7 +37,7 @@ export const Layout1 = ({ outlet }) => {
         <a href="" onClick={e => { e.preventDefault(); window.scroll(0, 0) }}>
           <span className='fs-2-5 bi bi-chevron-double-up text-white'></span>
         </a>
-      </div>)}
+      </div>)} 
       <Outlet />
       <Footer/>
     </div>
