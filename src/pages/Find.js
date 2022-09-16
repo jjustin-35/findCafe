@@ -55,6 +55,12 @@ export const Find = () => {
     stations = stations.map((station) => station.StationName.Zh_tw);
 
     setStation(stations);
+
+    line.forEach((elem) => {
+      if (e.target.value === elem.id) {
+        e.target.value = elem.name;
+      }
+    })
   }
 
   const onSubmit = (data) => {
