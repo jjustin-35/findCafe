@@ -68,11 +68,11 @@ export const Signup = () => {
                             })} />
                             <Message err={errors.email?.message} />
                             <label htmlFor="pwd" className='mb-0-5'>密碼</label>
-                            <input type="password" id="pwd" className="form-control mb-1" {...register('password', {
+                            <input type="password" id="pwd" className="form-control mb-1" placeholder='請輸入8~16個大小寫字母及數字' {...register('password', {
                                 required: { value: true, message: '必填' },
                                 pattern: { value: /.*[A-Z]+.*[0-9]+.*|.*[0-9]+.*[A-Z]+.*/g, message: '密碼錯誤' },
                                 minLength: {value:8, message: '密碼錯誤'}
-                            })}/>
+                            })} />
                             <Message err={errors.password?.message} />
                             
                             <label htmlFor="pwd1check" className='mb-0-5'>請再輸入一次密碼</label>
