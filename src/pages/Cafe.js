@@ -23,6 +23,7 @@ export const Cafe = () => {
   const [isFav, setIsFav] = useState(false);
 
   const { token } = useGlobal().auth;
+  const [ err, setErr ] = useState("");
   const { profile, setProfile, setNewInfo } = useGlobal().userInfo;
   const { search, setSearch } = useGlobal().searchState;
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -144,6 +145,8 @@ export const Cafe = () => {
     data.tags = tags;
     data.stars = stars;
 
+    if(stars === 0){return (setErr("請輸入星星!"))}
+
     const result = await fetch(apiUrl + `/comment/add`, {
       headers: {
         "Content-type": "application/json",
@@ -240,6 +243,7 @@ export const Cafe = () => {
                   },
                 })} />
                 <Message err={errors.message?.comment} />
+                <Message err={err} />
               </div>
               <button className="btn btn-primary px-1-5 py-0-5">留言</button>
             </form>}
