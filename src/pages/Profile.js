@@ -93,7 +93,7 @@ export const Profile = () => {
                 {address && <p>{address}</p>}
                   <p>{ email }</p>
                   <div>
-                      <button className="btn btn-outline-primary" onClick={onEdit}>編輯個人資料</button>
+                      <button className="btn btn-outline-primary me-0-5" onClick={onEdit}>編輯個人資料</button>
                       <button className="btn btn-outline-primary">修改密碼</button>
                   </div>
             </div>

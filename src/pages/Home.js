@@ -14,14 +14,14 @@ export const Home = () => {
   const countries = areas.map((area) => area.name);
   countries.unshift('請選擇');
   const [keyword, setKeyword] = useState('');
-  const [address, setAddress] = useState('');
+  const [country, setCountry] = useState('');
 
   const localUrl = process.env.PUBLIC_URL;
 
   async function handleSearch(e) {
     e.preventDefault();
-    if (keyword || address) {
-      setSearch({ keyword, address });
+    if (keyword || country) {
+      setSearch({ keyword, address: {country} });
     }
     
     navigate('/search');
@@ -37,7 +37,7 @@ export const Home = () => {
               <div className="mb-1 d-flex justify-content-center justify-content-md-start">
                 <input type="text" placeholder='搜尋關鍵字' className='me-md-1 me-0-5 p-0-5 fs-1 rounded-2 banner__search' onChange={(e) => { setKeyword(e.target.value) }} value={keyword} />
                 <FormProvider {...useForm()}>
-                  <Select opt={countries} name='countries' id='' className='d-inline fs-1 py-0-5' onChange={ (e)=>{setAddress(e.target.value)} } />
+                  <Select opt={countries} name='countries' id='' className='d-inline fs-1 py-0-5' onChange={ (e)=>{setCountry(e.target.value)} } />
                 </FormProvider>
                 
               </div>

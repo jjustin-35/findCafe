@@ -47,11 +47,11 @@ export const Signup = () => {
       <div className='bg-image bg-image-signup'>
           <div className='container py-5'>
           <div className="row justify-content-end">
-              <div className="col-lg-5 col-12">
+              <div className="col-lg-4 col-12">
                   <div className="p-1-5 border rounded-5 shadow bg-auth">
                   <h2 className='fs-2 fw-bold text-center mb-3'>註冊</h2>
-                    <form action="" onSubmit={handleSubmit(onSubmit)} className='mb-2 mx-auto'>
-                        <div className='mb-1-5'>
+                    <form action="" onSubmit={handleSubmit(onSubmit)} className='mx-auto'>
+                        <div className='mb-2-5'>
                             <label htmlFor="name" className="mb-0-5">姓名</label>
                             <input type="text" className="form-control mb-1" {...register('name', {
                                 required: {value: true, message: '請填寫姓名'},
@@ -84,12 +84,12 @@ export const Signup = () => {
                         </div>
                         
                         <Message err={err} />
-                        <div className=' w-fit mx-auto'>
-                        <button className="btn btn-primary d-block text-white px-1-5 mb-0-5" disabled={loading}><span className={loading ? "spinner-border text-primary spinner-border-sm" : ""}></span>註冊</button>
-                        <div>
-                                已有帳號? 
-                                <Link to="/login">登入</Link>
-                            </div>
+                        <div className=' mx-auto'>
+                        <button className="btn btn-primary d-block text-white w-100 mb-1" disabled={loading}><span className={loading ? "spinner-border text-primary spinner-border-sm" : ""}></span>註冊</button>
+                        <div className='text-normal text-center'>
+                            已有帳號? 
+                            <Link to="/login" className=' text-normal'>登入</Link>
+                        </div>
                         </div>
                     </form>
                   </div>

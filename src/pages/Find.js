@@ -15,7 +15,7 @@ export const Find = () => {
   const tags = ['有wifi', '座位多', '環境安靜', '餐點好吃', '東西便宜', '音樂好聽'];
   const enTags = ['wifi', 'seat', 'quiet', 'tasty', 'cheap', 'music'];
 
-  const { register, handleSubmit, formState: { errors } } = useForm({shouldUnregister: true});
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm({shouldUnregister: true});
   const methods = { register, handleSubmit, errors };
   const { areas } = useGlobal().address;
   const { setSearch } = useGlobal().searchState;
@@ -66,6 +66,7 @@ export const Find = () => {
   const onSubmit = (data) => {
     let querys = {};
     let { country, districts, location, station, mrtLine, other, keyword, ...datas } = data;
+    console.log(data)
     // other
     if (other && keyword) {
       querys.keyword = keyword;
@@ -82,11 +83,12 @@ export const Find = () => {
     let stars = [];
     for (let prop in datas) {
       const star = prop.match("star");
+      
       if (star) {
-        if (datas[prop]) {
+        if (datas[prop] && datas[prop].length !== 0) {
           stars = [...stars, Number(prop.replace(star[0], ""))]
         }
-      } else if (datas[prop]) {
+      } else if (datas[prop] && datas[prop].length !== 0) {
         for (let tag of enTags) {
           if (prop === tag) {
             datas[prop] = "$gte4";
@@ -119,7 +121,7 @@ export const Find = () => {
                       <Address getLocation={false} parentClass="w-100 mb-1"/>
                       <fieldset className='w-100'>
                         <legend className='w-fit me-0-5 fs-1'>捷運站: </legend>
-                        <div className='d-flex'>
+                        <div className='d-flex flex-wrap'>
                           <Select opt={['請選擇', ...(line.map(elem => elem.name))]} optValue={[null, ...(line.map(elem => elem.id))]} onChange={getStation} name='mrtLine' />
                           <Select opt={station} name="station"/>
                         </div>

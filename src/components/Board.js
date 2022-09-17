@@ -131,11 +131,11 @@ export const Board = (props) => {
                                     <div className="card h-100">
                                         <div className="card-body">
                                             <div className="d-flex justify-content-between">
-                                                <div className="card-tilte fs-1-5 fw-bold">{cafe.name}</div>
+                                                <div className={"card-tilte fw-bold me-0-5 " + (cafe.name.length >= 10 ? "fs-1" : "fs-1-25")}>{cafe.name}</div>
                                                 <Stars cafe={ cafe } />
                                             </div>
                                                 <p className="text-normal">{ handleAddress(cafe.address) }</p>
-                                                <Tag cafe={ cafe } />
+                                                <Tag cafe={ cafe } className="fs-0-75 mb-0"/>
                                         </div>
                                     </div>
                                     </Link>

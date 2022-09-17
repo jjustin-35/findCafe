@@ -68,13 +68,13 @@ export const Login = () => {
 
     return (
         <section className="bg-image bg-image-login">
-            <div className='container py-5'>
+        <div className='container py-5'>
           <div className="row justify-content-end">
-              <div className="col-lg-5 col-12">
+              <div className="col-lg-4 col-12">
                   <div className="border rounded-5 p-1-5 bg-auth shadow">
                   <h2 className='fs-2 fw-bold text-center mb-3'>登入</h2>
-                    <form action="" onSubmit={handleSubmit(onSubmit)} className='mb-2 mx-auto'>
-                    <div className='mb-1-5'>
+                    <form action="" onSubmit={handleSubmit(onSubmit)} className=' mx-auto'>
+                    <div className='mb-1'>
                     <label htmlFor="email" className='mb-0-5'>email</label>
                         <input type="text" id="email" className="form-control mb-1"{...register('email', {
                             required: { value: true, message: '請填寫email' },
@@ -83,25 +83,20 @@ export const Login = () => {
                         })} />
                         <Message err={errors.email?.message} />
                         <label htmlFor="pwd" className='mb-0-5'>密碼</label>
-                        <input type="password" className="form-control mb-1" {...register('password', {
+                        <input type="password" className="form-control mb-2-5" {...register('password', {
                             required: { value: true, message: '密碼錯誤' },
                             pattern: { value: /.*[A-Z]+.*[0-9]+.*|.*[0-9]+.*[A-Z]+.*/g, message: '密碼錯誤' },
                             minLength: {value:8, message: '密碼錯誤'}
                         })} />
                         <Message err={errors.password?.message} />
                     </div>
-
-                    {err && <Message err={err} />}
-                    <div className=' w-fit mx-auto'>
-                        <button className="btn btn-primary d-block text-white px-1-5 mb-0-5" disabled={loading}>
+                        {err && <Message err={err} />}
+                    <div className=' mx-auto'>
+                        <button className="btn btn-primary d-block text-white px-1-5 mb-1 w-100" disabled={loading}>
                             <span className={ loading ? "spinner-border spinner-border-sm me-0-5" : ""}></span>登入
                         </button>
-                    <div>
-                            尚未註冊? 
-                            <Link to="/signup">註冊</Link>
-                        </div>
-                    <div>
-                            <Link to="/forgotpwd">忘記密碼</Link>
+                        <div className='text-center'>
+                            <Link to="/forgotpwd"className='text-normal'>忘記密碼?</Link>
                         </div>
                     </div>
                     
@@ -111,7 +106,8 @@ export const Login = () => {
                         <button className="btn btn-blue text-white mb-1 w-50" onClick={()=>onAuth(FbAuth)}>Facebook 登入</button>
                         <button className="btn btn-orange text-white w-50" onClick={()=>onAuth(GoogleAuth)}>Google 登入</button>
                     </div>   */}
-                  </div>
+                </div>
+                
               </div>
           </div>
       </div>

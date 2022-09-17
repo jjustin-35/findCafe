@@ -33,9 +33,9 @@ export const Layout1 = ({ outlet }) => {
   return (
     <div>
       <Navbar />
-      {top !== 0 && (<div className='position-fixed end-3 bottom-4 rounded-circle w-lg-5 h-lg-5 w-3 h-3 bg-normal opacity-75 d-flex justify-content-center align-items-center z-1'>
+      {top !== 0 && (<div className='position-fixed end-3 bottom-4 rounded-circle w-lg-3-5 h-lg-3-5 w-3 h-3 bg-normal opacity-50 d-flex justify-content-center align-items-center z-1'>
         <a href="" onClick={e => { e.preventDefault(); window.scroll(0, 0) }}>
-          <span className='fs-2-5 bi bi-chevron-double-up text-white'></span>
+          <span className='fs-1-5 bi bi-chevron-double-up text-white'></span>
         </a>
       </div>)} 
       <Outlet />

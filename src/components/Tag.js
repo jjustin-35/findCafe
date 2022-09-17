@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Tag = ({ cafe }) => {
+export const Tag = ({ cafe, className }) => {
     let tags = [];
     const getTag = (obj) => {
         const { rank } = obj;
@@ -36,6 +36,6 @@ export const Tag = ({ cafe }) => {
     }
     
   return (
-    <ul className='d-flex list-unstyled'>{tags.map((tag, i) => <li className=' badge text-black rounded-pill fs-1 fw-normal me-0-25 bg-gray-light px-0-75 py-0-25' key={tag + i}>{ tag }</li>)}</ul>
+    <ul className={'d-flex list-unstyled ' + className}>{tags.map((tag, i) => <li className={' badge text-black rounded-pill fw-normal me-0-25 bg-gray-light px-0-75 py-0-25'} key={tag + i}>{ tag }</li>)}</ul>
   )
 }
