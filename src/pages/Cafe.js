@@ -100,7 +100,7 @@ export const Cafe = () => {
 
   useEffect(() => {
     if (!isEmpty(profile)) {
-      setNewInfo({ myFav: profile.myFav[profile.length - 1] });
+      setNewInfo({ myFav: profile.myFav[profile.myFav.length - 1] });
     }
   }, [isFav])
 
