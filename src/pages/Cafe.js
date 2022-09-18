@@ -91,7 +91,7 @@ export const Cafe = () => {
 
   useEffect(() => {
     if (!isEmpty(profile)) {
-      setNewInfo({ myFav: profile.myFav._id });
+      setNewInfo({ myFav: profile.myFav[profile.length - 1] });
     }
   }, [isFav])
 
@@ -144,6 +144,9 @@ export const Cafe = () => {
     data.user = profile.email;
     data.tags = tags;
     data.stars = stars;
+
+    const newProfile = {...profile};
+    newProfile.comment.push(data);
 
     if(stars === 0){return (setErr("請輸入星星!"))}
 
