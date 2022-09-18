@@ -79,12 +79,14 @@ export const Cafe = () => {
       console.log("cafe statement:" + cafeResult, "comment statement:" + commentResult)
     })()
 
-    for (let fav of profile.myFav) {
-      if (fav.cafe === theCafe._id) {
-        setIsFav(true)
+    if(profile.myFav){
+      for (let fav of profile.myFav) {
+        if (fav.cafe === theCafe._id) {
+          setIsFav(true)
+        }
       }
+      setIsFav(false)
     }
-    setIsFav(false)
   }, [theName])
 
   useEffect(() => {
