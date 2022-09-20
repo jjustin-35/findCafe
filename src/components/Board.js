@@ -55,10 +55,12 @@ export const Board = (props) => {
                 console.log(cafes);
                 if (cafes.length === 0) {
                     setIsData(false);
+                } else {
+                    setIsData(true);
                 }
                 setCafes(cafes);
                 if (setPages) {
-                    setPages((length%perpage === 0 ? length/perpage : (length/perpage + 1)));
+                    setPages((length % perpage === 0 ? length / perpage : (length / perpage + 1)));
                 }
             } catch (err) {
                 console.log(err)

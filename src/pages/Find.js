@@ -118,7 +118,7 @@ export const Find = () => {
                 <div className="accordion-collapse collapse show" id='accordion1'>
                   <div className="accordion-body">
                     <FormProvider {...methods}>
-                      <Address getLocation={false} parentClass="w-100 mb-1"/>
+                      <Address getLocation={false} parentClass="w-100 mb-1 flex-xl-nowrap flex-wrap"/>
                       <fieldset className='w-100'>
                         <legend className='w-fit me-0-5 fs-1'>捷運站: </legend>
                         <div className='d-flex flex-wrap'>
@@ -137,12 +137,12 @@ export const Find = () => {
                   <button className="accordion-button bg-info" data-bs-toggle="collapse" data-bs-target="#accordion2" aria-expanded="true" onClick={(e)=>{e.preventDefault()}}>評價</button>
                 </h3>
                 <div className='accordion-collapse collapse show' id='accordion2'>
-                  <div className='accordion-body bg-info d-flex justify-content-between flex-wrap'>
-                  <div className="form-check"><input id="star1" className="form-check-input" {...register('star1')} type="checkbox"/><label htmlFor="star1" className='form-check-label'>1星</label></div>
-                    <div className="form-check"><input id="star2" className="form-check-input" {...register('star2')} type="checkbox"/><label htmlFor="star2" className='form-check-label'>2星</label></div>
-                    <div className="form-check"><input id="star3" className="form-check-input" {...register('star3')} type="checkbox"/><label htmlFor="star3" className='form-check-label'>3星</label></div>
-                    <div className="form-check"><input id="star4" className="form-check-input" {...register('star4')} type="checkbox"/><label htmlFor="star4" className='form-check-label'>4星</label></div>
-                    <div className="form-check"><input id="star5" className="form-check-input" {...register('star5')} type="checkbox"/><label htmlFor="star5" className='form-check-label'>5星</label></div>
+                  <div className='accordion-body bg-info d-flex justify-content-xl-between justify-content-lg-start justify-content-between flex-wrap'>
+                  <div className="form-check me-0 me-lg-1 me-xl-0"><input id="star1" className="form-check-input" {...register('star1')} type="checkbox"/><label htmlFor="star1" className='form-check-label'>1星</label></div>
+                    <div className="form-check me-0 me-lg-1 me-xl-0"><input id="star2" className="form-check-input" {...register('star2')} type="checkbox"/><label htmlFor="star2" className='form-check-label'>2星</label></div>
+                    <div className="form-check me-0 me-lg-1 me-xl-0"><input id="star3" className="form-check-input" {...register('star3')} type="checkbox"/><label htmlFor="star3" className='form-check-label'>3星</label></div>
+                    <div className="form-check me-0 me-lg-1 me-xl-0"><input id="star4" className="form-check-input" {...register('star4')} type="checkbox"/><label htmlFor="star4" className='form-check-label'>4星</label></div>
+                    <div className="form-check me-0 me-lg-1 me-xl-0"><input id="star5" className="form-check-input" {...register('star5')} type="checkbox"/><label htmlFor="star5" className='form-check-label'>5星</label></div>
                   </div>
               </div>
             </div>
@@ -241,7 +241,7 @@ export const Find = () => {
                 })}
                 <div className="form-check">
                   <input type="checkbox" {...register("other")} className="form-check-input" id="other" />
-                  <label htmlFor="other" className="form-check-label me-1">其他</label><input type="text" className="form-control-inline rounded-1" {...register("otherInput")} /></div>
+                  <label htmlFor="other" className="form-check-label me-1">其他</label><input type="text" className="form-control-inline rounded-1 w-100" {...register("otherInput")} /></div>
                   </div>
               </div>
             </div>
