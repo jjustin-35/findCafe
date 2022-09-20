@@ -83,7 +83,7 @@ export const Login = () => {
                         })} />
                         <Message err={errors.email?.message} />
                         <label htmlFor="pwd" className='mb-0-5'>密碼</label>
-                        <input type="password" className="form-control mb-2-5" {...register('password', {
+                        <input type="password" className="form-control" {...register('password', {
                             required: { value: true, message: '密碼錯誤' },
                             pattern: { value: /.*[A-Z]+.*[0-9]+.*|.*[0-9]+.*[A-Z]+.*/g, message: '密碼錯誤' },
                             minLength: {value:8, message: '密碼錯誤'}
@@ -91,7 +91,7 @@ export const Login = () => {
                         <Message err={errors.password?.message} />
                     </div>
                         {err && <Message err={err} />}
-                    <div className=' mx-auto'>
+                    <div className=' mx-auto mt-2-5'>
                         <button className="btn btn-primary d-block text-white px-1-5 mb-1 w-100" disabled={loading}>
                             <span className={ loading ? "spinner-border spinner-border-sm me-0-5" : ""}></span>登入
                         </button>

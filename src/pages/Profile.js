@@ -16,7 +16,7 @@ export const Profile = () => {
     const { profile, setProfile, setNewInfo } = useGlobal().userInfo;
     let { address = null, thumbnail = null, email, name } = profile;
     const [img, setImg] = useState(thumbnail);
-    address = address ? address.country + address.districts : null;
+    address = address ? (address.country + address.districts) : null;
 
     const methods = useForm();
     const { register, handleSubmit, formState: { errors } } = methods;
@@ -48,6 +48,20 @@ export const Profile = () => {
       }
 
     const onSubmit = (data) => {
+         // set new profile        
+         let info = { ...profile };
+        for (let i in data) {
+            if (i) {
+                if (i === "country" || i === "districts") {
+                    info.address[i] = data[i];
+                } else {
+                    info[i] = data[i];
+                }
+             }
+         }
+         
+        setProfile(info);
+        
         // change the name
         delete Object.assign(data, {["address.country"]: data["country"] })["country"];
         delete Object.assign(data, {["address.districts"]: data["districts"] })["districts"];
@@ -65,16 +79,6 @@ export const Profile = () => {
         }
 
         setNewInfo(data);
-
-        // set new profile        
-        let info = { ...profile };
-        for (let i in data) {
-            if (i) {
-                info[i] = data[i];
-            }
-        }
-        
-        setProfile(info);
         setIsEdit(false);
     }
     
