@@ -7,21 +7,32 @@ export const Address = (props) => {
   const { register } = useFormContext();
     const { parentClass = "", childClass = "", getLocation = false, labelClass = ""} = props;
 
-    const { areas, setAreas } = useGlobal().address;
+  const { areas, setAreas } = useGlobal().address;
   const [dist, setDist] = useState([]);
   const [country, setCountry] = useState("");
+  const [nowDist, setNowDist] = useState("");
 
     const countries = areas.map(area => area.name);
     const countriesOpt = countries.map(country => <option value={country} key={country}>{country}</option>);
 
     const handleCountry = (e) => {
       const country = e.target.value;
+      if (!country) {
+        setCountry("");
+        return setDist([]);
+      };
       setCountry(country)
 
-        let [theCountry] = areas.filter(area => area.name == country);
-        const {districts} = theCountry;
+      let [theCountry] = areas.filter(area => area.name == country);
+      const { districts } = theCountry;
+      
+      const theDist = districts.map((item) => {
+        return (
+            <option value={item.name} key={JSON.stringify(item)}>{ item.name }</option>
+        )
+      })
 
-        setDist(districts);
+      setDist(theDist);
     }
 
   return (
@@ -35,13 +46,9 @@ export const Address = (props) => {
           </div>
           <div>
           <label htmlFor="districts" className={`me-0-5 ${labelClass}`}>地區: </label>
-            <select {...register("districts")} className={`d-inline align-middle form-select w-fit ${childClass}`} id="districts">
-            <option value="">請選擇</option>
-                {dist.map((item) => {
-                    return (
-                        <option value={item.name} key={JSON.stringify(item)}>{ item.name }</option>
-                    )
-                })}
+          <select {...register("districts")} className={`d-inline align-middle form-select w-fit ${childClass}`} onChange={e=>{setNowDist(e.target.value)}} value={nowDist} id="districts">
+              <option value="">請選擇</option>
+                {dist}
             </select>
           </div>
           

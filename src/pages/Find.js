@@ -15,7 +15,7 @@ export const Find = () => {
   const tags = ['有wifi', '座位多', '環境安靜', '餐點好吃', '東西便宜', '音樂好聽'];
   const enTags = ['wifi', 'seat', 'quiet', 'tasty', 'cheap', 'music'];
 
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm({shouldUnregister: true});
+  const { register, handleSubmit, formState: { errors }, reset} = useForm({shouldUnregister: true});
   const methods = { register, handleSubmit, errors };
   const { areas } = useGlobal().address;
   const { setSearch } = useGlobal().searchState;
@@ -51,6 +51,10 @@ export const Find = () => {
     let stations = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Rail/Metro/StationOfLine/TRTC?%24format=JSON${theLine}`);
     stations = await stations.json();
 
+    if (!stations[0]) {
+      return setStation([])
+    }
+
     stations = stations[0].Stations;
     stations = stations.map((station) => station.StationName.Zh_tw);
 
@@ -74,7 +78,7 @@ export const Find = () => {
     // address
     let address = { country, districts, location, mrt: station }
     for (let i in address) {
-      if (!address[i]) {
+      if (!address[i] || address[i] === "請選擇") {
         delete address[i]
       }
     }
@@ -123,7 +127,7 @@ export const Find = () => {
                         <legend className='w-fit me-0-5 fs-1'>捷運站: </legend>
                         <div className='d-flex flex-wrap'>
                           <Select opt={['請選擇', ...(line.map(elem => elem.name))]} optValue={[null, ...(line.map(elem => elem.id))]} onChange={getStation} name='mrtLine' />
-                          <Select opt={station} name="station"/>
+                          <Select opt={["請選擇", ...station]} name="station"/>
                         </div>
                       </fieldset>
                     </FormProvider>
@@ -165,7 +169,7 @@ export const Find = () => {
                 })}
                 <div className="form-check">
                   <input type="checkbox" {...register("other")} className="form-check-input" id="other" />
-                  <label htmlFor="other" className="form-check-label me-1">其他</label><input type="text" className="form-control-inline rounded-1" {...register("keyword")} /></div>
+                  <label htmlFor="other" className="form-check-label me-1">其他</label><input type="text" className="form-control rounded-1" {...register("keyword")} /></div>
                   </div>
               </div>
             </div>
