@@ -82,7 +82,7 @@ export const Cafe = () => {
     if(profile.myFav){
       for (let fav of profile.myFav) {
         if (fav.cafe === theCafe._id) {
-          setIsFav(true)
+          return setIsFav(true)
         }
       }
       setIsFav(false)
@@ -91,7 +91,8 @@ export const Cafe = () => {
 
   useEffect(() => {
     const { myFav = [] } = profile;
-    let [Fav] = myFav.filter(elem => elem._id === theCafe._id);
+    let [Fav] = myFav.filter(elem => elem === theCafe._id);
+    console.log(Fav)
 
     if (Fav) {
       setIsFav(true);
@@ -100,7 +101,7 @@ export const Cafe = () => {
 
   useEffect(() => {
     if (!isEmpty(profile)) {
-      setNewInfo({ myFav: profile.myFav[profile.myFav.length - 1] });
+      setNewInfo({ myFav: profile.myFav});
     }
   }, [isFav])
 

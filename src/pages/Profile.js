@@ -48,6 +48,7 @@ export const Profile = () => {
       }
 
     const onSubmit = (data) => {
+        data.thumbnail = img;
          // set new profile        
          let info = { ...profile };
         for (let i in data) {
@@ -72,7 +73,6 @@ export const Profile = () => {
                 delete data[prop];
             }
         }
-        data.thumbnail = img;
 
         if (!data.thumbnail) {
             delete data.thumbnail;
