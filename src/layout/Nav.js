@@ -26,7 +26,7 @@ const NavOptions = () => {
     localStorage.removeItem('profile');
 
     setToken(null);
-    setProfile(null);
+    setProfile({});
   }
 
   const navToSearch = () => {

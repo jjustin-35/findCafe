@@ -55,6 +55,7 @@ export const Profile = () => {
             if (i) {
                 if (i === "country" || i === "districts") {
                     info.address[i] = data[i];
+                    console.log(info.address)
                 } else {
                     info[i] = data[i];
                 }
@@ -65,7 +66,7 @@ export const Profile = () => {
         
         // change the name
         delete Object.assign(data, {["address.country"]: data["country"] })["country"];
-        delete Object.assign(data, {["address.districts"]: data["districts"] })["districts"];
+        delete Object.assign(data, {["address.district"]: data["districts"] })["districts"];
 
         // delete unchange info
         for (let prop in data) {
