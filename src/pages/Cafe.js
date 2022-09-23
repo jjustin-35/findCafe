@@ -75,33 +75,24 @@ export const Cafe = () => {
 
     (async () => {
       const [cafeResult, commentResult] = await Promise.all([fetchCafe(), fetchComment()]);
-
-      console.log("cafe statement:" + cafeResult, "comment statement:" + commentResult)
     })()
 
-    if(profile.myFav){
-      for (let fav of profile.myFav) {
-        if (fav.cafe === theCafe._id) {
-          return setIsFav(true)
-        }
-      }
-      setIsFav(false)
-    }
   }, [theName])
 
   useEffect(() => {
     const { myFav = [] } = profile;
     let [Fav] = myFav.filter(elem => elem === theCafe._id);
-    console.log(Fav)
 
     if (Fav) {
       setIsFav(true);
+    } else {
+      setIsFav(false)
     }
   }, [theCafe])
 
   useEffect(() => {
     if (!isEmpty(profile)) {
-      setNewInfo({ myFav: profile.myFav});
+      setNewInfo({ myFav: profile.myFav });
     }
   }, [isFav])
 
@@ -168,8 +159,6 @@ export const Cafe = () => {
       method: "POST",
       body: JSON.stringify(data)
     })
-
-    console.log(result);
 
     window.location.reload();
   }

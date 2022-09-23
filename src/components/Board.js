@@ -43,7 +43,6 @@ export const Board = (props) => {
                 }
             }
         }
-        console.log(queryString);
 
         (async () => {
             try {
@@ -52,7 +51,6 @@ export const Board = (props) => {
 
                 const { length, cafes } = result;
 
-                console.log(cafes);
                 if (cafes.length === 0) {
                     setIsData(false);
                 } else {
