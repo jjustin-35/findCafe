@@ -41,6 +41,10 @@ export const Login = () => {
             } else {
                 const res = await response.json();
                 const { token, user } = res;
+                if (user.address) {
+                    delete Object.assign(user.address, {["districts"]: user.address["district"] })["district"];
+                }
+                
 
                 setToken(token);
                 setProfile(user);

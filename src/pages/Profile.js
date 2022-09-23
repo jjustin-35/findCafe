@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet } from 'react-router';
 import { useGlobal } from '../context/GlobalProvider';
 import { useForm, FormProvider } from 'react-hook-form';
 
@@ -16,7 +15,7 @@ export const Profile = () => {
     const { profile, setProfile, setNewInfo } = useGlobal().userInfo;
     let { address = null, thumbnail = null, email, name } = profile;
     const [img, setImg] = useState(thumbnail);
-    address = address ? (address.country + address.districts) : null;
+    let addressText = address ? (address.country + address.districts) : null;
 
     const methods = useForm();
     const { register, handleSubmit, formState: { errors } } = methods;
@@ -48,6 +47,7 @@ export const Profile = () => {
       }
 
     const onSubmit = (data) => {
+        const isDiff = !img ? false : img === profile.thumbnail ? false : true;
         data.thumbnail = img;
          // set new profile        
          let info = { ...profile };
@@ -75,7 +75,7 @@ export const Profile = () => {
             }
         }
 
-        if (!data.thumbnail) {
+        if (!data.thumbnail || !isDiff) {
             delete data.thumbnail;
         }
 
@@ -95,7 +95,7 @@ export const Profile = () => {
             </div>
             <div>
               <div className="h2 fs-2 fw-bold">{name}</div>
-                {address && <p>{address}</p>}
+                {addressText && <p>{addressText}</p>}
                   <p>{ email }</p>
                   <div>
                       <button className="btn btn-outline-primary me-0-5" onClick={onEdit}>編輯個人資料</button>
@@ -119,7 +119,7 @@ export const Profile = () => {
                                 required: {value: true, message: '請輸入姓名'}
                             })} />
                             <FormProvider {...methods}>
-                                <Address labelClass='d-none'/>
+                                  <Address labelClass='d-none' defaultValue={{country: address?.country, districts: address?.districts}} />
                             </FormProvider>
                             <input type="email" className="form-control" defaultValue={email} {...register('email', {
                                 required: { value: true, message: "請輸入email" },

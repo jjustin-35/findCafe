@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App';
 import './style/css/all.css';
@@ -8,9 +8,9 @@ import '../node_modules/bootstrap/dist/js/bootstrap.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <div>
+  <StrictMode>
     <HashRouter>
       <App />
     </HashRouter>
-  </div>
+  </StrictMode>
 );

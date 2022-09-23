@@ -5,24 +5,19 @@ import { useFormContext } from 'react-hook-form';
 
 export const Address = (props) => {
   const { register } = useFormContext();
-    const { parentClass = "", childClass = "", getLocation = false, labelClass = ""} = props;
+  const { parentClass = "", childClass = "", getLocation = false, labelClass = "", defaultValue} = props;
 
   const { areas, setAreas } = useGlobal().address;
   const [dist, setDist] = useState([]);
-  const [country, setCountry] = useState("");
-  const [nowDist, setNowDist] = useState("");
+  const [country, setCountry] = useState(defaultValue?.country || "");
+  const [nowDist, setNowDist] = useState(defaultValue?.districts || "");
 
     const countries = areas.map(area => area.name);
-    const countriesOpt = countries.map(country => <option value={country} key={country}>{country}</option>);
-
-    const handleCountry = (e) => {
-      const country = e.target.value;
-      if (!country) {
-        setCountry("");
-        return setDist([]);
-      };
-      setCountry(country)
-
+  const countriesOpt = countries.map(country => <option value={country} key={country}>{country}</option>);
+  
+  useEffect(() => {
+    if (country) {
+      
       let [theCountry] = areas.filter(area => area.name == country);
       const { districts } = theCountry;
       
@@ -34,12 +29,22 @@ export const Address = (props) => {
 
       setDist(theDist);
     }
+  }, [country])
+
+    const handleCountry = (e) => {
+      const country = e.target.value;
+      if (!country) {
+        setCountry("");
+        return setDist([]);
+      };
+      setCountry(country)
+    }
 
   return (
       <div className={`d-flex justify-content-between ${parentClass}`}>
           <div>
           <label htmlFor="country" className={`me-0-5 ${labelClass}`}>縣市: </label>
-            <select {...register("country")} className={`form-select d-inline align-middle w-fit ${childClass}`} id="country" onChange={handleCountry} value={country}>
+        <select {...register("country")} className={`form-select d-inline align-middle w-fit ${childClass}`} id="country" onChange={handleCountry} value={country}>
               <option value="">請選擇</option>
                 {countriesOpt}
             </select>

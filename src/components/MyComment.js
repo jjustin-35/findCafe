@@ -86,7 +86,7 @@ export const MyComment = () => {
                               let date = new Date(comment.time);
                               date = date.toLocaleDateString();
                 return (
-                    <div className="col-12 mb-1-5" key={cafe._id}>
+                    <div className="col-12 mb-1-5" key={`${cafe._id}-${comment._id}`}>
                         <Link to={`/cafe/${cafe.name}`} className='text-decoration-none'>
                             <div className="card h-100">
                                 <div className="card-body">
