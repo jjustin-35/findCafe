@@ -103,7 +103,7 @@ export const Cafe = () => {
           },
           body: JSON.stringify(isDelete._id),
         })
-      })()
+      })();
     }
   }, [isDelete])
 

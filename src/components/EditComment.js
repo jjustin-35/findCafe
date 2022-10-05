@@ -21,12 +21,12 @@ export const EditComment = ({method, cafe, content = "", theStar, theTags, theId
         setStars(e.target.id);
     }
 
-    const handleTag = (e) => {
+  const handleTag = (e) => {
         if (e.key === "Enter") {
           e.preventDefault();
           setTags([...tags, tagContent])
           setTagContent("");
-        } else if (e.key === "Backspace") {
+        } else if (e.key === "Backspace" && tagContent === "") {
           let newTags = [...tags];
           newTags.pop();
           setTags(newTags);
@@ -36,7 +36,8 @@ export const EditComment = ({method, cafe, content = "", theStar, theTags, theId
   const onSubmit = async (data) => {
     data._id = theId;
     data.cafe = cafe._id ? cafe._id : cafe;
-    data.user = profile.email;
+    data.user = {name: profile.name ,email: profile.email};
+    data.time = Date.now();
     data.tags = tags;
     data.stars = stars;
     
@@ -55,12 +56,14 @@ export const EditComment = ({method, cafe, content = "", theStar, theTags, theId
           body: JSON.stringify(data)
         })
       
-      newComments = comment.map(c => {
+      let newComments = comment.map(c => {
         if (c._id && c._id === theId) {
           c = data;
         }
         return c;
-       })
+      })
+    
+    setComment(newComments);
       if(setIsEdit){setIsEdit(false)}
     }
 
