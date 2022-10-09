@@ -143,7 +143,7 @@ export const Cafe = () => {
         <div className="row">
           <section className="col-lg-8 col-12 mb-xl-0 mb-2">
             <div className="d-flex mb-2 flex-lg-nowrap flex-wrap">
-              {theCafe.photo ? <img src={theCafe.photo[0]} alt="" className='title-img me-md-1 mb-md-0 mb-1' /> : <div className='title-img me-md-1 mb-md-0 mb-1 flex-shrink-0'><img src={`${local}/img/noPic.png`} alt="no picture" className='w-100 h-100'/></div>}
+              {theCafe.photo ? <img src={theCafe.photo[0]} alt="" className='title-img me-md-1 mb-md-0 mb-1' /> : <div className='title-img me-md-1 mb-md-0 mb-1 flex-shrink-0'><img src={`${local}/img/no-cafe.svg`} alt="no picture" className='w-100 h-100'/></div>}
               <div>
                 <h2 className="fs-1-75 mb-1 me-1">{theCafe.name} <a href="" onClick={handleMyFav}><span className={"bi " + (isFav ? "bi-bookmark-fill text-red" : "bi-bookmark text-black")}></span></a></h2>
                 <p className="text-gray-500">{ address.country + "," + address.districts + " ," + address.mrt }</p>
