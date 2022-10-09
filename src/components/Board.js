@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { Tag } from './Tag';
 import { Stars } from './Stars';
+import { Spinner } from './Spinner';
 
 export const Board = (props) => {
     const { nowPage, perpage, pages, setPages, setNowPage } = props;
@@ -12,7 +13,6 @@ export const Board = (props) => {
     const { address, ...querys } = search;
     // address = {country, district, location, mrt}
     const queryUrl = process.env.REACT_APP_API_URL + "/cafe";
-    const localUrl = process.env.PUBLIC_URL;
     const [cafes, setCafes] = useState([]);
     const [perCafe, setPerCafe] = useState([]);
     const [isData, setIsData] = useState(true);
@@ -113,12 +113,8 @@ export const Board = (props) => {
                 if (isData) {
                     if (cafes.length === 0) {
                         return (
-                            <div className="d-flex justify-content-center mb-3">
-                                <div className="spinner-border" style={{width: "3rem", height: "3rem"}}>
-                                <span className="visually-hidden">
-                                    Loading...
-                                </span>
-                                </div>
+                            <div className="vh-100 d-flex justify-content-center align-items-center mb-3">
+                                <Spinner/>
                             </div>
                             
                         )

@@ -5,6 +5,8 @@ import { Tag } from './Tag';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 
+import { Spinner } from './Spinner';
+
 export const MyFav = () => {
     const localUrl = process.env.PUBLIC_URL;
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -55,11 +57,7 @@ export const MyFav = () => {
               if (loading) {
                   return (
                     <div className="d-flex justify-content-center mb-3">
-                    <div className="spinner-border" style={{width: "3rem", height: "3rem"}}>
-                    <span className="visually-hidden">
-                        Loading...
-                    </span>
-                    </div>
+                        <Spinner />
                 </div>
                 )
               } else {
