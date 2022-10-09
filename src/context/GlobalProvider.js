@@ -61,6 +61,7 @@ export const GlobalProvider = ({ children }) => {
                 profile = {};
             }
             setProfile(profile);
+            setSearch({ address: profile?.address });
         })()
     }, [])
 

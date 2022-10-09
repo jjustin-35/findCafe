@@ -39,8 +39,12 @@ export const Cafe = () => {
 
         const { address, time, ...cafe } = res;
         const { country, districts } = address;
+        
+        const newAddress = { ...address };
+        newAddress.country = newAddress.country !== "unknown" ? newAddress.country : "";
+        newAddress.districts = newAddress.districts !== "unknown" ? newAddress.districts : "";
 
-        setAddress(address);
+        setAddress(newAddress);
         setSearch({ address: { country, districts } });
         setTime(time);
         setTheCafe(cafe);
@@ -146,7 +150,7 @@ export const Cafe = () => {
               {theCafe.photo ? <img src={theCafe.photo[0]} alt="" className='title-img me-md-1 mb-md-0 mb-1' /> : <div className='title-img me-md-1 mb-md-0 mb-1 flex-shrink-0'><img src={`${local}/img/no-cafe.svg`} alt="no picture" className='w-100 h-100'/></div>}
               <div>
                 <h2 className="fs-1-75 mb-1 me-1">{theCafe.name} <a href="" onClick={handleMyFav}><span className={"bi " + (isFav ? "bi-bookmark-fill text-red" : "bi-bookmark text-black")}></span></a></h2>
-                <p className="text-gray-500">{ address.country + "," + address.districts + " ," + address.mrt }</p>
+                <p className="text-gray-500">{address.country || address.districts ? (address.country + "," + address.districts + " ," + address.mrt ) : ""}</p>
                 <Stars cafe={ theCafe } />
               </div>
             </div>

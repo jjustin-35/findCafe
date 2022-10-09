@@ -4,7 +4,7 @@ import { Footer } from './Footer';
 import { Outlet } from 'react-router';
 import { useEffect, useState } from 'react';
 
-export const Layout1 = ({ outlet }) => {
+export const Layout1 = () => {
   const [load, setLoad] = useState(true);
   const [top, setTop] = useState(0);
   useEffect(() => {

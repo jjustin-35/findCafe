@@ -28,30 +28,26 @@ const NavOptions = () => {
     setToken(null);
     setProfile({});
   }
-
-  const navToSearch = () => {
-    setSearch({})
-  }
   
   if (!token) {
     return (
       <ul className="navbar-nav align-items-center">
-        <li className="nav-item"><Link to="/search" className="nav-link p-lg-0 searchCafe text-white fs-1-25" onClick={navToSearch}>搜尋咖啡廳</Link></li>
-        <li className="nav-item"><Link to='/login' type="button" className="btn btn-outline-white me-md-1-25 rounded-pill px-2 py-0-25 d-lg-block d-none" onClick={()=>{setErr("")}}>登入</Link></li>
-        <li className="nav-item"><Link to='/signup' replace={true} type="button" className="btn btn-white rounded-pill px-2 py-0-25 d-lg-block d-none" onClick={()=>{setErr("")}}>註冊</Link></li>
+        <li className="nav-item"><Link to="/search" className="nav-link p-lg-0 searchCafe text-white fs-1-25" onClick={() => { setSearch({}); window.scrollTo(0,0)}}>搜尋咖啡廳</Link></li>
+        <li className="nav-item"><Link to='/login' type="button" className="btn btn-outline-white me-md-1-25 rounded-pill px-2 py-0-25 d-lg-block d-none" onClick={()=>{setErr("");window.scrollTo(0,0)}}>登入</Link></li>
+        <li className="nav-item"><Link to='/signup' replace={true} type="button" className="btn btn-white rounded-pill px-2 py-0-25 d-lg-block d-none" onClick={()=>{setErr("");window.scrollTo(0,0)}}>註冊</Link></li>
         <li className="nav-item d-lg-none">
-          <Link to='/login' className='nav-link text-white fs-1-25 text-decoration-none' onClick={()=>{setErr("")}}>登入</Link>
+          <Link to='/login' className='nav-link text-white fs-1-25 text-decoration-none' onClick={()=>{setErr("");window.scrollTo(0,0)}}>登入</Link>
         </li>
         <li className="nav-item d-lg-none">
-          <Link to='/signup' replace={true} className='nav-link text-white fs-1-25 text-decoration-none' onClick={()=>{setErr("")}}>註冊</Link>
+          <Link to='/signup' replace={true} className='nav-link text-white fs-1-25 text-decoration-none' onClick={()=>{setErr("");window.scrollTo(0,0)}}>註冊</Link>
         </li>
       </ul>
     )
   } else {
     return (
       <ul className="navbar-nav align-items-center">
-        <li className="nav-item"><Link to="/search" className="nav-link text-white fs-1-25" onClick={navToSearch}>搜尋咖啡廳</Link></li>
-        <li className="nav-item"><Link to="/profile" className="nav-link text-white fs-1-25">我的最愛</Link></li>
+        <li className="nav-item"><Link to="/search" className="nav-link text-white fs-1-25" onClick={()=>{setSearch({});window.scrollTo(0,0)}}>搜尋咖啡廳</Link></li>
+        <li className="nav-item"><Link to="/profile" className="nav-link text-white fs-1-25" onClick={()=> window.scrollTo(0,0)}>我的最愛</Link></li>
         {/* <li className="nav-item me-lg-0-5"><Link to="/add_cafe" className="nav-link text-white fs-1-25">新增店家</Link></li> */}
         <li className="nav-item dropdown">
           <a href="" className="nav-link text-white rounded-circle d-none d-lg-block" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="navbarDropdownMenuLink">
@@ -60,7 +56,7 @@ const NavOptions = () => {
           <ul className="dropdown-menu dropdown-menu-dark m-0  translate-middle-x" aria-labelledby="navbarDropdownMenuLink">
             <li><p className='text-center pt-0-5 text-white'>{profile.name}，您好</p></li>
             <li>
-              <Link to='/profile' className="text-white nav-link dropdown-item text-center">我的檔案</Link>
+              <Link to='/profile' className="text-white nav-link dropdown-item text-center" onClick={()=> window.scrollTo(0,0)}>我的檔案</Link>
             </li>
             <li>
               <a href="" className="text-white nav-link dropdown-item text-center" onClick={onLogout}>登出</a>
