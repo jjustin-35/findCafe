@@ -80,9 +80,8 @@ export const Home = () => {
           <div className="row flex-row-reverse">
             <img src={`${localUrl}/img/cafeintro_2.png`} alt="cafeintro_2" className="w-100 w-md-55 pe-md-0 px-0 mb-md-0 mb-1" />
             <div className="col-md-5 col my-auto">
-              <h2 className="fw-bold fs-2 mb-md-1 mb-0-25">評價、收藏咖啡廳</h2>
-              <p className="fs-1-25">為你造訪過的咖啡廳下評論吧！
-              不僅僅可以讓更多用戶了解這間咖啡廳，也可以為你留下足跡，繪出屬於你的咖啡地圖！此外，你更可以將喜歡的咖啡廳加入我的最愛，方便再度造訪！</p>
+              <h2 className="fw-bold fs-2 mb-md-1 mb-0-25">瀏覽咖啡廳</h2>
+              <p className="fs-1-25">想要知道咖啡廳在哪裡、電話怎麼打嗎？在這裡，你可以瀏覽咖啡廳的地理資訊、店家電話、店家官網、營業時間、是否限時等資訊，也能夠看到顧客為店家留下的留言、評論，提供您更多資訊尋找喜愛的咖啡廳！</p>
             </div>
           </div>
         </div>
@@ -90,9 +89,9 @@ export const Home = () => {
           <div className="row">
             <img src={`${localUrl}/img/cafeintro_3.png`} alt="cafeintro_3" className="w-100 w-md-55 ps-md-0 px-0 mb-md-0 mb-1" />
             <div className="col-md-5 col my-auto">
-              <h2 className="fw-bold fs-2 mb-md-1 mb-0-25">新增咖啡廳</h2>
-              <p className="fs-1-25">找不到你心愛中的咖啡廳嗎？你可以自己新增上來！
-              填寫幾個店家的基本資訊，並附上幾張照片以及你的心得、評價，就可以將你喜歡的咖啡廳推薦給其他使用者！</p>
+              <h2 className="fw-bold fs-2 mb-md-1 mb-0-25">評價、收藏咖啡廳</h2>
+              <p className="fs-1-25">為你造訪過的咖啡廳下評論吧！
+              不僅僅可以讓更多用戶了解這間咖啡廳，也可以為你留下足跡，繪出屬於你的咖啡地圖！此外，你更可以將喜歡的咖啡廳加入我的最愛，方便再度造訪！</p>
             </div>
           </div>
         </div>
