@@ -101,9 +101,14 @@ export const Cafe = () => {
             "Content-Type": "application/json",
             "Authorization": token
           },
-          body: JSON.stringify(isDelete._id),
+          body: JSON.stringify(isDelete),
         })
       })();
+
+      let newComment = comment.filter((element) => element._id !== isDelete._id);
+      profile.comment = profile.comment.filter(element => element._id !== isDelete._id);
+
+      setComment(newComment);
     }
   }, [isDelete])
 
