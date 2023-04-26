@@ -1,5 +1,5 @@
 import React from 'react';
-import { createContext} from 'react';
+import { createContext } from 'react';
 import { Routes, Route } from 'react-router';
 
 // componants
@@ -23,24 +23,33 @@ export const App = () => {
     <>
       <GlobalProvider>
         <Routes>
-          <Route path='/' element={<Layout1 />}>
+          <Route path="/" element={<Layout1 />}>
             <Route index element={<Home />} />
-            <Route path='/profile' element={<Authentication>
-              <Profile/>
-            </Authentication>} />
+            <Route
+              path="/profile"
+              element={
+                <Authentication>
+                  <Profile />
+                </Authentication>
+              }
+            />
             <Route path="/search" element={<Find />} />
             <Route path="/cafe/:cafeName" element={<Cafe />} />
-            <Route path='/add_cafe' element={<Authentication>
-              <AddCafe/>
-            </Authentication>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/signup" element={<Signup/>} />
-            <Route path="/forgotpwd" element={<Forgotpwd/>} />
+            <Route
+              path="/add_cafe"
+              element={
+                <Authentication>
+                  <AddCafe />
+                </Authentication>
+              }
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgotpwd" element={<Forgotpwd />} />
           </Route>
-          <Route path='*' element={<Notfound />} />
+          <Route path="*" element={<Notfound />} />
         </Routes>
       </GlobalProvider>
-      
     </>
-  )
-}
+  );
+};

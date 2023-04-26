@@ -1,23 +1,23 @@
-.banner{
-    background-image: url('../../../public/img/banner_mobile.png');
-    min-height: 350px;
-    @include media-breakpoint-up(md){
-        background-image: url('../../../public/img/Frame4.png');
-        min-height: 645px;
+.banner {
+  background-image: url('../../../public/img/banner_mobile.png');
+  min-height: 350px;
+  @include media-breakpoint-up(md) {
+    background-image: url('../../../public/img/Frame4.png');
+    min-height: 645px;
+  }
+  &__title {
+    font-size: 2rem;
+    @include media-breakpoint-up(md) {
+      font-size: 3.5rem;
     }
-    &__title{
-        font-size: 2rem;
-        @include media-breakpoint-up(md){
-            font-size: 3.5rem;
-        }
+  }
+  &__search {
+    width: 100%;
+    @include media-breakpoint-up(md) {
+      width: 62%;
     }
-    &__search{
-        width: 100%;
-        @include media-breakpoint-up(md){
-            width: 62%;
-        }
-        @include media-breakpoint-up(lg){
-            width: 36%;
-        }
+    @include media-breakpoint-up(lg) {
+      width: 36%;
     }
+  }
 }

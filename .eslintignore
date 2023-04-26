@@ -1,0 +1,9 @@
+
+**/node_modules/**
+**/public/**
+**/__mocks__/**
+**/next-env.d.ts
+**/next.config.js
+**/_document.js
+**/_app.js
+**/.next
