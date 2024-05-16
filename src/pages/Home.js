@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Select } from '../components/Select';
 import { useGlobal } from '../context/GlobalProvider';
 import { Link, useNavigate } from 'react-router-dom';

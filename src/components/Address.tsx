@@ -1,13 +1,12 @@
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useGlobal } from '../context/GlobalProvider';
 import { useFormContext } from 'react-hook-form';
 
-export const Address = (props) => {
+export const Address = ({ parentClass = '', childClass = '', getLocation = false, labelClass = '', defaultValue }) => {
   const { register } = useFormContext();
-  const { parentClass = '', childClass = '', getLocation = false, labelClass = '', defaultValue } = props;
 
-  const { areas, setAreas } = useGlobal().address;
+  const { areas } = useGlobal().address;
   const [dist, setDist] = useState([]);
   const [country, setCountry] = useState(defaultValue?.country || '');
   const [nowDist, setNowDist] = useState(defaultValue?.districts || '');
