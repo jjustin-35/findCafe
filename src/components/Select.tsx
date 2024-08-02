@@ -1,23 +1,24 @@
-import React from 'react';
-// @ts-expect-error TS(2792): Cannot find module 'react-hook-form'. Did you mean... Remove this comment to see the full error message
+import React, { useState, ChangeEvent } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useState } from 'react';
 
-export const Select = (props: any) => {
+interface SelectProps {
+  opt: string[];
+  optValue?: string[];
+  name: string;
+  id?: string;
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
+  className?: string;
+}
+
+export const Select: React.FC<SelectProps> = ({ opt, optValue, name, id = '', onChange, className = '' }) => {
   const { register } = useFormContext();
-  const [value, setValue] = useState('');
-  let { opt, optValue, name, id, onChange, className } = props;
-  if (!id) {
-    id = '';
-  }
-  if (!className) {
-    className = '';
-  }
+  const [value, setValue] = useState<string>('');
+
   if (!optValue) {
     optValue = opt;
   }
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setValue(e.target.value);
     if (onChange) {
       onChange(e);
@@ -25,7 +26,6 @@ export const Select = (props: any) => {
   };
 
   return (
-    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <select
       {...register(name)}
       className={`${className} form-select w-fit`}
@@ -33,14 +33,11 @@ export const Select = (props: any) => {
       onChange={handleChange}
       value={value}
     >
-      {opt.map((element: any, i: any) => {
-        return (
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-          <option value={optValue[i]} key={element}>
-            {element}
-          </option>
-        );
-      })}
+      {opt.map((element, i) => (
+        <option value={optValue[i]} key={element}>
+          {element}
+        </option>
+      ))}
     </select>
   );
 };

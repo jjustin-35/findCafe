@@ -1,52 +1,40 @@
 import React from 'react';
 
-export const Tag = ({
-  cafe,
-  className
-}: any) => {
-  let tags = [];
-  const getTag = (obj: any) => {
-    const { rank } = obj;
-    let rankList = [];
-    for (let i in rank) {
-      rankList.push({ name: i, rank: rank[i] });
-    }
+interface Cafe {
+  tags?: string[];
+  rank?: Record<string, number>;
+}
 
-    rankList.sort((a, b) => {
-      return b.rank - a.rank;
-    });
-    rankList = rankList.slice(0, 3);
-    rankList = rankList.map((element) => {
-      // @ts-expect-error TS(2322): Type 'string' is not assignable to type '{ name: s... Remove this comment to see the full error message
-      element = element.name;
+interface TagProps {
+  cafe: Cafe;
+  className?: string;
+}
 
-      const chinese = ['有wifi', '座位多', '環境安靜', '餐點好吃', '東西便宜', '音樂好聽'];
+export const Tag: React.FC<TagProps> = ({ cafe, className = '' }) => {
+  const getTag = (cafe: Cafe): string[] => {
+    const { rank } = cafe;
+    if (!rank) return [];
 
-      ['wifi', 'seat', 'quiet', 'tasty', 'cheap', 'music'].forEach((tag, i) => {
-        // @ts-expect-error TS(2367): This condition will always return 'false' since th... Remove this comment to see the full error message
-        if (element === tag) {
-          // @ts-expect-error TS(2322): Type 'string' is not assignable to type '{ name: s... Remove this comment to see the full error message
-          element = chinese[i];
-        }
+    let rankList = Object.entries(rank)
+      .map(([name, value]) => ({ name, rank: value }))
+      .sort((a, b) => b.rank - a.rank)
+      .slice(0, 3)
+      .map(element => {
+        const chinese = ['有wifi', '座位多', '環境安靜', '餐點好吃', '東西便宜', '音樂好聽'];
+        const english = ['wifi', 'seat', 'quiet', 'tasty', 'cheap', 'music'];
+        const index = english.indexOf(element.name);
+        return index !== -1 ? chinese[index] : element.name;
       });
-      return element;
-    });
 
     return rankList;
   };
 
-  if (!cafe.tags) {
-    tags = getTag(cafe);
-  } else {
-    tags = cafe.tags;
-  }
+  const tags = cafe.tags || getTag(cafe);
 
   return (
-    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-    <ul className={'d-flex list-unstyled ' + className}>
-      {tags.map((tag: any, i: any) => (
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-        <li className={' badge text-black rounded-pill fw-normal me-0-25 bg-gray-light px-0-75 py-0-25'} key={tag + i}>
+    <ul className={`d-flex list-unstyled ${className}`}>
+      {tags.map((tag, i) => (
+        <li className="badge text-black rounded-pill fw-normal me-0-25 bg-gray-light px-0-75 py-0-25" key={`${tag}-${i}`}>
           {tag}
         </li>
       ))}

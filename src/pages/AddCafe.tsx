@@ -1,28 +1,44 @@
-import React from 'react';
-import { useState } from 'react';
-// @ts-expect-error TS(6142): Module '../context/GlobalProvider' was resolved to... Remove this comment to see the full error message
+import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { useGlobal } from '../context/GlobalProvider';
 
 // components
-// @ts-expect-error TS(6142): Module '../components/Message' was resolved to 'C:... Remove this comment to see the full error message
 import { Message } from '../components/Message';
-// @ts-expect-error TS(6142): Module '../components/Address' was resolved to 'C:... Remove this comment to see the full error message
 import { Address } from '../components/Address';
-// @ts-expect-error TS(6142): Module '../components/Select' was resolved to 'C:/... Remove this comment to see the full error message
 import { Select } from '../components/Select';
 
-export const AddCafe = () => {
+interface TimeHook {
+  weekday: string;
+  timezone1: string;
+  open: string;
+  timezone2: string;
+  close: string;
+}
+
+interface CafeObj {
+  time: TimeHook[];
+  address: {
+    country: string;
+    districts: string;
+    location: string;
+  };
+  menu: string[];
+  pics: string[];
+  name: string;
+  branch: string;
+  tel: string;
+  price: string;
+}
+
+export const AddCafe: React.FC = () => {
   // api url
-  // @ts-expect-error TS(2580): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
   const api = process.env.REACT_APP_API_URL;
   const apiUrl = `${api}/cafe/add`;
 
   // err
-  // @ts-expect-error TS(2571): Object is of type 'unknown'.
   const { err, setErr } = useGlobal().errState;
 
   // hook
-  let [timeHook, setTimeHook] = useState({
+  const [timeHook, setTimeHook] = useState<TimeHook>({
     weekday: '星期一',
     timezone1: 'am',
     open: '01:00',
@@ -30,144 +46,102 @@ export const AddCafe = () => {
     close: '01:00',
   });
   // set time array
-  let [timeArray, setTimeArray] = useState([]);
-  let [timeDisplay, setTimeDisplay] = useState([]);
-  let [menu, setMenu] = useState([]);
-  let [pics, setPics] = useState([]);
+  const [timeArray, setTimeArray] = useState<TimeHook[]>([]);
+  const [timeDisplay, setTimeDisplay] = useState<string[]>([]);
+  const [menu, setMenu] = useState<string[]>([]);
+  const [pics, setPics] = useState<string[]>([]);
 
-  const hours = [];
-  for (let i = 1; i <= 12; i++) {
-    hours.push(
-      i < 10 ? (
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-        <option value={`0${i}:00`} key={`${i}:00`}>{`0${i}:00`}</option>
-      ) : (
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-        <option value={`${i}:00`} key={`${i}:00`}>{`${i}:00`}</option>
-      ),
+  const hours = Array.from({ length: 12 }, (_, i) => {
+    const hour = i + 1;
+    const value = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+    return (
+      <option value={value} key={value}>
+        {value}
+      </option>
     );
-  }
+  });
 
   // time
   // onchange
-  function timeInput(e: any) {
-    let { id, value } = e.target;
-    let newTime = timeHook;
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-    newTime[id] = value;
-
-    setTimeHook(newTime);
+  function timeInput(e: ChangeEvent<HTMLSelectElement>) {
+    const { id, value } = e.target;
+    setTimeHook((prev) => ({ ...prev, [id]: value }));
   }
   // add btn
-  function addTime(e: any) {
+  function addTime(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     // get time hook
     const timeAdded = { ...timeHook };
     const { weekday, timezone1, timezone2, open, close } = timeAdded;
 
-    for (let element of timeArray) {
-      // @ts-expect-error TS(2339): Property 'weekday' does not exist on type 'never'.
-      if (element.weekday === weekday) {
-        setErr('Weekday should not repeat.');
-
-        return;
-      } else {
-        setErr(null);
-      }
+    if (timeArray.some((element) => element.weekday === weekday)) {
+      setErr('Weekday should not repeat.');
+      return;
     }
 
-    // @ts-expect-error TS(2345): Argument of type '(timeArray: never[]) => { weekda... Remove this comment to see the full error message
-    setTimeArray((timeArray) => [...timeArray, timeAdded]);
-
-    // @ts-expect-error TS(2322): Type 'string' is not assignable to type 'never'.
-    setTimeDisplay([...timeDisplay, `${weekday} ${(timezone1, open)} ~ ${(timezone2, close)}`]);
+    setErr(null);
+    setTimeArray((prev) => [...prev, timeAdded]);
+    setTimeDisplay((prev) => [...prev, `${weekday} ${timezone1}${open} ~ ${timezone2}${close}`]);
   }
 
   // file
-  function getBase64(file: any) {
+  function getBase64(file: File): Promise<string> {
     return new Promise((resolve) => {
-      // STEP 3: 轉成base64 ,reader.result
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        resolve(reader.result);
+        resolve(reader.result as string);
       });
       reader.readAsDataURL(file);
     });
   }
 
-  async function getFile(e: any) {
-    let { name, files } = e.target;
-    let newFiles: any = [];
+  async function getFile(e: ChangeEvent<HTMLInputElement>) {
+    const { name, files } = e.target;
+    if (!files) return;
 
-    for (let file of files) {
-      let base64 = await getBase64(file);
-      newFiles = [...newFiles, base64];
-    }
+    const newFiles = await Promise.all(Array.from(files).map(getBase64));
 
     if (name === 'menu') {
-      // @ts-expect-error TS(2345): Argument of type 'any[]' is not assignable to para... Remove this comment to see the full error message
-      setMenu([...menu, ...newFiles]);
+      setMenu((prev) => [...prev, ...newFiles]);
     } else if (name === 'pics') {
-      // @ts-expect-error TS(2345): Argument of type 'any[]' is not assignable to para... Remove this comment to see the full error message
-      setPics([...pics, ...newFiles]);
+      setPics((prev) => [...prev, ...newFiles]);
     }
   }
 
-  function submit(e: any) {
+  function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = document.querySelector('#addCafe');
-
-    // get the data
-    // @ts-expect-error TS(2345): Argument of type 'Element | null' is not assignabl... Remove this comment to see the full error message
-    let cafeForm = new FormData(form);
-    let cafeObj = {};
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const cafeObj: Partial<CafeObj> = {};
 
     // deal with time obj
-    let time = timeArray.map((element) => {
-      // 取出除了timezone以外的其他做為新物件(刪除timezone)
-      // @ts-expect-error TS(2700): Rest types may only be created from object types.
-      let { timezone1, timezone2, ...newElement } = element;
-
-      const { open, close } = newElement;
-
-      newElement.open = timezone1 + open;
-      newElement.close = timezone2 + close;
-
-      return newElement;
-    });
-    // @ts-expect-error TS(2339): Property 'time' does not exist on type '{}'.
-    cafeObj.time = time;
+    cafeObj.time = timeArray.map(({ timezone1, timezone2, ...rest }) => ({
+      ...rest,
+      open: timezone1 + rest.open,
+      close: timezone2 + rest.close,
+    }));
 
     // deal with the address
-    let address = {};
-    for (let item of ['country', 'districts', 'location']) {
-      if (cafeForm.get(item) == 'null') {
+    const address: { [key: string]: string } = {};
+    for (const item of ['country', 'districts', 'location']) {
+      const value = formData.get(item);
+      if (value === 'null') {
         setErr('Please choose a country/district.');
-        return '';
-      } else {
-        setErr(null);
+        return;
       }
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-      address[item] = cafeForm.get(item);
+      address[item] = value as string;
     }
-    // @ts-expect-error TS(2339): Property 'address' does not exist on type '{}'.
-    cafeObj.address = address;
+    cafeObj.address = address as CafeObj['address'];
 
     // deal with the file
-    // @ts-expect-error TS(2339): Property 'menu' does not exist on type '{}'.
-    cafeObj.menu = [...menu];
-    // @ts-expect-error TS(2339): Property 'pics' does not exist on type '{}'.
-    cafeObj.pics = [...pics];
+    cafeObj.menu = menu;
+    cafeObj.pics = pics;
 
     // deal with others
-    let items = ['name', 'branch', 'tel', 'price'];
+    const items = ['name', 'branch', 'tel', 'price'];
     items.forEach((item) => {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-      cafeObj[item] = cafeForm.get(item);
+      cafeObj[item as keyof CafeObj] = formData.get(item) as string;
     });
-
-    // user
-    // cafeObj.append('user', cafeForm.get('user'));
 
     // send data
     fetch(apiUrl, {
@@ -188,46 +162,31 @@ export const AddCafe = () => {
   }
 
   return (
-    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <div className="container py-3">
-      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <h2 className="fs-3 text-primary fw-bold text-center mb-3">新增咖啡廳</h2>
-      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-      <form action={apiUrl} method="POST" id="addCafe">
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
+      <form action={apiUrl} method="POST" id="addCafe" onSubmit={submit}>
         <div className="addCafe__name">
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-          <label htmlFor="">
+          <label htmlFor="name">
             咖啡店名:
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-            <input type="text" className="addCafe__item" name="name" />
+            <input type="text" className="addCafe__item" name="name" id="name" />
           </label>
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-          <label htmlFor="">
+          <label htmlFor="branch">
             分店:
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-            <input type="text" className="addCafe__item" name="branch" />
+            <input type="text" className="addCafe__item" name="branch" id="branch" />
           </label>
         </div>
 
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-        <label htmlFor="">
+        <label htmlFor="tel">
           電話:
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-          <input type="text" className="addCafe__item" name="tel" />
+          <input type="text" className="addCafe__item" name="tel" id="tel" />
         </label>
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-        <label htmlFor="">
+        <label htmlFor="address">
           地址:
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Address className={'addCafe__item'} />
         </label>
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-        <label htmlFor="">
+        <label htmlFor="time">
           營業時間:
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <span className="addCafe__item">
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Select
               opt={['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']}
               name="weekday"
@@ -235,91 +194,67 @@ export const AddCafe = () => {
               onChange={timeInput}
             />
 
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Select opt={['AM', 'PM']} name="timezone1" id="timezone1" onChange={timeInput} />
 
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <select name="open" id="open" onChange={timeInput}>
               {hours}
             </select>
 
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <span> ～ </span>
 
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Select opt={['AM', 'PM']} name="timezone2" id="timezone2" onChange={timeInput} />
 
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <select name="close" id="close" onChange={timeInput}>
               {hours}
             </select>
 
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <button onClick={addTime}>add</button>
           </span>
         </label>
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <div className="timeDisplay">
-          // @ts-expect-error TS(2367): This condition will always return 'true' since the... Remove this comment to see the full error message
-          {timeDisplay !== 0 && timeDisplay.map((time, idx) => <p key={idx}>{time}</p>)}
+          {timeDisplay.length > 0 && timeDisplay.map((time, idx) => <p key={idx}>{time}</p>)}
         </div>
 
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-        <label htmlFor="">
+        <label htmlFor="price">
           平均價格:
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-          <select name="price" id="" className="addCafe__item">
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
+          <select name="price" id="price" className="addCafe__item">
             <option value="100">0~100</option>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <option value="200">100~200</option>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <option value="300">200~300</option>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <option value="400">300~400</option>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <option value="500">400~500</option>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <option value="500up">500以上</option>
           </select>
         </label>
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-        <label htmlFor="">
+        <label htmlFor="menu">
           菜單
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <input
             type="file"
-            // @ts-expect-error TS(2322): Type 'string' is not assignable to type 'boolean |... Remove this comment to see the full error message
-            multiple="mutiple"
+            multiple
             accept="image/*"
             className="addCafe__item"
             name="menu"
+            id="menu"
             onChange={getFile}
           />
         </label>
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <div className="displayPics displayPics--menu"></div>
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-        <label htmlFor="">
+        <label htmlFor="pics">
           照片
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <input
             type="file"
-            // @ts-expect-error TS(2322): Type 'string' is not assignable to type 'boolean |... Remove this comment to see the full error message
-            multiple="mutiple"
+            multiple
             accept="image/png, image/jpeg"
             className="addCafe__item"
             name="pics"
+            id="pics"
             onChange={getFile}
           />
         </label>
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <div className="displayPics displayPics--pics"></div>
 
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Message err={err} setErr={setErr} />
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-        <button className="submit" onClick={submit}>
+        <button className="submit" type="submit">
           提交
         </button>
       </form>
