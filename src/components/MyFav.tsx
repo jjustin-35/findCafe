@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobal } from '../context/GlobalProvider';
+import { useGlobal } from '../redux/GlobalProvider';
 import { Stars } from './Stars';
 import { Tag } from './Tag';
 import { Link } from 'react-router-dom';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useGlobal } from '../context/GlobalProvider';
+import { useGlobal } from '../redux/GlobalProvider';
 
 const localUrl = process.env.PUBLIC_URL;
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Select } from '../components/Select';
-import { useGlobal } from '../context/GlobalProvider';
+import { useGlobal } from '../redux/GlobalProvider';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Board } from '../components/Board';

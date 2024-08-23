@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGlobal } from '../context/GlobalProvider';
+import { useGlobal } from '../redux/GlobalProvider';
 import { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGlobal } from '../context/GlobalProvider';
+import { useGlobal } from '../redux/GlobalProvider';
 import { useForm } from 'react-hook-form';
 import { Message } from './Message';
 
