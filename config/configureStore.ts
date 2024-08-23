@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import globalSlice from '../src/redux/GlobalProvider';
-import authSlice from '../src/redux/auth';
+import searchSlice from '../redux/search';
+import authSlice from '../redux/auth';
+import userSlice from '../redux/user';
 
 const store = configureStore({
   reducer: {
-    global: globalSlice,
+    search: searchSlice,
     auth: authSlice,
+    user: userSlice,
   },
 });
 

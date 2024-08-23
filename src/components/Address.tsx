@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobal } from '../redux/GlobalProvider';
+import { useGlobal } from '../../redux/search';
 import { useFormContext } from 'react-hook-form';
 
 interface AddressProps {

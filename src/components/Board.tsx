@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { useGlobal } from '../redux/GlobalProvider';
+import { useGlobal } from '../../redux/search';
 import { Link } from 'react-router-dom';
 
 import { Tag } from './Tag';

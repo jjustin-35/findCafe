@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGlobal } from '../redux/GlobalProvider';
+import { useGlobal } from '../../redux/search';
 import { Message } from '../components/Message';
 import { useForm } from 'react-hook-form';
 
