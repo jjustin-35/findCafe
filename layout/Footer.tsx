@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useGlobal } from '../../redux/search';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/config/configureStore';
+import { setSearch, setErr } from '@/redux/search';
+import { setProfile } from '@/redux/user';
 
 export const Footer: React.FC = () => {
-  const { token, setToken } = useGlobal().auth;
-  const { setProfile } = useGlobal().userInfo;
-  const { setSearch } = useGlobal().searchState;
-  const { setErr } = useGlobal().errState;
-
+  const dispatch = useDispatch();
+  const token = useSelector((state: RootState) => state.auth.token);
   const localUrl = process.env.PUBLIC_URL;
 
   const onLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -15,12 +15,13 @@ export const Footer: React.FC = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('profile');
 
-    setToken(null);
-    setProfile(null);
+    // 假設有一個 setToken action，你需要在 auth slice 中定義它
+    dispatch({ type: 'auth/setToken', payload: null });
+    dispatch(setProfile(null));
   };
 
   const navToSearch = () => {
-    setSearch({});
+    dispatch(setSearch({}));
   };
 
   return (
@@ -67,7 +68,7 @@ export const Footer: React.FC = () => {
                   to="/login"
                   className="nav-link text-white ps-0 ps-md-0-5"
                   onClick={() => {
-                    setErr('');
+                    dispatch(setErr(''));
                   }}
                 >
                   Login
