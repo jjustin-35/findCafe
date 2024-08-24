@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import searchSlice from '../redux/search';
-import authSlice from '../redux/auth';
-import userSlice from '../redux/user';
+import search from '../redux/search';
+import auth from '../redux/auth';
+import user from '../redux/user';
+import cafe from '@/redux/cafe';
 
 const store = configureStore({
   reducer: {
-    search: searchSlice,
-    auth: authSlice,
-    user: userSlice,
+    search,
+    auth,
+    user,
+    cafe,
   },
 });
 

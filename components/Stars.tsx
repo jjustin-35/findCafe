@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface Cafe {
-  _id: string;
-  stars: number;
-}
+import { Cafe } from '@/redux/cafe';
 
 interface StarsProps {
   cafe: Cafe;

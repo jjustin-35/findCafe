@@ -6,8 +6,10 @@ interface Area {
 }
 
 interface SearchContent {
-  address?: string;
-  [key: string]: string | undefined;
+  address?: {
+    country?: string;
+    districts?: string;
+  };
 }
 
 interface SearchState {

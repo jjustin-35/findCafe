@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface Cafe {
-  tags?: string[];
-  rank?: Record<string, number>;
-}
+import { Cafe } from '@/redux/cafe';
 
 interface TagProps {
   cafe: Cafe;

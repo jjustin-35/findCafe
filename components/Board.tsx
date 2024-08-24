@@ -9,10 +9,10 @@ import { Spinner } from './Spinner';
 
 interface BoardProps {
   nowPage: number;
-  perpage: number;
-  pages: number;
-  setPages: (pages: number) => void;
-  setNowPage: (page: number) => void;
+  perpage?: number;
+  pages?: number;
+  setPages?: (pages: number) => void;
+  setNowPage?: (page: number) => void;
 }
 
 interface Cafe {

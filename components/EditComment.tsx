@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGlobal } from '../../redux/search';
+import { useGlobal } from '@/redux/search';
 import { useForm } from 'react-hook-form';
 import { Message } from './Message';
 
@@ -12,8 +12,8 @@ interface EditCommentProps {
   theId?: string;
   starSize?: string;
   setIsEdit?: (value: { id: string; state: boolean }) => void;
-  comment: any[];
-  setComment: (comments: any[]) => void;
+  comment?: any[];
+  setComment?: (comments: any[]) => void;
 }
 
 export const EditComment: React.FC<EditCommentProps> = ({

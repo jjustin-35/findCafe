@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGlobal } from '../../redux/search';
+import { useGlobal } from '../../redux/global';
 import { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
