@@ -5,6 +5,7 @@
   "homepage": "https://jjustin-35.github.io/findCafe",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "yarn prisma generate && yarn prisma db push",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -29,6 +30,7 @@
     ]
   },
   "dependencies": {
+    "@prisma/client": "^5.18.0",
     "@reduxjs/toolkit": "^2.2.7",
     "bootstrap": "^5.2.0",
     "bootstrap-icons": "^1.9.1",
@@ -66,6 +68,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-security": "^1.7.1",
     "prettier-eslint": "^15.0.1",
+    "prisma": "^5.18.0",
     "ts-migrate": "^0.1.35",
     "typescript": "^5.3.3"
   }
