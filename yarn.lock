@@ -10582,6 +10582,13 @@ schema-utils@^4.0.0:
     ajv-formats "^2.1.1"
     ajv-keywords "^5.1.0"
 
+secure-env@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/secure-env/-/secure-env-1.2.0.tgz#a2ae5937d3b6edc87626f6a3289941b40ae73052"
+  integrity sha512-BNi4AlHP6sMZv3ybFWD5/eieFGcqt93VRLzceUdt3+PftgVnxN7eRY7POtFm5PQqaQn5aoRoxG3A4HH9kUmeKw==
+  dependencies:
+    minimist "^1.2.0"
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
