@@ -1,11 +1,3 @@
-'use client';
-
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { setToken, setProfile } from '../../../redux/auth';
 import Message from '@/components/Message';
 
 interface FormInputs {
@@ -22,50 +14,6 @@ interface UserProfile {
 }
 
 export default function Login() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormInputs>();
-  const router = useRouter();
-  const dispatch = useDispatch();
-
-  const [err, setErr] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        setErr('帳號/密碼錯誤');
-      } else {
-        const res = await response.json();
-        const { token, user } = res;
-        if (user.address) {
-          delete Object.assign(user.address, { ['districts']: user.address['district'] })['district'];
-        }
-
-        dispatch(setToken(token));
-        dispatch(setProfile(user));
-
-        alert('登入成功!');
-        router.back();
-      }
-    } catch (err) {
-      setErr('出現問題，請稍後再試');
-    }
-
-    setLoading(false);
-  };
-
   return (
     <section className="bg-image bg-image-login">
       <div className="container py-5">
