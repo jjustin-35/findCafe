@@ -37,8 +37,8 @@ export const getAreas = createAsyncThunk('global/getAreas', async () => {
   return areasData;
 });
 
-const globalSlice = createSlice({
-  name: 'global',
+const searchSlice = createSlice({
+  name: 'search',
   initialState,
   reducers: {
     setErr: (state, action: PayloadAction<string | null>) => {
@@ -55,6 +55,6 @@ const globalSlice = createSlice({
   },
 });
 
-export const { setErr, setSearch } = globalSlice.actions;
+export const { setErr, setSearch } = searchSlice.actions;
 
-export default globalSlice.reducer;
+export default searchSlice.reducer;

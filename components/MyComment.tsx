@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobal } from '../../redux/search';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/config/configureStore';
 import { Stars } from './Stars';
 import { Tag } from './Tag';
 import { Link } from 'react-router-dom';
@@ -23,10 +24,10 @@ interface Profile {
   comment?: Comment[];
 }
 
-export const MyComment: React.FC = () => {
+const MyComment: React.FC = () => {
   const localUrl = process.env.PUBLIC_URL;
   const apiUrl = process.env.REACT_APP_API_URL;
-  const { profile } = useGlobal().userInfo as { profile: Profile };
+  const { profile } = useSelector((state: RootState) => state.user);
   const [theComment, setTheComment] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(false);
   const { comment = [] } = profile;
@@ -105,3 +106,5 @@ export const MyComment: React.FC = () => {
     </div>
   );
 };
+
+export default MyComment;

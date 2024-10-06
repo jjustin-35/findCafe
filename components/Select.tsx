@@ -10,7 +10,7 @@ interface SelectProps {
   className?: string;
 }
 
-export const Select: React.FC<SelectProps> = ({ opt, optValue, name, id = '', onChange, className = '' }) => {
+const Select: React.FC<SelectProps> = ({ opt, optValue, name, id = '', onChange, className = '' }) => {
   const { register } = useFormContext();
   const [value, setValue] = useState<string>('');
 
@@ -41,3 +41,5 @@ export const Select: React.FC<SelectProps> = ({ opt, optValue, name, id = '', on
     </select>
   );
 };
+
+export default Select;

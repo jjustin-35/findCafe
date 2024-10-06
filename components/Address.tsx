@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobal } from '../../redux/search';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/config/configureStore';
 import { useFormContext } from 'react-hook-form';
 
 interface AddressProps {
@@ -18,7 +19,7 @@ interface Area {
   districts: { name: string }[];
 }
 
-export const Address: React.FC<AddressProps> = ({
+const Address: React.FC<AddressProps> = ({
   parentClass = '',
   childClass = '',
   getLocation = false,
@@ -26,7 +27,8 @@ export const Address: React.FC<AddressProps> = ({
   defaultValue
 }) => {
   const { register } = useFormContext();
-  const { address } = useGlobal();
+  const { search } = useSelector((state: RootState) => state.search);
+  const { address } = search;
   const { areas } = address as { areas: Area[] };
 
   const [dist, setDist] = useState<JSX.Element[]>([]);
@@ -111,3 +113,5 @@ export const Address: React.FC<AddressProps> = ({
     </div>
   );
 };
+
+export default Address;

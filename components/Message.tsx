@@ -4,7 +4,7 @@ interface MessageProps {
   err?: string;
 }
 
-export const Message: React.FC<MessageProps> = ({ err }) => {
+const Message: React.FC<MessageProps> = ({ err }) => {
   if (err) {
     return (
       <div className="bg-danger mt-0-5 rounded-2">
@@ -15,3 +15,5 @@ export const Message: React.FC<MessageProps> = ({ err }) => {
 
   return null;
 };
+
+export default Message;

@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { useGlobal } from '@/redux/search';
-import { Message } from '@/components/Message';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, type RootState } from '@/config/configureStore';
+import { setErr } from '@/redux/search';
+import Message from '@/components/Message';
 
 interface FormData {
   name: string;
@@ -26,12 +28,13 @@ export default function Signup() {
   const api = process.env.NEXT_PUBLIC_API_URL;
   const authapi = `${api}/auth/sign_up`;
 
-  const { token } = useGlobal().auth;
-  const { err, setErr } = useGlobal().errState;
-  const [loading, setLoading] = useState<boolean>(false);
+  const { token } = useSelector((state: RootState) => state.auth);
+  const { error } = useSelector((state: RootState) => state.search);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
   
   if (token) {
-    router.back();
+    router.push('/');
     return null;
   }
 
@@ -50,7 +53,7 @@ export default function Signup() {
       alert('註冊成功!請重新登入');
       router.push('/');
     } catch (err) {
-      setErr('註冊資料錯誤');
+      dispatch(setErr('註冊資料錯誤'));
     }
 
     setLoading(false);
@@ -124,7 +127,7 @@ export default function Signup() {
                   <Message err={errors.pwdcheck?.message} />
                 </div>
 
-                <Message err={err} />
+                <Message err={error} />
                 <div className="mx-auto">
                   <button className="btn btn-primary d-block text-white w-100 mb-1" disabled={loading}>
                     <span className={loading ? 'spinner-border text-primary spinner-border-sm' : ''}></span>註冊
