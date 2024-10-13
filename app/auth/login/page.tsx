@@ -5,20 +5,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { login } from '@/apis/auth';
 import { setToken, setProfile } from '../../../redux/auth';
 import Message from '@/components/Message';
 
 interface FormInputs {
   email: string;
   password: string;
-}
-
-interface UserProfile {
-  address?: {
-    district?: string;
-    districts?: string;
-  };
-  [key: string]: any;
 }
 
 export default function Login() {
@@ -28,7 +21,6 @@ export default function Login() {
     formState: { errors },
   } = useForm<FormInputs>();
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const [err, setErr] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,28 +28,11 @@ export default function Login() {
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        setErr('帳號/密碼錯誤');
+      const res = await login(data.email, data.password);
+      if (res.error) {
+        setErr(res.error.message);
       } else {
-        const res = await response.json();
-        const { token, user } = res;
-        if (user.address) {
-          delete Object.assign(user.address, { ['districts']: user.address['district'] })['district'];
-        }
-
-        dispatch(setToken(token));
-        dispatch(setProfile(user));
-
-        alert('登入成功!');
-        router.back();
+        router.push('/');
       }
     } catch (err) {
       setErr('出現問題，請稍後再試');
