@@ -1,4 +1,5 @@
 import Provider from '@/lib/provider';
+import '@/style/all.scss';
 
 export const metadata = {
  title: '找找咖啡',
@@ -7,9 +8,11 @@ export const metadata = {
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Provider>
-      {children}
-    </Provider>
+    <html lang="zh-tw">
+      <body>
+        <Provider>{children}</Provider>
+      </body>
+    </html>
   );
 };
 

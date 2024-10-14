@@ -23,7 +23,7 @@ export default function ResetPassword() {
     }
 
     try {
-      await resetPassword(data.email, data.password);
+      await resetPassword(data);
       router.push('/auth/login');
     } catch (err) {
       setErr('出現問題，請稍後再試');

@@ -5,7 +5,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '@/config/configureStore';
 import { getAreas } from '@/redux/search';
-import { Select } from '@/components/Select';
+import Select from '@/components/Select';
 
 export default function Home() {
   const { areas } = useSelector((state: RootState) => state.search);

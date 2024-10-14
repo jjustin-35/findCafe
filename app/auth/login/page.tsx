@@ -26,7 +26,7 @@ export default function Login() {
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     setLoading(true);
     try {
-      const res = await login(data.email, data.password);
+      const res = await login(data);
       if (res.error) {
         setErr(res.error.message);
       } else {

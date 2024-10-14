@@ -46,6 +46,7 @@
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "sass": "^1.79.5",
     "secure-env": "^1.2.0",
     "sweetalert2": "^11.4.29",
     "sweetalert2-react-content": "^5.0.3",

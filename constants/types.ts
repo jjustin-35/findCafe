@@ -1,9 +1,16 @@
-export type ApiResponse<T = any> = {
-  data?: T;
+type ErrorResponse = {
   error?: {
     error_code: string;
     message: string;
   };
 };
 
-export type ApiFunction<T = any, P = any> = (...args: P[]) => Promise<ApiResponse<T>>;
+type SuccessResponse<T> = {
+  data?: T;
+};
+
+type ApiResponse<T> = SuccessResponse<T> & ErrorResponse;
+
+export type ApiFunction<ReturnValue = any, Parameter extends Record<string, any> = {}> = (
+  data: Parameter,
+) => Promise<ApiResponse<ReturnValue>>;

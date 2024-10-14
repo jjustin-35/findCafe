@@ -25,7 +25,7 @@ export const generateToken = async (email: string, userId: string): Promise<Toke
   return { access_token, refresh_token };
 };
 
-export const login: ApiFunction<User> = async (email: string, password: string) => {
+export const login: ApiFunction<User> = async ({ email, password }: { email: string; password: string }) => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
@@ -56,7 +56,7 @@ export const login: ApiFunction<User> = async (email: string, password: string) 
   return { data: user };
 };
 
-export const signup: ApiFunction<User> = async (email: string, password: string, name: string) => {
+export const signup: ApiFunction<User> = async ({ email, password, name }: { email: string; password: string; name: string }) => {
   const hashedPassword = await hash(password, 10);
   const data = { email, password: hashedPassword, name };
   const user = await prisma.user.create({ data });
@@ -69,13 +69,13 @@ export const logout: ApiFunction<null> = async () => {
   return null;
 };
 
-export const resetPassword: ApiFunction<null> = async (email: string, password: string) => {
+export const resetPassword: ApiFunction<null> = async ({ email, password }: { email: string; password: string }) => {
   const hashedPassword = await hash(password, 10);
   await prisma.user.update({ where: { email }, data: { password: hashedPassword } });
   return null;
 };
 
-export const getUser: ApiFunction<User> = async (token: string) => {
+export const getUser: ApiFunction<User> = async ({ token }: { token: string }) => {
   const decoded = verify(token, process.env.JWT_SECRET) as JwtPayload;
   if (!decoded) {
     clearCookies();
@@ -104,11 +104,20 @@ export const getUser: ApiFunction<User> = async (token: string) => {
   return { data: user };
 };
 
-export const refreshToken: ApiFunction<Tokens> = async (refreshToken: string) => {
-  const decoded = verify(refreshToken, process.env.JWT_SECRET_REFRESH) as JwtPayload;
+export const refreshToken: ApiFunction<Tokens> = async ({ token }: { token: string }) => {
+  const decoded = verify(token, process.env.JWT_SECRET_REFRESH) as JwtPayload;
 
   if (decoded?.originAccessToken) {
     const user = await getUser(decoded.originAccessToken);
+    if (user.error) {
+      clearCookies();
+      return {
+        error: {
+          error_code: ErrorTypes.USER_NOT_FOUND,
+          message: 'User not found',
+        },
+      };
+    }
     const tokens = await generateToken(user.data.email, user.data.id);
     return { data: tokens };
   }

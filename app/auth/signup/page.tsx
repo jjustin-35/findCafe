@@ -23,10 +23,6 @@ export default function Signup() {
     watch,
   } = useForm<FormData>();
   const router = useRouter();
-
-  const api = process.env.NEXT_PUBLIC_API_URL;
-  const authapi = `${api}/auth/sign_up`;
-
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -37,13 +33,15 @@ export default function Signup() {
   }
 
   const onSubmit = async (data: { email: string; password: string; name: string }) => {
-    const info = data;
     setLoading(true);
     try {
-      const resp = await signup(info.email, info.password, info.name);
-
-      alert('註冊成功!請重新登入');
-      router.push('/');
+      const resp = await signup(data);
+      if (resp.error) {
+        setError(resp.error.message);
+      } else {
+        alert('註冊成功!請重新登入');
+        router.push('/');
+      }
     } catch (err) {
       setError('註冊資料錯誤');
     }
