@@ -1,3 +1,12 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { login } from '@/apis/auth';
+import { setToken, setProfile } from '../../../redux/auth';
 import Message from '@/components/Message';
 
 interface FormInputs {
@@ -5,15 +14,33 @@ interface FormInputs {
   password: string;
 }
 
-interface UserProfile {
-  address?: {
-    district?: string;
-    districts?: string;
-  };
-  [key: string]: any;
-}
-
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>();
+  const router = useRouter();
+
+  const [err, setErr] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    setLoading(true);
+    try {
+      const res = await login(data.email, data.password);
+      if (res.error) {
+        setErr(res.error.message);
+      } else {
+        router.push('/');
+      }
+    } catch (err) {
+      setErr('出現問題，請稍後再試');
+    }
+
+    setLoading(false);
+  };
+
   return (
     <section className="bg-image bg-image-login">
       <div className="container py-5">
