@@ -4,9 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { login } from '@/apis/auth';
-import { setToken, setProfile } from '../../../redux/auth';
 import Message from '@/components/Message';
 
 interface FormInputs {

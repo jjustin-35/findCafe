@@ -6,4 +6,4 @@ export type ApiResponse<T = any> = {
   };
 };
 
-export type ApiFunction<T = any> = (...args: any[]) => Promise<ApiResponse<T>>;
+export type ApiFunction<T = any, P = any> = (...args: P[]) => Promise<ApiResponse<T>>;

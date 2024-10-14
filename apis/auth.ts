@@ -56,12 +56,23 @@ export const login: ApiFunction<User> = async (email: string, password: string) 
   return { data: user };
 };
 
-export const register: ApiFunction<User> = async (email: string, password: string, name: string) => {
+export const signup: ApiFunction<User> = async (email: string, password: string, name: string) => {
   const hashedPassword = await hash(password, 10);
   const data = { email, password: hashedPassword, name };
   const user = await prisma.user.create({ data });
 
   return { data: user };
+};
+
+export const logout: ApiFunction<null> = async () => {
+  clearCookies();
+  return null;
+};
+
+export const resetPassword: ApiFunction<null> = async (email: string, password: string) => {
+  const hashedPassword = await hash(password, 10);
+  await prisma.user.update({ where: { email }, data: { password: hashedPassword } });
+  return null;
 };
 
 export const getUser: ApiFunction<User> = async (token: string) => {

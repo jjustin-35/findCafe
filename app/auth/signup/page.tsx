@@ -4,9 +4,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, type RootState } from '@/config/configureStore';
-import { setErr } from '@/redux/search';
+import Cookies from 'js-cookie';
+import { signup } from '@/apis/auth';
 import Message from '@/components/Message';
 
 interface FormData {
@@ -28,32 +27,25 @@ export default function Signup() {
   const api = process.env.NEXT_PUBLIC_API_URL;
   const authapi = `${api}/auth/sign_up`;
 
-  const { token } = useSelector((state: RootState) => state.auth);
-  const { error } = useSelector((state: RootState) => state.search);
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
-  
+
+  const token = Cookies.get('access_token');
   if (token) {
     router.push('/');
     return null;
   }
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: { email: string; password: string; name: string }) => {
     const info = data;
     setLoading(true);
     try {
-      await fetch(authapi, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(info),
-      });
+      const resp = await signup(info.email, info.password, info.name);
 
       alert('註冊成功!請重新登入');
       router.push('/');
     } catch (err) {
-      dispatch(setErr('註冊資料錯誤'));
+      setError('註冊資料錯誤');
     }
 
     setLoading(false);
