@@ -5,7 +5,7 @@
   "homepage": "https://jjustin-35.github.io/findCafe",
   "scripts": {
     "dev": "next dev",
-    "prebuild": "yarn prisma generate && yarn prisma db push",
+    "prebuild": "yarn prisma db push && yarn prisma generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

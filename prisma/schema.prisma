@@ -9,11 +9,11 @@ datasource db {
 
 // user
 model User {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  id         String         @id @default(auto()) @map("_id") @db.ObjectId
   name       String
   thumbnail  String?
   address    Address?
-  email      String    @unique
+  email      String         @unique
   password   String
   comment    Comment[]
   myFavorite UserFavorite[]
@@ -32,8 +32,8 @@ model Address {
 
 // cafe
 model Cafe {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  name         String        @default("unknown")
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  name         String         @default("unknown")
   phone        String?
   url          String?
   address      CafeAddress?
@@ -41,11 +41,11 @@ model Cafe {
   price        String?
   menu         Menu[]
   img          Image[]
-  stars        Int           @default(1)
+  stars        Int            @default(1)
   rank         Rank?
   limited_time String?
-  user         User?         @relation(fields: [userId], references: [id])
-  userId       String?       @db.ObjectId
+  user         User?          @relation(fields: [userId], references: [id])
+  userId       String?        @db.ObjectId
   comment      Comment[]
   favoritedBy  UserFavorite[]
   ownedBy      UserCoffee[]
@@ -138,4 +138,18 @@ model UserCoffee {
   cafeId String @db.ObjectId
 
   @@unique([userId, cafeId])
+}
+
+model Area {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  districts District[]
+}
+
+model District {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  zipcode Int
+  name    String
+  area    Area?   @relation(fields: [areaId], references: [id])
+  areaId  String? @db.ObjectId
 }
