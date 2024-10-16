@@ -33,6 +33,7 @@ export default function Login() {
         router.push('/');
       }
     } catch (err) {
+      console.log(err);
       setErr('出現問題，請稍後再試');
     }
 

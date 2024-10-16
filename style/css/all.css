@@ -32072,13 +32072,13 @@ fieldset:disabled .btn {
 }
 
 .banner {
-  background-image: url('../../../public/img/banner_mobile.png');
+  background-image: url('../../public/img/banner_mobile.png');
   min-height: 350px;
 }
 
 @media (min-width: 768px) {
   .banner {
-    background-image: url('../../../public/img/Frame4.png');
+    background-image: url('../../public/img/Frame4.png');
     min-height: 645px;
   }
 }
@@ -32140,11 +32140,11 @@ fieldset:disabled .btn {
 }
 
 .bg-image-login {
-  background-image: url('../../../public/img/login-bg.jpg');
+  background-image: url('../../public/img/login-bg.jpg');
 }
 
 .bg-image-signup {
-  background-image: url('../../../public/img/signup-bg.jpg');
+  background-image: url('../../public/img/signup-bg.jpg');
 }
 
 .bg-auth {
