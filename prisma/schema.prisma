@@ -41,8 +41,9 @@ model Cafe {
   price        String?
   menu         Menu[]
   img          Image[]
-  stars        Int            @default(1)
-  rank         Rank?
+  stars        Int            @default(5)
+  tags         Tag[]
+  ranks        Ranks?
   limited_time String?
   user         User?          @relation(fields: [userId], references: [id])
   userId       String?        @db.ObjectId
@@ -53,8 +54,8 @@ model Cafe {
 
 model CafeAddress {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  country   String  @default("unknown")
-  districts String  @default("unknown")
+  area      String  @default("unknown")
+  district  String  @default("unknown")
   location  String? @default("unknown")
   mrt       String?
   latitude  Float?
@@ -86,7 +87,7 @@ model Image {
   cafeId String @db.ObjectId
 }
 
-model Rank {
+model Ranks {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   wifi   Int?
   seat   Int?
@@ -152,4 +153,11 @@ model District {
   name    String
   area    Area?   @relation(fields: [areaId], references: [id])
   areaId  String? @db.ObjectId
+}
+
+model Tag {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  cafe   Cafe?   @relation(fields: [cafeId], references: [id])
+  cafeId String? @db.ObjectId
 }

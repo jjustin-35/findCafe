@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { UseFormRegister, FieldValues } from 'react-hook-form';
 
 interface SelectProps {
   opt: string[];
@@ -8,10 +8,10 @@ interface SelectProps {
   id?: string;
   onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
   className?: string;
+  register?: UseFormRegister<FieldValues>;
 }
 
-const Select: React.FC<SelectProps> = ({ opt, optValue, name, id = '', onChange, className = '' }) => {
-  const { register } = useFormContext();
+const Select: React.FC<SelectProps> = ({ opt, optValue, name, id = '', onChange, className = '', register }) => {
   const [value, setValue] = useState<string>('');
 
   if (!optValue) {
