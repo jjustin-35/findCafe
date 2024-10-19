@@ -9,7 +9,7 @@ import { getAreas } from '@/apis/search';
 
 import { Container } from '@/style/styles';
 import Select from '@/components/Select';
-import { SearchWrapper, Title } from './styled';
+import { HomeBannerImage,SearchWrapper, Title } from './styled';
 
 const HomeBanner = () => {
   const [allArea, setAllArea] = useState<string[]>(['請選擇']);
@@ -31,7 +31,7 @@ const HomeBanner = () => {
   };
 
   return (
-    <div className="container-fluid bg-img banner d-flex align-items-center">
+    <HomeBannerImage>
       <Container>
         <Title>找到專屬於你的咖啡廳</Title>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -48,7 +48,7 @@ const HomeBanner = () => {
           </Button>
         </form>
       </Container>
-    </div>
+    </HomeBannerImage>
   );
 };
 
