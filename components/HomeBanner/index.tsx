@@ -1,27 +1,27 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useForm, FormProvider } from 'react-hook-form';
-import { AppDispatch, RootState } from '@/config/configureStore';
-import { getAreas } from '@/redux/search';
+import { getAreas } from '@/apis/search';
 
 import Select from '@/components/Select';
 
 const HomeBanner = () => {
-  const { areas } = useSelector((state: RootState) => state.search);
   const [keyword, setKeyword] = useState<string>('');
-  const [countries, setCountries] = useState<string[]>(['請選擇']);
-  const dispatch = useDispatch<AppDispatch>();
+  const [allArea, setAllArea] = useState<string[]>(['請選擇']);
+  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
-    if (!areas?.length) {
-      dispatch(getAreas());
-      return;
-    }
-    const areaNames = areas.map((area) => area.name);
-    setCountries([...countries, ...areaNames]);
-  }, [areas]);
+    (
+      async () => {
+        if (allArea.length === 1) {
+          const areas = await getAreas();
+          const areaNames = areas.map((area) => area.name);
+          setAllArea([...allArea, ...areaNames]);
+        }
+      }
+    )()
+  }, []);
   return (
     <div className="container-fluid bg-img banner d-flex align-items-center">
       <div className="container">
@@ -38,7 +38,7 @@ const HomeBanner = () => {
                   onChange={(e) => setKeyword(e.target.value)}
                   value={keyword}
                 />
-                <Select opt={countries} name="countries" className="d-inline fs-1 py-0-5" />
+                <Select opt={allArea} name="area" className="d-inline fs-1 py-0-5" />
               </FormProvider>
             </div>
           </div>
