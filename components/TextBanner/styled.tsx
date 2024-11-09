@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 export const Background = styled('section')`
   padding: 40px 0;
@@ -16,6 +16,7 @@ export const Wrapper = styled('div')`
   justify-content: center;
   flex-direction: column;
   max-width: 558px;
+  gap: 16px;
 
   ${({ theme }) => theme.breakpoints.down('mobile')} {
     max-width: 100%;

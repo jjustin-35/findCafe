@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Typography } from '@mui/material';
 import Icon from '@/components/Icon';
@@ -10,8 +12,8 @@ const TextBanner = ({ type }: { type: 'home' }) => {
   return (
     <Background>
       <Wrapper>
-        <Icon type="coffee" />
-        <Typography variant="body2" color="text.secondary">
+        <Icon type="coffee-brown" width={48} height={48} />
+        <Typography variant="body1" color="primary.main">
           {description}
         </Typography>
       </Wrapper>

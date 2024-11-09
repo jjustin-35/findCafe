@@ -1,16 +1,27 @@
 'use client';
 
+import { Box } from '@mui/material';
 import { Container } from '@/style/styles';
+import { theme } from '@/style/theme';
 import ImageTextBanner from '@/components/ImageTextBanner';
 import data from './data';
 
+const wrapperStyle = {
+  backgroundColor: theme.palette.grey[50],
+  marginBottom: '40px',
+};
+
 const HomeIntro = () => {
   return (
-    <Container>
+    <>
       {data.map((item, idx) => (
-        <ImageTextBanner key={idx} {...item} />
+        <Box key={idx} sx={wrapperStyle}>
+          <Container>
+            <ImageTextBanner {...item} />
+          </Container>
+        </Box>
       ))}
-    </Container>
+    </>
   );
 };
 

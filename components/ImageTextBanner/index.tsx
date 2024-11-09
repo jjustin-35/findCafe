@@ -1,25 +1,38 @@
 'use client';
 
-import { Stack, Typography } from '@mui/material';
+import Image from 'next/image';
+import { Stack, Typography, TypographyOwnProps } from '@mui/material';
 import { ImageData } from '@/constants/types';
-import { Image } from './styled';
 export interface ImageTextBannerProps {
   data: {
     image: ImageData;
     title: string;
     description: string;
   };
-  isReverse?: boolean;
+  styles?: {
+    title?: TypographyOwnProps;
+    description?: TypographyOwnProps;
+    isReverse?: boolean;
+  };
 }
 
-const ImageTextBanner = ({ data, isReverse }: ImageTextBannerProps) => {
+const ImageTextBanner = ({ data, styles }: ImageTextBannerProps) => {
   const { image, title, description } = data;
   return (
-    <Stack direction={isReverse ? 'row-reverse' : 'row'} spacing={2} sx={{ width: '100%' }}>
-      <Image {...image} fill />
-      <Stack direction="column" spacing={2} sx={{ padding: '20px 0' }}>
-        <Typography variant="h2">{title}</Typography>
-        <Typography variant="body1">{description}</Typography>
+    <Stack direction={styles?.isReverse ? 'row-reverse' : 'row'} spacing={2} sx={{ width: '100%' }}>
+      <Image {...image} layout="responsive" width={785} height={450} style={{ objectFit: 'cover' }} />
+      <Stack
+        direction="column"
+        justifyContent="center"
+        spacing={2}
+        sx={{ padding: '20px 0', width: '100%', maxWidth: '40%' }}
+      >
+        <Typography component="h2" variant="h5" color="primary.main" fontWeight="bold" {...styles?.title}>
+          {title}
+        </Typography>
+        <Typography variant="body1" {...styles?.description}>
+          {description}
+        </Typography>
       </Stack>
     </Stack>
   );

@@ -16,7 +16,7 @@ export type ApiFunction<ReturnValue = any, Parameter extends Record<string, any>
 ) => Promise<ApiResponse<ReturnValue>>;
 
 export type DistrictData = {
-  zip: number;
+  zip: string;
   name: string;
 };
 

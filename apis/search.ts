@@ -15,23 +15,29 @@ export const getAreas = async () => {
       },
     });
     if (!allAreas?.length) {
-      const data: AreaData[] = JSON.parse(fs.readFileSync(path.join(__dirname, '../taiwan_districts.json'), 'utf-8'));
-      const areas = data.map((area) => {
-        return {
-          name: area.name,
-          districts: area.districts.map((district) => {
-            return {
-              zipcode: district.zip,
-              name: district.name,
-            };
-          }),
-        };
-      });
-      await prisma.area.createMany({
-        data: areas,
+      const file = fs.readFileSync('./taiwan_districts.json', 'utf-8');
+      const data: AreaData[] = JSON.parse(file);
+
+      const districtsPromises: Promise<Prisma.DistrictCreateManyInput[]>[] = data.map(async (area) => {
+        const createdArea = await prisma.area.create({
+          data: {
+            name: area.name,
+          },
+        });
+        const districts = area.districts.map((district) => ({
+          zipcode: parseInt(district.zip),
+          name: district.name,
+          areaId: createdArea.id,
+        }));
+        return districts;
       });
 
-      return areas;
+      const districts = await Promise.all(districtsPromises);
+      await prisma.district.createMany({
+        data: districts.flat(),
+      });
+
+      return allAreas;
     }
     return allAreas;
   } catch (error) {

@@ -23,6 +23,7 @@ export const theme = createTheme({
       main: '#fff5f5', // Using $red-100 as $danger
     },
     grey: {
+      50: '#f7f6f6', // lightest
       100: '#d9d9d9', // light
       200: '#aba7a4', // normal
       900: '#44413f', // dark

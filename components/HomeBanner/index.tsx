@@ -9,7 +9,7 @@ import { getAreas } from '@/apis/search';
 
 import { Container } from '@/style/styles';
 import Select from '@/components/Select';
-import { HomeBannerImage,SearchWrapper, Title } from './styled';
+import { HomeBannerImage, SearchWrapper, Title } from './styled';
 
 const HomeBanner = () => {
   const [allArea, setAllArea] = useState<string[]>(['請選擇']);
@@ -18,7 +18,7 @@ const HomeBanner = () => {
 
   useEffect(() => {
     (async () => {
-      if (allArea.length === 1) {
+      if (allArea.length <= 1) {
         const areas = await getAreas();
         const areaNames = areas.map((area) => area.name);
         setAllArea([...allArea, ...areaNames]);
@@ -39,9 +39,11 @@ const HomeBanner = () => {
             <TextField
               type="text"
               placeholder="搜尋關鍵字"
+              size="small"
+              sx={{ backgroundColor: 'white', borderRadius: '4px', width: '418px' }}
               {...register('keyword')}
             />
-            <Select opt={allArea} name="area" className="d-inline fs-1 py-0-5" register={register} />
+            <Select opt={allArea} name="area" register={register} />
           </SearchWrapper>
           <Button type="submit" variant="contained" sx={{ borderRadius: '24px' }}>
             搜尋
