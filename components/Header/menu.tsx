@@ -8,7 +8,7 @@ const Menu = () => {
       spacing={2}
       alignItems="center"
       sx={{
-        display: { xs: 'none', md: 'flex' },
+        display: { mobile: 'none', tablet: 'flex' },
       }}
     >
       <Link
@@ -20,7 +20,17 @@ const Menu = () => {
       >
         搜尋咖啡廳
       </Link>
-      <Button variant="text" color="inherit">
+      <Button
+        variant="outlined"
+        color="inherit"
+        sx={{
+          '&:hover': {
+            bgcolor: 'white',
+            color: 'primary.main',
+            borderColor: 'primary.main',
+          },
+        }}
+      >
         登入
       </Button>
       <Button

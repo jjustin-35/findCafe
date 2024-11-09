@@ -18,7 +18,7 @@ const MobileMenuItems = () => {
         </Link>
       </ListItem>
       <ListItem>
-        <Button fullWidth variant="text" color="inherit">
+        <Button fullWidth variant="outlined">
           登入
         </Button>
       </ListItem>
@@ -57,7 +57,7 @@ const MobileMenu = () => {
         edge="start"
         onClick={handleDrawerToggle}
         sx={{
-          display: { md: 'none' },
+          display: { tablet: 'none' },
         }}
       >
         <MenuIcon />
@@ -73,7 +73,7 @@ const MobileMenu = () => {
           keepMounted: true, // Better mobile performance
         }}
         sx={{
-          display: { xs: 'block', md: 'none' },
+          display: { mobile: 'block', tablet: 'none' },
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: 240,

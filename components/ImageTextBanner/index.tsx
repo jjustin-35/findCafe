@@ -20,7 +20,17 @@ const ImageTextBanner = ({ data, styles }: ImageTextBannerProps) => {
   const { image, title, description } = data;
   return (
     <Stack direction={styles?.isReverse ? 'row-reverse' : 'row'} spacing={2} sx={{ width: '100%' }}>
-      <Image {...image} layout="responsive" width={785} height={450} style={{ objectFit: 'cover' }} />
+      <Image
+        {...image}
+        sizes="100vw"
+        style={{
+          width: '100%',
+          height: 'auto',
+          objectFit: 'cover'
+        }}
+        width={785}
+        height={450}
+      />
       <Stack
         direction="column"
         justifyContent="center"
