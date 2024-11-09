@@ -18,14 +18,22 @@ export const getAreas = async () => {
       const file = fs.readFileSync('./taiwan_districts.json', 'utf-8');
       const data: AreaData[] = JSON.parse(file);
 
-      const districtsPromises: Promise<Prisma.DistrictCreateManyInput[]>[] = data.map(async (area) => {
+      const mappedAreas = data.map((area) => ({
+        name: area.name,
+        districts: area.districts.map((district) => ({
+          zipcode: parseInt(district.zip),
+          name: district.name,
+        })),
+      }));
+
+      const districtsPromises: Promise<Prisma.DistrictCreateManyInput[]>[] = mappedAreas.map(async (area) => {
         const createdArea = await prisma.area.create({
           data: {
             name: area.name,
           },
         });
         const districts = area.districts.map((district) => ({
-          zipcode: parseInt(district.zip),
+          zipcode: district.zipcode,
           name: district.name,
           areaId: createdArea.id,
         }));
@@ -37,8 +45,9 @@ export const getAreas = async () => {
         data: districts.flat(),
       });
 
-      return allAreas;
+      return mappedAreas;
     }
+
     return allAreas;
   } catch (error) {
     console.error(error);
