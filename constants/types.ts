@@ -43,3 +43,8 @@ export type SearchCafesData = {
   rank?: number;
   advantages?: CafeAdvantage[];
 };
+
+export type ImageData = {
+  src: string;
+  alt: string;
+};

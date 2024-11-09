@@ -1,8 +1,8 @@
 .banner {
-  background-image: url('../../public/img/banner_mobile.png');
+  background-image: url('../../public/images/banner_mobile.png');
   min-height: 350px;
   @include media-breakpoint-up(md) {
-    background-image: url('../../public/img/Frame4.png');
+    background-image: url('../../public/images/home-banner.png');
     min-height: 645px;
   }
   &__title {

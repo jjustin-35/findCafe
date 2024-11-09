@@ -1,7 +1,8 @@
 import { styled } from '@mui/material/styles';
 
 export const HomeBannerImage = styled('div')`
-  background-image: url('/images/home-banner.jpg');
+  background-image: url('/images/home-banner.png');
+  min-height: 500px;
 `;
 
 export const Title = styled('h1')`
