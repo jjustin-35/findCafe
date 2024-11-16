@@ -1,21 +1,21 @@
+'use client';
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/config/configureStore';
 import { setSearch, setErr } from '@/redux/search';
 import { setProfile } from '@/redux/user';
+import Image from 'next/image';
 
-export const Footer: React.FC = () => {
+  const Footer: React.FC = () => {
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.auth.token);
-  const localUrl = process.env.PUBLIC_URL;
 
   const onLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     localStorage.removeItem('token');
     localStorage.removeItem('profile');
-
-    // 假設有一個 setToken action，你需要在 auth slice 中定義它
     dispatch({ type: 'auth/setToken', payload: null });
     dispatch(setProfile(null));
   };
@@ -31,22 +31,22 @@ export const Footer: React.FC = () => {
           {token ? (
             <ul className="nav flex-wrap">
               <li className="footer__item">
-                <a href="" className="nav-link text-white ps-0">
+                <Link href="/" className="nav-link text-white ps-0">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="footer__item">
-                <Link to="/search" className="nav-link text-white ps-0 ps-md-0-5" onClick={navToSearch}>
+                <Link href="/search" className="nav-link text-white ps-0 ps-md-0-5" onClick={navToSearch}>
                   Search
                 </Link>
               </li>
               <li className="footer__item">
-                <a href="" className="nav-link text-white ps-0 ps-md-0-5" onClick={onLogout}>
+                <a href="#" className="nav-link text-white ps-0 ps-md-0-5" onClick={onLogout}>
                   Logout
                 </a>
               </li>
               <li className="footer__item">
-                <Link to="/profile" className="nav-link text-white ps-0 ps-md-0-5">
+                <Link href="/profile" className="nav-link text-white ps-0 ps-md-0-5">
                   My account
                 </Link>
               </li>
@@ -54,18 +54,18 @@ export const Footer: React.FC = () => {
           ) : (
             <ul className="nav">
               <li className="footer__item">
-                <a href="" className="nav-link text-white ps-0">
+                <Link href="/" className="nav-link text-white ps-0">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="footer__item">
-                <Link to="/search" className="nav-link text-white ps-0 ps-md-0-5" onClick={navToSearch}>
+                <Link href="/search" className="nav-link text-white ps-0 ps-md-0-5" onClick={navToSearch}>
                   Search
                 </Link>
               </li>
               <li className="footer__item">
                 <Link
-                  to="/login"
+                  href="/login"
                   className="nav-link text-white ps-0 ps-md-0-5"
                   onClick={() => {
                     dispatch(setErr(''));
@@ -121,7 +121,7 @@ export const Footer: React.FC = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            <img src={`${localUrl}/img/findCafe.svg`} alt="" height={30} />
+            <Image src="/img/findCafe.svg" alt="" width={30} height={30} />
           </div>
         </div>
         <p className="text-white text-center mb-0">Copyright © 2022 Justin Chen. All rights reserved. </p>
@@ -129,3 +129,5 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+
+export default Footer;
