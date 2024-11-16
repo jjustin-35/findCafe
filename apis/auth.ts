@@ -1,11 +1,12 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { compare, hash } from 'bcrypt';
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import prisma from '@/lib/prisma';
-import { ApiFunction } from '@/constants/types';
+import type { ApiFunction } from '@/constants/types';
 import { ErrorTypes } from '@/constants/errorTypes';
 
 type Tokens = { access_token: string; refresh_token: string };
@@ -25,7 +26,7 @@ export const generateToken = async (email: string, userId: string): Promise<Toke
   return { access_token, refresh_token };
 };
 
-export const login: ApiFunction<User> = async ({ email, password }: { email: string; password: string }) => {
+export const login: ApiFunction<{ email: string; password: string }, User> = async ({ email, password }) => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
@@ -56,7 +57,11 @@ export const login: ApiFunction<User> = async ({ email, password }: { email: str
   return { data: user };
 };
 
-export const signup: ApiFunction<User> = async ({ email, password, name }: { email: string; password: string; name: string }) => {
+export const signup: ApiFunction<{ email: string; password: string; name: string }, User> = async ({
+  email,
+  password,
+  name,
+}) => {
   const hashedPassword = await hash(password, 10);
   const data = { email, password: hashedPassword, name };
   const user = await prisma.user.create({ data });
@@ -64,18 +69,18 @@ export const signup: ApiFunction<User> = async ({ email, password, name }: { ema
   return { data: user };
 };
 
-export const logout: ApiFunction<null> = async () => {
+export const logout: ApiFunction<null, null> = async () => {
   clearCookies();
-  return null;
+  redirect('/');
 };
 
-export const resetPassword: ApiFunction<null> = async ({ email, password }: { email: string; password: string }) => {
+export const resetPassword: ApiFunction<{ email: string; password: string }> = async ({ email, password }) => {
   const hashedPassword = await hash(password, 10);
   await prisma.user.update({ where: { email }, data: { password: hashedPassword } });
   return null;
 };
 
-export const getUser: ApiFunction<User> = async ({ token }: { token: string }) => {
+export const getUser: ApiFunction<{ token: string }, User> = async ({ token }) => {
   const decoded = verify(token, process.env.JWT_SECRET) as JwtPayload;
   if (!decoded) {
     clearCookies();
@@ -104,11 +109,11 @@ export const getUser: ApiFunction<User> = async ({ token }: { token: string }) =
   return { data: user };
 };
 
-export const refreshToken: ApiFunction<Tokens> = async ({ token }: { token: string }) => {
+export const refreshToken: ApiFunction<{ token: string }, Tokens> = async ({ token }) => {
   const decoded = verify(token, process.env.JWT_SECRET_REFRESH) as JwtPayload;
 
   if (decoded?.originAccessToken) {
-    const user = await getUser(decoded.originAccessToken);
+    const user = await getUser({ token: decoded.originAccessToken as string });
     if (user.error) {
       clearCookies();
       return {

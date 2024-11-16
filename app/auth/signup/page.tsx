@@ -40,7 +40,7 @@ export default function Signup() {
         setError(resp.error.message);
       } else {
         alert('註冊成功!請重新登入');
-        router.push('/');
+        router.push('/auth/login');
       }
     } catch (err) {
       setError('註冊資料錯誤');

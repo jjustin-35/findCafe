@@ -9,11 +9,11 @@ type SuccessResponse<T> = {
   data?: T;
 };
 
-type ApiResponse<T> = SuccessResponse<T> & ErrorResponse;
+export type ApiResponse<T> = SuccessResponse<T> & ErrorResponse;
 
-export type ApiFunction<ReturnValue = any, Parameter extends Record<string, any> = {}> = (
-  data: Parameter,
-) => Promise<ApiResponse<ReturnValue>>;
+export type ApiFunctionWithoutParams<R = any> = () => Promise<ApiResponse<R>>;
+export type ApiFunctionWithParams<P = any, R = any> = (params: P) => Promise<ApiResponse<R>>;
+export type ApiFunction<P = void, R = any> = P extends void ? ApiFunctionWithoutParams<R> : ApiFunctionWithParams<P, R>;
 
 export type DistrictData = {
   zip: string;
