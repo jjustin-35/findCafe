@@ -26,6 +26,10 @@ const Footer: React.FC = () => {
     dispatch(setSearch({}));
   };
 
+  const onNavToLogin = () => {
+    dispatch(setErr(''));
+  };
+
   return (
     <FooterWrapper>
       <Container>
@@ -46,7 +50,7 @@ const Footer: React.FC = () => {
               </ListItem>
             </List>
           ) : (
-            <List sx={{ display: 'flex', p: 0 }}>
+            <List sx={{ display: 'flex', p: 0, gap: 2 }}>
               <ListItem sx={{ width: 'auto', p: 0 }}>
                 <NavLink href="/">Home</NavLink>
               </ListItem>
@@ -56,9 +60,7 @@ const Footer: React.FC = () => {
               <ListItem sx={{ width: 'auto', p: 0 }}>
                 <NavLink
                   href="/login"
-                  onClick={() => {
-                    dispatch(setErr(''));
-                  }}
+                  onClick={onNavToLogin}
                 >
                   Login
                 </NavLink>
@@ -67,7 +69,7 @@ const Footer: React.FC = () => {
           )}
           <BrandContainer>
             <Icon type="coffee-brown" />
-            <Image src="/images/findCafe.svg" alt="" width={30} height={30} />
+            <Image src="/images/findCafe.svg" alt="icon-findCafe" width={100} height={60} />
           </BrandContainer>
         </List>
         <Typography

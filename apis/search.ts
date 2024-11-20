@@ -1,10 +1,9 @@
 'use server';
 
-import fs from 'fs';
 import { Prisma } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import { isEmpty } from '@/helpers/object';
-import { AreaData, SearchCafesData } from '@/constants/types';
+import { SearchCafesData } from '@/constants/types';
 
 export const getAreas = async () => {
   try {
@@ -16,40 +15,6 @@ export const getAreas = async () => {
         order: 'asc',
       },
     });
-    // if (!allAreas?.length) {
-    //   const file = fs.readFileSync('./taiwan_districts.json', 'utf-8');
-    //   const data: AreaData[] = JSON.parse(file);
-
-    //   const mappedAreas = data.map((area) => ({
-    //     name: area.name,
-    //     districts: area.districts.map((district) => ({
-    //       zipcode: parseInt(district.zip),
-    //       name: district.name,
-    //     })),
-    //   }));
-
-    //   const districtsPromises: Promise<Prisma.DistrictCreateManyInput[]>[] = mappedAreas.map(async (area, idx) => {
-    //     const createdArea = await prisma.area.create({
-    //       data: {
-    //         name: area.name,
-    //         order: idx,
-    //       },
-    //     });
-    //     const districts = area.districts.map((district) => ({
-    //       zipcode: district.zipcode,
-    //       name: district.name,
-    //       areaId: createdArea.id,
-    //     }));
-    //     return districts;
-    //   });
-
-    //   const districts = await Promise.all(districtsPromises);
-    //   await prisma.district.createMany({
-    //     data: districts.flat(),
-    //   });
-
-    //   return mappedAreas;
-    // }
 
     return allAreas;
   } catch (error) {
