@@ -10,8 +10,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "encode": "secure-env .env -s $PASSWORD",
-    "decode": "secure-env .env.enc -d $PASSWORD"
+    "encode:password": "secure-env .env -s",
+    "decode:password": "secure-env .env.enc -d"
   },
   "eslintConfig": {
     "extends": [
