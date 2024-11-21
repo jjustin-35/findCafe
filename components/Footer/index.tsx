@@ -14,9 +14,8 @@ import { logout } from '@/apis/auth';
 
 const Footer: React.FC = () => {
   const dispatch = useDispatch();
-  const token = useSelector((state: RootState) => state.auth.token);
   const year = new Date().getFullYear();
-
+  const isAuth = useSelector((state: RootState) => state.auth.isAuth);
   const onLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     await logout();
@@ -60,7 +59,7 @@ const Footer: React.FC = () => {
               </NavLink>
             </ListItem>
             <ListItem sx={{ p: 0 }}>
-              {token ? (
+              {isAuth ? (
                 <NavAnchor onClick={onLogout}>Logout</NavAnchor>
               ) : (
                 <NavLink href="/login" onClick={onNavToLogin}>

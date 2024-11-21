@@ -1,7 +1,7 @@
 import { Stack, Button } from '@mui/material';
 import Link from 'next/link';
 
-const Menu = () => {
+const Menu = ({ isAuth }: { isAuth: boolean }) => {
   return (
     <Stack
       direction="row"
@@ -20,37 +20,41 @@ const Menu = () => {
       >
         搜尋咖啡廳
       </Link>
-      <Link href="/auth/login">
-        <Button
-          variant="outlined"
-          sx={{
-            color: 'white',
-            borderColor: 'white',
-            '&:hover': {
-              bgcolor: 'white',
-              color: 'primary.main',
-              borderColor: 'primary.main',
-            },
-          }}
-        >
-          登入
-        </Button>
-      </Link>
-      <Link href="/auth/signup">
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={{
-            bgcolor: 'white',
-            color: 'primary.main',
-            '&:hover': {
-              bgcolor: 'grey.100',
-            },
-          }}
-        >
-          註冊
-        </Button>
-      </Link>
+      {!isAuth && (
+        <>
+          <Link href="/auth/login">
+            <Button
+              variant="outlined"
+              sx={{
+                color: 'white',
+                borderColor: 'white',
+                '&:hover': {
+                  bgcolor: 'white',
+                  color: 'primary.main',
+                  borderColor: 'primary.main',
+                },
+              }}
+            >
+              登入
+            </Button>
+          </Link>
+          <Link href="/auth/signup">
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{
+                bgcolor: 'white',
+                color: 'primary.main',
+                '&:hover': {
+                  bgcolor: 'grey.100',
+                },
+              }}
+            >
+              註冊
+            </Button>
+          </Link>
+        </>
+      )}
     </Stack>
   );
 };

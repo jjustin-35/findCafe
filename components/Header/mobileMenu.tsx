@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { List, ListItem, Button, IconButton, Drawer, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const MobileMenuItems = () => {
+const MobileMenuItems = ({ isAuth }: { isAuth: boolean }) => {
   return (
     <List>
       <ListItem>
@@ -14,35 +14,39 @@ const MobileMenuItems = () => {
         </Link>
       </ListItem>
       <ListItem>
-        <Link href="/auth/login" style={{ width: '100%' }}>
-          <Button fullWidth variant="outlined">
-            登入
-          </Button>
-        </Link>
+        {!isAuth && (
+          <Link href="/auth/login" style={{ width: '100%' }}>
+            <Button fullWidth variant="outlined">
+              登入
+            </Button>
+          </Link>
+        )}
       </ListItem>
       <ListItem>
-        <Link href="/auth/signup" style={{ width: '100%' }}>
-          <Button
-            fullWidth
-            variant="contained"
-            color="secondary"
-            sx={{
-              bgcolor: 'primary.main',
-              color: 'white',
-              '&:hover': {
-                bgcolor: 'primary.dark',
-              },
-            }}
-          >
-            註冊
-          </Button>
-        </Link>
+        {!isAuth && (
+          <Link href="/auth/signup" style={{ width: '100%' }}>
+            <Button
+              fullWidth
+              variant="contained"
+              color="secondary"
+              sx={{
+                bgcolor: 'primary.main',
+                color: 'white',
+                '&:hover': {
+                  bgcolor: 'primary.dark',
+                },
+              }}
+            >
+              註冊
+            </Button>
+          </Link>
+        )}
       </ListItem>
     </List>
   );
 };
 
-const MobileMenu = () => {
+const MobileMenu = ({ isAuth }: { isAuth: boolean }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -80,7 +84,7 @@ const MobileMenu = () => {
           },
         }}
       >
-        <MobileMenuItems />
+        <MobileMenuItems isAuth={isAuth} />
       </Drawer>
     </>
   );

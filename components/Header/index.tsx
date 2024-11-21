@@ -2,12 +2,15 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { AppBar, Toolbar, Stack, IconButton, Drawer } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { AppBar, Toolbar, Stack } from '@mui/material';
+import { RootState } from '@/config/configureStore';
 import { Container } from '@/style/styles';
 import Menu from './menu';
 import MobileMenu from './mobileMenu';
 
 const Header = () => {
+  const { isAuth } = useSelector((state: RootState) => state.auth);
   return (
     <AppBar position="sticky">
       <Container>
@@ -30,8 +33,8 @@ const Header = () => {
             <Image src="/images/findCafe.svg" alt="icon-find-cafe" width={126} height={32} />
           </Stack>
 
-          <Menu />
-          <MobileMenu />
+          <Menu isAuth={isAuth} />
+          <MobileMenu isAuth={isAuth} />
         </Toolbar>
       </Container>
     </AppBar>
