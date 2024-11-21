@@ -19,12 +19,13 @@ export interface ImageTextBannerProps {
 const ImageTextBanner = ({ data, styles }: ImageTextBannerProps) => {
   const { image, title, description } = data;
   return (
-    <Stack direction={styles?.isReverse ? 'row-reverse' : 'row'} spacing={2} sx={{ width: '100%' }}>
+    <Stack direction={styles?.isReverse ? 'row-reverse' : 'row'} spacing={2}>
       <Image
         {...image}
         sizes="100vw"
         style={{
           width: '100%',
+          maxWidth: '60%',
           height: 'auto',
           objectFit: 'cover'
         }}

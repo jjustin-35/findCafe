@@ -8,7 +8,7 @@ const Menu = () => {
       spacing={2}
       alignItems="center"
       sx={{
-        display: { mobile: 'none', tablet: 'flex' },
+        display: { mobile: 'none', laptop: 'flex' },
       }}
     >
       <Link
@@ -20,32 +20,37 @@ const Menu = () => {
       >
         搜尋咖啡廳
       </Link>
-      <Button
-        variant="outlined"
-        color="inherit"
-        sx={{
-          '&:hover': {
+      <Link href="/auth/login">
+        <Button
+          variant="outlined"
+          sx={{
+            color: 'white',
+            borderColor: 'white',
+            '&:hover': {
+              bgcolor: 'white',
+              color: 'primary.main',
+              borderColor: 'primary.main',
+            },
+          }}
+        >
+          登入
+        </Button>
+      </Link>
+      <Link href="/auth/signup">
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{
             bgcolor: 'white',
             color: 'primary.main',
-            borderColor: 'primary.main',
-          },
-        }}
-      >
-        登入
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        sx={{
-          bgcolor: 'white',
-          color: 'primary.main',
-          '&:hover': {
-            bgcolor: 'grey.100',
-          },
-        }}
-      >
-        註冊
-      </Button>
+            '&:hover': {
+              bgcolor: 'grey.100',
+            },
+          }}
+        >
+          註冊
+        </Button>
+      </Link>
     </Stack>
   );
 };

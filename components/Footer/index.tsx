@@ -3,12 +3,13 @@
 import React from 'react';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Typography, List, ListItem } from '@mui/material';
+import { Container as MuiContainer, Typography, List, ListItem, Box } from '@mui/material';
 import { RootState } from '@/config/configureStore';
 import { setSearch, setErr } from '@/redux/search';
 import { setProfile } from '@/redux/user';
 import Icon from '@/components/Icon';
-import { FooterWrapper, NavLink, NavAnchor, BrandContainer } from './styled';
+import { Container } from '@/style/styles';
+import { NavLink, NavAnchor } from './styled';
 import { logout } from '@/apis/auth';
 
 const Footer: React.FC = () => {
@@ -31,46 +32,48 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <FooterWrapper>
-      <Container>
-        <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: { tablet: 'center' }, mb: { mobile: 4, tablet: 5 } }}>
-          {token ? (
-            <List sx={{ display: 'flex', flexWrap: 'wrap', p: 0 }}>
-              <ListItem sx={{ width: 'auto', p: 0 }}>
-                <NavLink href="/">Home</NavLink>
-              </ListItem>
-              <ListItem sx={{ width: 'auto', p: 0 }}>
-                <NavLink href="/search" onClick={navToSearch}>Search</NavLink>
-              </ListItem>
-              <ListItem sx={{ width: 'auto', p: 0 }}>
+    <MuiContainer component="footer" sx={{ bgcolor: 'primary.main' }}>
+      <Container
+        sx={{
+          color: 'white',
+          p: {
+            desktop: '40px 0',
+            tablet: '24px 0',
+          },
+        }}
+      >
+        <List
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: { tablet: 'center' },
+            mb: { mobile: 4, tablet: 5 },
+          }}
+        >
+          <List sx={{ display: 'flex', p: 0, gap: 2 }}>
+            <ListItem sx={{ width: 'auto', p: 0 }}>
+              <NavLink href="/">Home</NavLink>
+            </ListItem>
+            <ListItem sx={{ p: 0 }}>
+              <NavLink href="/search" onClick={navToSearch}>
+                Search
+              </NavLink>
+            </ListItem>
+            <ListItem sx={{ p: 0 }}>
+              {token ? (
                 <NavAnchor onClick={onLogout}>Logout</NavAnchor>
-              </ListItem>
-              <ListItem sx={{ width: 'auto', p: 0 }}>
-                <NavLink href="/profile">My account</NavLink>
-              </ListItem>
-            </List>
-          ) : (
-            <List sx={{ display: 'flex', p: 0, gap: 2 }}>
-              <ListItem sx={{ width: 'auto', p: 0 }}>
-                <NavLink href="/">Home</NavLink>
-              </ListItem>
-              <ListItem sx={{ width: 'auto', p: 0 }}>
-                <NavLink href="/search" onClick={navToSearch}>Search</NavLink>
-              </ListItem>
-              <ListItem sx={{ width: 'auto', p: 0 }}>
-                <NavLink
-                  href="/login"
-                  onClick={onNavToLogin}
-                >
+              ) : (
+                <NavLink href="/login" onClick={onNavToLogin}>
                   Login
                 </NavLink>
-              </ListItem>
-            </List>
-          )}
-          <BrandContainer>
-            <Icon type="coffee-brown" />
+              )}
+            </ListItem>
+          </List>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Icon type="coffee-white" width={30} height={30} />
             <Image src="/images/findCafe.svg" alt="icon-findCafe" width={100} height={60} />
-          </BrandContainer>
+          </Box>
         </List>
         <Typography
           variant="body2"
@@ -82,7 +85,7 @@ const Footer: React.FC = () => {
           Copyright {year} Justin Chen. All rights reserved.
         </Typography>
       </Container>
-    </FooterWrapper>
+    </MuiContainer>
   );
 };
 

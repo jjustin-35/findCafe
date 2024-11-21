@@ -1,42 +1,42 @@
 import Link from 'next/link';
 import { useState } from 'react';
-import { List, ListItem, Button, IconButton, Drawer } from '@mui/material';
+import { List, ListItem, Button, IconButton, Drawer, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const MobileMenuItems = () => {
   return (
     <List>
       <ListItem>
-        <Link
-          href="/search"
-          style={{
-            color: 'inherit',
-            textDecoration: 'none',
-          }}
-        >
-          搜尋咖啡廳
+        <Link href="/search" style={{ width: '100%', textDecoration: 'none' }}>
+          <Typography variant="body1" textAlign="center">
+            搜尋咖啡廳
+          </Typography>
         </Link>
       </ListItem>
       <ListItem>
-        <Button fullWidth variant="outlined">
-          登入
-        </Button>
+        <Link href="/auth/login" style={{ width: '100%' }}>
+          <Button fullWidth variant="outlined">
+            登入
+          </Button>
+        </Link>
       </ListItem>
       <ListItem>
-        <Button
-          fullWidth
-          variant="contained"
-          color="secondary"
-          sx={{
-            bgcolor: 'primary.main',
-            color: 'white',
-            '&:hover': {
-              bgcolor: 'primary.dark',
-            },
-          }}
-        >
-          註冊
-        </Button>
+        <Link href="/auth/signup" style={{ width: '100%' }}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            sx={{
+              bgcolor: 'primary.main',
+              color: 'white',
+              '&:hover': {
+                bgcolor: 'primary.dark',
+              },
+            }}
+          >
+            註冊
+          </Button>
+        </Link>
       </ListItem>
     </List>
   );
