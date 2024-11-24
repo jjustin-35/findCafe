@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Box, Stack, Typography, Rating, Chip } from '@mui/material';
+import { Stack, Typography, Rating, Chip } from '@mui/material';
 import { Prisma } from '@prisma/client';
 
 interface ItemProps {
@@ -13,7 +13,7 @@ interface ItemProps {
 }
 
 const CafeListItem = ({ cafe }: ItemProps) => {
-  const { img, address, phone, tags } = cafe;
+  const { img, address, tags } = cafe;
   const stars = Math.round(cafe.stars);
   return (
     <Stack gap={2}>
@@ -28,6 +28,9 @@ const CafeListItem = ({ cafe }: ItemProps) => {
             <Chip key={tag.id} label={tag.name} />
           ))}
         </Stack>
+        <Typography variant="body1" component="p" color="text.secondary">
+          {address.location}
+        </Typography>
       </Stack>
     </Stack>
   );
