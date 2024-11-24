@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import Cookies from 'js-cookie';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Profile {
   _id: string;
