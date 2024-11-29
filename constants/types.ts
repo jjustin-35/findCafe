@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 type ErrorResponse = {
   error?: {
     error_code: string;
@@ -49,4 +51,18 @@ export type ImageData = {
   alt: string;
   width?: number;
   height?: number;
+};
+
+export type CafeData = Prisma.CafeGetPayload<{
+  include: {
+    img: true;
+    address: true;
+    tags: true;
+  };
+}>;
+
+export type Location = {
+  lat: number;
+  lng: number;
+  info?: CafeData;
 };

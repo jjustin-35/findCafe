@@ -1,17 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Stack, Typography, Rating, Chip } from '@mui/material';
-import { Prisma } from '@prisma/client';
+import { CafeData } from '@/constants/types';
 
-export type CafeItemProps = Prisma.CafeGetPayload<{
-  include: {
-    img: true;
-    address: true;
-    tags: true;
-  };
-}>;
-
-const CafeListItem = ({ cafe }: { cafe: CafeItemProps }) => {
+const CafeListItem = ({ cafe }: { cafe: CafeData }) => {
   const { img, address, tags, name } = cafe;
   const path = `/cafe/${name}`;
   const stars = Math.round(cafe.stars);

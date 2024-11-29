@@ -1,9 +1,10 @@
 'use client';
 
 import { Stack, Box } from '@mui/material';
-import CafeListItem, { CafeItemProps } from './item';
+import { CafeData } from '@/constants/types';
+import CafeListItem from './item';
 
-const CafeList = ({ data }: { data: CafeItemProps[] }) => {
+const CafeList = ({ data }: { data: CafeData[] }) => {
   return (
     <Box component="section" sx={{ p: 3, borderRadius: 2, bgcolor: 'secondary.main' }}>
       <Stack gap={2}>
