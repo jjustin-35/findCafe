@@ -32,7 +32,7 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
       const { currentLocation: oriLocation } = getState().search;
       const location = await getCurrentLocationApi();
       if (isEqual(location, oriLocation)) {
-        return rejectWithValue('Location is not changed');
+        return oriLocation;
       }
 
       return location;

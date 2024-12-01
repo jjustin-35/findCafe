@@ -1,5 +1,5 @@
 import { Loader } from '@googlemaps/js-api-loader';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/redux/hooks';
 import { Position } from '@/constants/types';
 import { theme } from '@/style/theme';
@@ -64,12 +64,13 @@ const addMarkers = async ({
   });
 };
 
-const useMap = (mapRef: React.RefObject<HTMLDivElement>) => {
+const useMap = () => {
   const { currentLocation } = useAppSelector((state) => state.search);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [curLocationTemp, setCurLocationTemp] = useState<Position | null>(null);
   const [cafeLocations, setCafeLocations] = useState<Position[]>([]);
   const [cafeMarkers, setCafeMarkers] = useState<google.maps.marker.AdvancedMarkerElement[]>([]);
+  const mapRef = useRef<HTMLDivElement>(null);
 
   const mapOptions: google.maps.MapOptions = {
     center: { lat: 0, lng: 0 },
@@ -92,7 +93,7 @@ const useMap = (mapRef: React.RefObject<HTMLDivElement>) => {
         console.error(error);
       }
     })();
-  }, []);
+  }, [mapRef.current]);
 
   // set current location
   useEffect(() => {
@@ -126,6 +127,7 @@ const useMap = (mapRef: React.RefObject<HTMLDivElement>) => {
   };
 
   return {
+    mapRef,
     map,
     cafeMarkers,
     setCafes,

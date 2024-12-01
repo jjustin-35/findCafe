@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { searchCafes, getCurrentLocation } from '@/redux/search';
-import { CafeData } from '@/constants/types';
 import CafeList from '@/components/CafeList';
 import Map from '@/components/Map';
 
@@ -22,9 +21,9 @@ const CafeInfo = () => {
   }, [cafes, currentLocation]);
 
   return (
-    <Stack>
-      <CafeList data={cafes} />
-      <Map cafes={cafes} currentLocation={null} />
+    <Stack direction={{ mobile: 'column', laptop: 'row' }}>
+      <CafeList cafes={cafes} />
+      <Map cafes={cafes} />
     </Stack>
   );
 };

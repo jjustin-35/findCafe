@@ -6,13 +6,13 @@ import { CafeData } from '@/constants/types';
 import CafeListLoader from '../Loaders/cafeList';
 import CafeListItem from './item';
 
-const CafeList = ({ data }: { data: CafeData[] }) => {
+const CafeList = ({ cafes }: { cafes: CafeData[] }) => {
   return (
     <Box component="section" sx={{ p: 3, borderRadius: 2, bgcolor: 'secondary.main' }}>
       <Suspense fallback={<CafeListLoader />}>
-        {data?.length && (
+        {cafes?.length && (
           <Stack gap={2} direction="column">
-            {data.map((cafe) => (
+            {cafes.map((cafe) => (
               <CafeListItem key={cafe.id} cafe={cafe} />
             ))}
           </Stack>
