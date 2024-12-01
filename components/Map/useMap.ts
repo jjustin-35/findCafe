@@ -1,6 +1,7 @@
 import { Loader } from '@googlemaps/js-api-loader';
 import { useEffect, useState } from 'react';
-import { Location } from '@/constants/types';
+import { useAppSelector } from '@/redux/hooks';
+import { Position } from '@/constants/types';
 import { theme } from '@/style/theme';
 
 const loader = new Loader({
@@ -15,7 +16,7 @@ const addMarkers = async ({
   isCafe = false,
 }: {
   map: google.maps.Map;
-  locations: Location[];
+  locations: Position[];
   isCafe?: boolean;
 }) => {
   const { AdvancedMarkerElement, PinElement } = await loader.importLibrary('marker');
@@ -64,10 +65,10 @@ const addMarkers = async ({
 };
 
 const useMap = (mapRef: React.RefObject<HTMLDivElement>) => {
+  const { currentLocation } = useAppSelector((state) => state.search);
   const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [curLocation, setCurLocation] = useState<Location | null>(null);
-  const [curLocationTemp, setCurLocationTemp] = useState<Location | null>(null);
-  const [cafeLocations, setCafeLocations] = useState<Location[]>([]);
+  const [curLocationTemp, setCurLocationTemp] = useState<Position | null>(null);
+  const [cafeLocations, setCafeLocations] = useState<Position[]>([]);
   const [cafeMarkers, setCafeMarkers] = useState<google.maps.marker.AdvancedMarkerElement[]>([]);
 
   const mapOptions: google.maps.MapOptions = {
@@ -98,18 +99,18 @@ const useMap = (mapRef: React.RefObject<HTMLDivElement>) => {
     (async () => {
       if (!map) return;
       const isLocationChanged =
-        curLocationTemp &&
-        Object.keys(curLocationTemp).some(
-          (key) => curLocationTemp[key as keyof Location] !== curLocation?.[key as keyof Location],
+        currentLocation &&
+        Object.keys(currentLocation).some(
+          (key) => currentLocation?.[key as keyof Position] !== curLocationTemp?.[key as keyof Position],
         );
 
       if (isLocationChanged) {
         map.setCenter(curLocationTemp);
         await addMarkers({ map, locations: [curLocationTemp] });
-        setCurLocation(curLocationTemp);
+        setCurLocationTemp(currentLocation);
       }
     })();
-  }, [map, curLocationTemp]);
+  }, [map, currentLocation]);
 
   // set cafe markers
   useEffect(() => {
@@ -120,11 +121,7 @@ const useMap = (mapRef: React.RefObject<HTMLDivElement>) => {
     })();
   }, [map, cafeLocations]);
 
-  const setCurrentLocation = (location: Location) => {
-    setCurLocationTemp(location);
-  };
-
-  const setCafes = (locations: Location[]) => {
+  const setCafes = (locations: Position[]) => {
     setCafeLocations(locations);
   };
 
@@ -132,7 +129,6 @@ const useMap = (mapRef: React.RefObject<HTMLDivElement>) => {
     map,
     cafeMarkers,
     setCafes,
-    setCurrentLocation,
   };
 };
 

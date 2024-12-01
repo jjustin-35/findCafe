@@ -41,6 +41,7 @@ export type SearchCafesData = {
   area?: string;
   district?: string;
   location?: string;
+  position?: Omit<Position, 'info'>;
   keyword?: string;
   rank?: number;
   advantages?: CafeAdvantage[];
@@ -61,7 +62,7 @@ export type CafeData = Prisma.CafeGetPayload<{
   };
 }>;
 
-export type Location = {
+export type Position = {
   lat: number;
   lng: number;
   info?: CafeData;

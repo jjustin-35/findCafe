@@ -1,10 +1,12 @@
+'use client';
+
 import { useEffect, useRef } from 'react';
 import useMap from './useMap';
-import { CafeData, Location } from '@/constants/types';
+import { CafeData, Position } from '@/constants/types';
 
-const Map = ({ cafes, currentLocation }: { cafes: CafeData[]; currentLocation: Location }) => {
+const Map = ({ cafes, currentLocation }: { cafes: CafeData[]; currentLocation: Position }) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const { setCafes, setCurrentLocation } = useMap(mapRef);
+  const { setCafes } = useMap(mapRef);
 
   useEffect(() => {
     const locations = cafes.map((cafe) => ({
@@ -14,7 +16,6 @@ const Map = ({ cafes, currentLocation }: { cafes: CafeData[]; currentLocation: L
     }));
 
     setCafes(locations);
-    setCurrentLocation(currentLocation);
   }, [cafes, currentLocation]);
 
   return <div id="map" ref={mapRef} />;

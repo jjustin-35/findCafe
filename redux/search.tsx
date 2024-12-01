@@ -1,40 +1,56 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-
-interface Area {
-  name: string;
-  districts: { name: string }[];
-}
-
-interface SearchContent {
-  address?: {
-    country?: string;
-    districts?: string;
-  };
-}
+import { Prisma } from '@prisma/client';
+import { getAreas as getAreasApi, searchCafes as searchCafesApi } from '@/apis/search';
+import getCurrentLocationApi from '@/helpers/getCurrentLocation';
+import { SearchCafesData, CafeData, Position } from '@/constants/types';
+import { RootState } from '@/config/configureStore';
+import { isEqual } from '@/helpers/object';
 
 interface SearchState {
   error: string | null;
-  areas: Area[];
-  search: SearchContent;
+  areas: Prisma.AreaGetPayload<{ include: { districts: true } }>[];
+  currentLocation: Position | null;
+  cafes: CafeData[];
 }
 
 const initialState: SearchState = {
   error: null,
   areas: [],
-  search: {},
+  currentLocation: null,
+  cafes: [],
 };
 
-const apiUrl = process.env.REACT_APP_API_URL;
+export const getAreas = createAsyncThunk('search/getAreas', async () => {
+  const areas = await getAreasApi();
+  return areas;
+});
 
-export const getAreas = createAsyncThunk('global/getAreas', async () => {
-  const response = await fetch(`${apiUrl}/data/address`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const areasData: Area[] = await response.json();
-  return areasData;
+export const getCurrentLocation = createAsyncThunk<Position, void, { state: RootState }>(
+  'search/getCurrentLocation',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { currentLocation: oriLocation } = getState().search;
+      const location = await getCurrentLocationApi();
+      if (isEqual(location, oriLocation)) {
+        return rejectWithValue('Location is not changed');
+      }
+
+      return location;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const searchCafes = createAsyncThunk('search/searchCafes', async (searchContent: SearchCafesData, thunkAPI) => {
+  try {
+    const cafes = await searchCafesApi(searchContent);
+    return cafes;
+  } catch (error) {
+    console.error(error);
+    return thunkAPI.rejectWithValue(error);
+  }
 });
 
 const searchSlice = createSlice({
@@ -44,17 +60,23 @@ const searchSlice = createSlice({
     setErr: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
-    setSearch: (state, action: PayloadAction<SearchContent>) => {
-      state.search = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAreas.fulfilled, (state, action) => {
       state.areas = action.payload;
     });
+    builder.addCase(getCurrentLocation.fulfilled, (state, action) => {
+      state.currentLocation = action.payload;
+    });
+    builder.addCase(searchCafes.fulfilled, (state, action) => {
+      state.cafes = action.payload;
+    });
+    builder.addCase(searchCafes.rejected, (state, action) => {
+      state.error = action.error.message || 'An error occurred';
+    });
   },
 });
 
-export const { setErr, setSearch } = searchSlice.actions;
+export const { setErr } = searchSlice.actions;
 
 export default searchSlice.reducer;
