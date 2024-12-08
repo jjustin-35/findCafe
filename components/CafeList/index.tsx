@@ -1,24 +1,39 @@
 'use client';
 
-import { Suspense } from 'react';
-import { Stack, Box } from '@mui/material';
+import { useState } from 'react';
+import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { CafeData } from '@/constants/types';
-import CafeListLoader from '../Loaders/cafeList';
-import CafeListItem from './item';
+import List from './list';
+import { StyledDrawer, Puller, PullerIcon } from './styled';
+
+const drawerBleeding = 56;
 
 const CafeList = ({ cafes }: { cafes: CafeData[] }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('laptop'));
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <Box component="section" sx={{ p: 3, borderRadius: 2, bgcolor: 'secondary.main' }}>
-      <Suspense fallback={<CafeListLoader />}>
-        {cafes?.length && (
-          <Stack gap={2} direction="column">
-            {cafes.map((cafe) => (
-              <CafeListItem key={cafe.id} cafe={cafe} />
-            ))}
-          </Stack>
-        )}
-      </Suspense>
-    </Box>
+    <StyledDrawer
+      variant={isMobile ? 'temporary' : 'permanent'}
+      anchor={isMobile ? 'bottom' : 'left'}
+      open={isOpen}
+      swipeAreaWidth={drawerBleeding}
+      disableSwipeToOpen={false}
+      onClose={() => setIsOpen(false)}
+      onOpen={() => setIsOpen(true)}
+      ModalProps={{
+        keepMounted: true,
+      }}
+    >
+      <Puller drawerBleeding={drawerBleeding}>
+        <PullerIcon />
+        <Typography variant="h6" fontWeight="bold">
+          咖啡廳列表
+        </Typography>
+      </Puller>
+      <List cafes={cafes} />
+    </StyledDrawer>
   );
 };
 

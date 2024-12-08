@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { searchCafes, getCurrentLocation } from '@/redux/search';
 import CafeList from '@/components/CafeList';
@@ -21,10 +21,10 @@ const CafeInfo = () => {
   }, [cafes, currentLocation]);
 
   return (
-    <Stack direction={{ mobile: 'column', laptop: 'row' }}>
-      <CafeList cafes={cafes} />
+    <Box>
       <Map cafes={cafes} />
-    </Stack>
+      <CafeList cafes={cafes} />
+    </Box>
   );
 };
 

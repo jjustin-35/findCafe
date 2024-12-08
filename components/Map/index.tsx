@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
+import { Box } from '@mui/material';
 import useMap from './useMap';
 import { CafeData } from '@/constants/types';
 
-const Map = ({ cafes }: { cafes: CafeData[] }) => {
+const Map = ({ cafes, width, height }: { cafes: CafeData[]; width?: string; height?: string }) => {
   const { mapRef, setCafes } = useMap();
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const Map = ({ cafes }: { cafes: CafeData[] }) => {
     setCafes(locations);
   }, [cafes]);
 
-  return <div id="map" ref={mapRef} />;
+  return <Box id="map" ref={mapRef} sx={{ width, height }} />;
 };
 
 export default Map;
