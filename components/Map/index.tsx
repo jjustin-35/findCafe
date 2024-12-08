@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import useMap from './useMap';
 import { CafeData } from '@/constants/types';
 
-const Map = ({ cafes, width, height }: { cafes: CafeData[]; width?: string; height?: string }) => {
+const Map = ({ cafes }: { cafes: CafeData[] }) => {
   const { mapRef, setCafes } = useMap();
 
   useEffect(() => {
@@ -18,7 +18,10 @@ const Map = ({ cafes, width, height }: { cafes: CafeData[]; width?: string; heig
     setCafes(locations);
   }, [cafes]);
 
-  return <Box id="map" ref={mapRef} sx={{ width, height }} />;
+  return <Box id="map" ref={mapRef} sx={{ width: {
+    mobile: '100%',
+    laptop: 'calc(100% - 400px)',
+  } }} />;
 };
 
 export default Map;
