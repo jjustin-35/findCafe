@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container as MuiContainer, Typography, List, ListItem, Box } from '@mui/material';
 import { RootState } from '@/config/configureStore';
-import { setSearch, setErr } from '@/redux/search';
+import { setErr } from '@/redux/search';
 import { setProfile } from '@/redux/user';
 import Icon from '@/components/Icon';
 import { Container } from '@/style/styles';
@@ -20,10 +20,6 @@ const Footer: React.FC = () => {
     e.preventDefault();
     await logout();
     dispatch(setProfile(null));
-  };
-
-  const navToSearch = () => {
-    dispatch(setSearch({}));
   };
 
   const onNavToLogin = () => {
@@ -54,7 +50,7 @@ const Footer: React.FC = () => {
               <NavLink href="/">Home</NavLink>
             </ListItem>
             <ListItem sx={{ p: 0 }}>
-              <NavLink href="/search" onClick={navToSearch}>
+              <NavLink href="/cafe">
                 Search
               </NavLink>
             </ListItem>
