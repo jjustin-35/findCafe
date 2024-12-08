@@ -3,6 +3,10 @@ export const isEmpty = (obj: object): boolean => {
 };
 
 export const isEqual = (object1: object, object2: object): boolean => {
+  if (!object1 || !object2 || typeof object1 !== 'object' || typeof object2 !== 'object') {
+    return object1 === object2;
+  }
+
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
 

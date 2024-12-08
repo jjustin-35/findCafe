@@ -18,10 +18,23 @@ const Map = ({ cafes }: { cafes: CafeData[] }) => {
     setCafes(locations);
   }, [cafes]);
 
-  return <Box id="map" ref={mapRef} sx={{ width: {
-    mobile: '100%',
-    laptop: 'calc(100% - 400px)',
-  } }} />;
+  return (
+    <Box
+      id="map"
+      ref={mapRef}
+      sx={{
+        width: {
+          mobile: '100%',
+          laptop: 'calc(100% - 400px)',
+        },
+        height: 'calc(100vh - 64px)',
+        ml: {
+          mobile: 0,
+          laptop: '400px',
+        },
+      }}
+    />
+  );
 };
 
 export default Map;

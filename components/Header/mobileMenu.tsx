@@ -76,13 +76,18 @@ const MobileMenu = ({ isAuth }: { isAuth: boolean }) => {
         ModalProps={{
           keepMounted: true, // Better mobile performance
         }}
-        sx={{
-          display: { mobile: 'block', tablet: 'none' },
-          '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
-            width: 240,
+        sx={[
+          {
+            display: { mobile: 'block', tablet: 'none' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: 240,
+            },
           },
-        }}
+          (theme) => ({
+            zIndex: theme.zIndex.drawer + 1,
+          }),
+        ]}
       >
         <MobileMenuItems isAuth={isAuth} />
       </Drawer>

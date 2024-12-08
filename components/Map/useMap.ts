@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/redux/hooks';
 import { Position } from '@/constants/types';
 import { theme } from '@/style/theme';
+import { isEqual } from '@/helpers/object';
 
 const loader = new Loader({
   apiKey: process.env.GCP_MAP_KEY,
@@ -99,15 +100,11 @@ const useMap = () => {
   useEffect(() => {
     (async () => {
       if (!map) return;
-      const isLocationChanged =
-        currentLocation &&
-        Object.keys(currentLocation).some(
-          (key) => currentLocation?.[key as keyof Position] !== curLocationTemp?.[key as keyof Position],
-        );
+      const isLocationChanged = !isEqual(curLocationTemp, currentLocation);
 
       if (isLocationChanged) {
-        map.setCenter(curLocationTemp);
-        await addMarkers({ map, locations: [curLocationTemp] });
+        map.setCenter(currentLocation);
+        await addMarkers({ map, locations: [currentLocation] });
         setCurLocationTemp(currentLocation);
       }
     })();

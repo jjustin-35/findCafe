@@ -3,13 +3,14 @@ import { styled, SwipeableDrawer } from '@mui/material';
 
 export const StyledDrawer = styled(SwipeableDrawer)`
   & .MuiDrawer-paper {
+    overflow-y: visible;
     ${({ theme }) => theme.breakpoints.up('mobile')} {
       width: 100%;
       height: 50vh;
     }
 
     ${({ theme }) => theme.breakpoints.up('laptop')} {
-      width: 500px;
+      width: 400px;
       height: 100%;
     }
   }
@@ -20,15 +21,7 @@ export const PullerIcon = styled('div')`
   height: 6px;
   background-color: ${grey[300]};
   border-radius: 3px;
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  /* ${({ theme }) =>
-    theme.applyStyles('dark', {
-      backgroundColor: grey[900],
-    })} */
+  margin: 8px auto 4px;
 `;
 
 export const Puller = styled('div')<{ drawerBleeding: number }>`
@@ -39,6 +32,8 @@ export const Puller = styled('div')<{ drawerBleeding: number }>`
   visibility: visible;
   right: 0;
   left: 0;
+  height: ${({ drawerBleeding }) => `${drawerBleeding}px`};
+  background-color: white;
 
   ${({ theme }) => theme.breakpoints.up('laptop')} {
     display: none;

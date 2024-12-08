@@ -16,7 +16,7 @@ const CafeInfo = () => {
     if (!currentLocation) {
       dispatch(getCurrentLocation());
     }
-    if (cafes.length === 0) {
+    if (cafes.length === 0 && currentLocation) {
       dispatch(searchCafes({ position: currentLocation }));
     }
   }, [cafes, currentLocation]);

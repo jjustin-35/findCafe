@@ -46,6 +46,11 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
 export const searchCafes = createAsyncThunk('search/searchCafes', async (searchContent: SearchCafesData, thunkAPI) => {
   try {
     const cafes = await searchCafesApi(searchContent);
+
+    if (!cafes?.length) {
+      return thunkAPI.rejectWithValue('No cafes found');
+    }
+
     return cafes;
   } catch (error) {
     console.error(error);
@@ -67,6 +72,9 @@ const searchSlice = createSlice({
     });
     builder.addCase(getCurrentLocation.fulfilled, (state, action) => {
       state.currentLocation = action.payload;
+    });
+    builder.addCase(getCurrentLocation.rejected, (state, action) => {
+      state.error = action.error.message || 'An error occurred';
     });
     builder.addCase(searchCafes.fulfilled, (state, action) => {
       state.cafes = action.payload;

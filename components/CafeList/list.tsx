@@ -19,13 +19,11 @@ const List = ({ cafes }: { cafes: CafeData[] }) => {
       }}
     >
       <Suspense fallback={<CafeListLoader />}>
-        {cafes?.length && (
-          <Stack gap={2} direction="column">
-            {cafes.map((cafe) => (
-              <CafeListItem key={cafe.id} cafe={cafe} />
-            ))}
-          </Stack>
-        )}
+        <Stack gap={2} direction="column">
+          {cafes?.map((cafe) => (
+            <CafeListItem key={cafe.id} cafe={cafe} />
+          ))}
+        </Stack>
       </Suspense>
     </Box>
   );

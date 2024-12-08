@@ -28,7 +28,7 @@ const CafeList = ({ cafes }: { cafes: CafeData[] }) => {
     >
       <Puller drawerBleeding={drawerBleeding}>
         <PullerIcon />
-        <Typography variant="h6" fontWeight="bold">
+        <Typography variant="h6" fontWeight="bold" textAlign="center">
           咖啡廳列表
         </Typography>
       </Puller>
