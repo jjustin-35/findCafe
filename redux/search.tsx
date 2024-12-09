@@ -7,6 +7,7 @@ import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
 
 interface SearchState {
+  isLoading: boolean;
   error: string | null;
   areas: Prisma.AreaGetPayload<{ include: { districts: true } }>[];
   currentLocation: Position | null;
@@ -14,6 +15,7 @@ interface SearchState {
 }
 
 const initialState: SearchState = {
+  isLoading: false,
   error: null,
   areas: [],
   currentLocation: null,
@@ -78,9 +80,14 @@ const searchSlice = createSlice({
     });
     builder.addCase(searchCafes.fulfilled, (state, action) => {
       state.cafes = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(searchCafes.pending, (state) => {
+      state.isLoading = true;
     });
     builder.addCase(searchCafes.rejected, (state, action) => {
       state.error = action.error.message || 'An error occurred';
+      state.isLoading = false;
     });
   },
 });
