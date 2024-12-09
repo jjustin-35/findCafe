@@ -16,6 +16,7 @@ const Item = () => {
 };
 
 const CafeListLoader = () => {
+  console.log('loading')
   return (
     <Stack gap={2} direction="column">
       {[...Array(3)].map((_, index) => (

@@ -3,7 +3,9 @@ import { styled, SwipeableDrawer } from '@mui/material';
 
 export const StyledDrawer = styled(SwipeableDrawer)`
   & .MuiDrawer-paper {
+    background-color: ${({ theme }) => theme.palette.secondary.light};
     overflow-y: visible;
+    margin-top: 64px;
     ${({ theme }) => theme.breakpoints.up('mobile')} {
       width: 100%;
       height: 50vh;
@@ -33,7 +35,7 @@ export const Puller = styled('div')<{ drawerBleeding: number }>`
   right: 0;
   left: 0;
   height: ${({ drawerBleeding }) => `${drawerBleeding}px`};
-  background-color: white;
+  background-color: ${({ theme }) => theme.palette.secondary.light};
 
   ${({ theme }) => theme.breakpoints.up('laptop')} {
     display: none;

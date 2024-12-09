@@ -1,22 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import { Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { CafeData } from '@/constants/types';
 import List from './list';
+import SearchBar from '../SearchBar';
 import { StyledDrawer, Puller, PullerIcon } from './styled';
 
 const drawerBleeding = 56;
 
 const CafeList = ({ cafes }: { cafes: CafeData[] }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('laptop'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
   const [isOpen, setIsOpen] = useState(true);
 
   return (
     <StyledDrawer
-      variant={isMobile ? 'temporary' : 'permanent'}
-      anchor={isMobile ? 'bottom' : 'left'}
+      variant={isDesktop ? 'permanent' : 'temporary'}
+      anchor={isDesktop ? 'left' : 'bottom'}
       open={isOpen}
       swipeAreaWidth={drawerBleeding}
       disableSwipeToOpen={false}
@@ -32,6 +33,12 @@ const CafeList = ({ cafes }: { cafes: CafeData[] }) => {
           咖啡廳列表
         </Typography>
       </Puller>
+
+      {isDesktop && (
+        <Box py={2}>
+          <SearchBar hasButton />
+        </Box>
+      )}
       <List cafes={cafes} />
     </StyledDrawer>
   );
