@@ -13,6 +13,7 @@ const MobileMenuItems = ({ isAuth }: { isAuth: boolean }) => {
           </Typography>
         </Link>
       </ListItem>
+      {/* TODO: refactor 登入、註冊 */}
       {/* <ListItem>
         {!isAuth && (
           <Link href="/auth/login" style={{ width: '100%' }}>

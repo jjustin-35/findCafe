@@ -9,6 +9,7 @@ import prisma from '@/lib/prisma';
 import type { ApiFunction } from '@/constants/types';
 import { ErrorTypes } from '@/constants/errorTypes';
 
+// TODO: refactor 登入、註冊
 type Tokens = { access_token: string; refresh_token: string };
 
 const clearCookies = () => {
