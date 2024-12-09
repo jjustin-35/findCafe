@@ -13,7 +13,7 @@ const MobileMenuItems = ({ isAuth }: { isAuth: boolean }) => {
           </Typography>
         </Link>
       </ListItem>
-      <ListItem>
+      {/* <ListItem>
         {!isAuth && (
           <Link href="/auth/login" style={{ width: '100%' }}>
             <Button fullWidth variant="outlined">
@@ -41,7 +41,7 @@ const MobileMenuItems = ({ isAuth }: { isAuth: boolean }) => {
             </Button>
           </Link>
         )}
-      </ListItem>
+      </ListItem> */}
     </List>
   );
 };

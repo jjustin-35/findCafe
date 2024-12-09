@@ -12,7 +12,7 @@ const Menu = ({ isAuth }: { isAuth: boolean }) => {
       }}
     >
       <Link
-        href="/search"
+        href="/cafe"
         style={{
           color: '#fff',
           textDecoration: 'none',
@@ -20,7 +20,7 @@ const Menu = ({ isAuth }: { isAuth: boolean }) => {
       >
         搜尋咖啡廳
       </Link>
-      {!isAuth && (
+      {/* {!isAuth && (
         <>
           <Link href="/auth/login">
             <Button
@@ -54,7 +54,7 @@ const Menu = ({ isAuth }: { isAuth: boolean }) => {
             </Button>
           </Link>
         </>
-      )}
+      )} */}
     </Stack>
   );
 };
