@@ -3,14 +3,22 @@
 import { Prisma } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import { isEmpty } from '@/helpers/object';
-import { SearchCafesData } from '@/constants/types';
+import { ApiCafeType, SearchCafesData } from '@/constants/types';
+import { API_PATHS } from '@/constants/apiPaths';
 
-export const getAreas = async () => {
+export const getAreas = async (city?: string) => {
   try {
     const allAreas = await prisma.area.findMany({
       include: {
         districts: true,
       },
+      ...(city && {
+        where: {
+          name: {
+            contains: city,
+          },
+        },
+      }),
       orderBy: {
         order: 'asc',
       },
@@ -23,7 +31,23 @@ export const getAreas = async () => {
   }
 };
 
+export const searchCafesByApi = async (data: SearchCafesData) => {
+  const { areaKey, district, location, position, keyword, rank, advantages } = data;
+
+  try {
+    const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey}`);
+    const cafes: ApiCafeType[] = await resp.json();
+
+    // handle conditionals
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
 export const searchCafes = async (data: SearchCafesData) => {
+  if (!data) return [];
+
   const { area, district, location, position, keyword, rank, advantages } = data;
 
   // position
@@ -113,6 +137,9 @@ export const searchCafes = async (data: SearchCafesData) => {
       },
       ...searchOptions,
     });
+
+    console.log(cafes);
+
     return cafes;
   } catch (error) {
     console.error(error);

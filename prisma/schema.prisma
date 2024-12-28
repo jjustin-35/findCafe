@@ -145,6 +145,7 @@ model Area {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   order     Int        @default(0)
   name      String
+  key       String?
   districts District[]
 }
 

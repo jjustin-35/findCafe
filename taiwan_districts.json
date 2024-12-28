@@ -50,7 +50,8 @@
                 "name": "文山區"
             }
         ],
-        "name": "台北市"
+        "name": "台北市",
+        "key": "taipei"
     },
     {
         "districts": [
@@ -83,7 +84,8 @@
                 "name": "七堵區"
             }
         ],
-        "name": "基隆市"
+        "name": "基隆市",
+        "key": "keelung"
     },
     {
         "districts": [
@@ -204,7 +206,8 @@
                 "name": "石門區"
             }
         ],
-        "name": "新北市"
+        "name": "新北市",
+        "key": "new_taipei"
     },
     {
         "districts": [
@@ -225,7 +228,8 @@
                 "name": "東引鄉"
             }
         ],
-        "name": "連江縣"
+        "name": "連江縣",
+        "key": "lienchiang"
     },
     {
         "districts": [
@@ -282,7 +286,8 @@
                 "name": "釣魚臺"
             }
         ],
-        "name": "宜蘭縣"
+        "name": "宜蘭縣",
+        "key": "yilan"
     },
     {
         "districts": [
@@ -299,7 +304,8 @@
                 "name": "香山區"
             }
         ],
-        "name": "新竹市"
+        "name": "新竹市",
+        "key": "hsinchu"
     },
     {
         "districts": [
@@ -356,7 +362,8 @@
                 "name": "峨眉鄉"
             }
         ],
-        "name": "新竹縣"
+        "name": "新竹縣",
+        "key": "hsinchu"
     },
     {
         "districts": [
@@ -413,7 +420,8 @@
                 "name": "蘆竹區"
             }
         ],
-        "name": "桃園市"
+        "name": "桃園市",
+        "key": "taoyuan"
     },
     {
         "districts": [
@@ -490,7 +498,8 @@
                 "name": "卓蘭鎮"
             }
         ],
-        "name": "苗栗縣"
+        "name": "苗栗縣",
+        "key": "miaoli"
     },
     {
         "districts": [
@@ -611,7 +620,8 @@
                 "name": "大安區"
             }
         ],
-        "name": "台中市"
+        "name": "台中市",
+        "key": "taichung"
     },
     {
         "districts": [
@@ -720,7 +730,8 @@
                 "name": "二水鄉"
             }
         ],
-        "name": "彰化縣"
+        "name": "彰化縣",
+        "key": "changhua"
     },
     {
         "districts": [
@@ -777,7 +788,8 @@
                 "name": "鹿谷鄉"
             }
         ],
-        "name": "南投縣"
+        "name": "南投縣",
+        "key": "nantou"
     },
     {
         "districts": [
@@ -790,7 +802,8 @@
                 "name": "東區"
             }
         ],
-        "name": "嘉義市"
+        "name": "嘉義市",
+        "key": "chiayi"
     },
     {
         "districts": [
@@ -867,7 +880,8 @@
                 "name": "布袋鎮"
             }
         ],
-        "name": "嘉義縣"
+        "name": "嘉義縣",
+        "key": "chiayi"
     },
     {
         "districts": [
@@ -952,7 +966,8 @@
                 "name": "元長鄉"
             }
         ],
-        "name": "雲林縣"
+        "name": "雲林縣",
+        "key": "yunlin"
     },
     {
         "districts": [
@@ -1105,7 +1120,8 @@
                 "name": "安定區"
             }
         ],
-        "name": "台南市"
+        "name": "台南市",
+        "key": "tainan"
     },
     {
         "districts": [

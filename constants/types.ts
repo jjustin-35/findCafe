@@ -14,7 +14,7 @@ type SuccessResponse<T> = {
 export type ApiResponse<T> = SuccessResponse<T> & ErrorResponse;
 
 export type ApiFunctionWithoutParams<R = any> = () => Promise<ApiResponse<R>>;
-export type ApiFunctionWithParams<P = any, R = any> = (params: P) => Promise<ApiResponse<R>>;
+export type ApiFunctionWithParams<P = any, R = any> = (params?: P) => Promise<ApiResponse<R>>;
 export type ApiFunction<P = void, R = any> = P extends void ? ApiFunctionWithoutParams<R> : ApiFunctionWithParams<P, R>;
 
 export type DistrictData = {
@@ -39,6 +39,7 @@ export enum CafeAdvantage {
 
 export type SearchCafesData = {
   area?: string;
+  areaKey?: string;
   district?: string;
   location?: string;
   position?: Omit<Position, 'info'>;
@@ -56,11 +57,32 @@ export type ImageData = {
 
 export type CafeData = Prisma.CafeGetPayload<{
   include: {
-    img: true;
-    address: true;
-    tags: true;
+    // img: true;
+    // address: true;
+    // tags: true;
   };
 }>;
+
+export type ApiCafeType = {
+  id: string;
+  name: string;
+  city: string;
+  wifi: number;
+  seat: number;
+  quiet: number;
+  tasty: number;
+  cheap: number;
+  music: number;
+  url: string;
+  address: string;
+  latitude: string;
+  longitude: string;
+  limited_time: 'yes' | 'no';
+  socket: 'yes' | 'no';
+  standing_desk: 'yes' | 'no';
+  mrt: string;
+  open_time: string;
+};
 
 export type Position = {
   lat: number;

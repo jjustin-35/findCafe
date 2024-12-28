@@ -7,7 +7,7 @@ import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import type { User } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import type { ApiFunction } from '@/constants/types';
-import { ErrorTypes } from '@/constants/errorTypes';
+import { ERROR_TYPES } from '@/constants/errorTypes';
 
 // TODO: refactor 登入、註冊
 type Tokens = { access_token: string; refresh_token: string };
@@ -34,7 +34,7 @@ export const login: ApiFunction<{ email: string; password: string }, User> = asy
     clearCookies();
     return {
       error: {
-        error_code: ErrorTypes.USER_NOT_FOUND,
+        error_code: ERROR_TYPES.USER_NOT_FOUND,
         message: 'User not found',
       },
     };
@@ -45,7 +45,7 @@ export const login: ApiFunction<{ email: string; password: string }, User> = asy
     clearCookies();
     return {
       error: {
-        error_code: ErrorTypes.INVALID_PASSWORD,
+        error_code: ERROR_TYPES.INVALID_PASSWORD,
         message: 'Invalid password',
       },
     };
@@ -87,7 +87,7 @@ export const getUser: ApiFunction<{ token: string }, User> = async ({ token }) =
     clearCookies();
     return {
       error: {
-        error_code: ErrorTypes.INVALID_TOKEN,
+        error_code: ERROR_TYPES.INVALID_TOKEN,
         message: 'Invalid token',
       },
     };
@@ -101,7 +101,7 @@ export const getUser: ApiFunction<{ token: string }, User> = async ({ token }) =
     clearCookies();
     return {
       error: {
-        error_code: ErrorTypes.USER_NOT_FOUND,
+        error_code: ERROR_TYPES.USER_NOT_FOUND,
         message: 'User not found',
       },
     };
@@ -119,7 +119,7 @@ export const refreshToken: ApiFunction<{ token: string }, Tokens> = async ({ tok
       clearCookies();
       return {
         error: {
-          error_code: ErrorTypes.USER_NOT_FOUND,
+          error_code: ERROR_TYPES.USER_NOT_FOUND,
           message: 'User not found',
         },
       };
@@ -131,7 +131,7 @@ export const refreshToken: ApiFunction<{ token: string }, Tokens> = async ({ tok
   clearCookies();
   return {
     error: {
-      error_code: ErrorTypes.INVALID_TOKEN,
+      error_code: ERROR_TYPES.INVALID_TOKEN,
       message: 'Invalid token',
     },
   };
