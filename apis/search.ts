@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import { isEmpty } from '@/helpers/object';
 import { ApiCafeType, SearchCafesData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
+import calculateRank from '@/helpers/calculateRank';
 
 export const getAreas = async (city?: string) => {
   try {
@@ -32,13 +33,37 @@ export const getAreas = async (city?: string) => {
 };
 
 export const searchCafesByApi = async (data: SearchCafesData) => {
-  const { areaKey, district, location, position, keyword, rank, advantages } = data;
+  const { areaKey, district, location, position, keyword, rank } = data;
+
+  const distance = 0.01;
+  const scope = position && {
+    minLat: position.lat - distance,
+    maxLat: position.lat + distance,
+    minLng: position.lng - distance,
+    maxLng: position.lng + distance,
+  };
 
   try {
     const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey}`);
     const cafes: ApiCafeType[] = await resp.json();
 
     // handle conditionals
+    const filteredCafes = cafes.filter((cafe) => {
+      const { name, address, latitude, longitude, wifi, seat, quiet, tasty, cheap, music } = cafe;
+
+      const lat = parseFloat(latitude);
+      const lon = parseFloat(longitude);
+
+      const isKeywordMatched = !keyword || name.includes(keyword) || address.includes(keyword);
+      const isDistrictMatched = !district || address.includes(district);
+      const isLocationMatched = !location || address.includes(location);
+      const isGteRank = !rank || calculateRank({ wifi, seat, quiet, tasty, cheap, music }) >= rank;
+      const isInScope =
+        !position || (lat >= scope.minLat && lat <= scope.maxLat && lon >= scope.minLng && lon <= scope.maxLng);
+
+      return isKeywordMatched && isDistrictMatched && isLocationMatched && isGteRank && isInScope;
+    });
+
   } catch (error) {
     console.error(error);
     return [];

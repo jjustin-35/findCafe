@@ -55,13 +55,13 @@ export type ImageData = {
   height?: number;
 };
 
-export type CafeData = Prisma.CafeGetPayload<{
+export type CafeData = Partial<Prisma.CafeGetPayload<{
   include: {
-    // img: true;
-    // address: true;
-    // tags: true;
+    img: true;
+    address: true;
+    tags: true;
   };
-}>;
+}>>;
 
 export type ApiCafeType = {
   id: string;
