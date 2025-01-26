@@ -10,8 +10,8 @@ const Map = ({ cafes }: { cafes: CafeData[] }) => {
 
   useEffect(() => {
     const locations = cafes.map((cafe) => ({
-      lat: parseInt(cafe.latitude),
-      lng: parseInt(cafe.longitude),
+      lat: cafe.latitude,
+      lng: cafe.longitude,
       info: cafe,
     }));
 

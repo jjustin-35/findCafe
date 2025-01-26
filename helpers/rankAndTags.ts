@@ -1,6 +1,6 @@
-import { CafeData } from '@/constants/types';
+import { CafeData, ApiCafeData } from '@/constants/types';
 
-const getRanks = (cafe: CafeData) => {
+const getRanks = (cafe: CafeData | ApiCafeData) => {
   const { wifi, seat, quiet, tasty, cheap, music } = cafe;
   return {
     wifi,
@@ -12,7 +12,7 @@ const getRanks = (cafe: CafeData) => {
   };
 };
 
-export const calculateRank = (cafe: CafeData) => {
+export const calculateRank = (cafe: CafeData | ApiCafeData) => {
   const ranks = getRanks(cafe);
   const rankSum = Object.keys(ranks).reduce((acc, key) => {
     return acc + ranks[key];

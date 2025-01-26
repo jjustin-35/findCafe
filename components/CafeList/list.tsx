@@ -1,15 +1,12 @@
 import { Stack, Box, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { CafeData } from '@/constants/types';
-import { useAppSelector } from '@/redux/hooks';
 import CafeListLoader from '../Loaders/cafeList';
 import CafeItem from '../CafeItem';
 
-const List = ({ cafes }: { cafes: CafeData[] }) => {
-  const { isLoading } = useAppSelector((state) => state.search);
-
+const List = ({ cafes, isLoading }: { cafes: CafeData[]; isLoading?: boolean }) => {
   const content = (() => {
-    if (isLoading) {
+    if (!cafes || isLoading) {
       return <CafeListLoader />;
     }
 
@@ -22,7 +19,7 @@ const List = ({ cafes }: { cafes: CafeData[] }) => {
     }
 
     return (
-      <Stack gap={2} direction="column">
+      <Stack gap={3} direction="column">
         {cafes?.map((cafe) => (
           <CafeItem key={cafe.id} cafe={cafe} />
         ))}

@@ -4,16 +4,15 @@ import { styled, SwipeableDrawer } from '@mui/material';
 export const StyledDrawer = styled(SwipeableDrawer)`
   & .MuiDrawer-paper {
     background-color: ${({ theme }) => theme.palette.secondary.light};
-    overflow-y: visible;
     margin-top: 64px;
     ${({ theme }) => theme.breakpoints.up('mobile')} {
       width: 100%;
-      height: 50vh;
+      height: calc(50vh - 64px);
     }
 
     ${({ theme }) => theme.breakpoints.up('laptop')} {
       width: 400px;
-      height: 100%;
+      height: calc(100% - 64px);
     }
   }
 `;

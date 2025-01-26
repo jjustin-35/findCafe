@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Prisma } from '@prisma/client';
-import { getAreas as getAreasApi, searchCafes as searchCafesApi } from '@/apis/search';
+import { getAreas as getAreasApi, getCafes as getCafesApi } from '@/apis/search';
 import getCurrentLocationApi from '@/helpers/getCurrentLocation';
 import { SearchCafesData, CafeData, Position } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
@@ -45,9 +45,9 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
   },
 );
 
-export const searchCafes = createAsyncThunk('search/searchCafes', async (searchContent: SearchCafesData, thunkAPI) => {
+export const getCafes = createAsyncThunk('search/getCafes', async (searchContent: SearchCafesData, thunkAPI) => {
   try {
-    const cafes = await searchCafesApi(searchContent);
+    const cafes = await getCafesApi(searchContent);
 
     if (!cafes?.length) {
       return thunkAPI.rejectWithValue('No cafes found');
@@ -78,14 +78,14 @@ const searchSlice = createSlice({
     builder.addCase(getCurrentLocation.rejected, (state, action) => {
       state.error = action.error.message || 'An error occurred';
     });
-    builder.addCase(searchCafes.fulfilled, (state, action) => {
+    builder.addCase(getCafes.fulfilled, (state, action) => {
       state.cafes = action.payload;
       state.isLoading = false;
     });
-    builder.addCase(searchCafes.pending, (state) => {
+    builder.addCase(getCafes.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(searchCafes.rejected, (state, action) => {
+    builder.addCase(getCafes.rejected, (state, action) => {
       state.error = action.error.message || 'An error occurred';
       state.isLoading = false;
     });

@@ -1,25 +1,22 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '@/config/configureStore';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchCafeData, fetchComments, toggleFavorite, deleteComment } from '@/redux/cafe';
+import { getCafes } from '@/redux/search';
 import { Board } from '@/components/Board';
 import { Tag } from '@/components/Tag';
 import { Stars } from '@/components/Stars';
 import { EditComment } from '@/components/EditComment';
 import Link from 'next/link';
-import { setProfile } from '@/redux/user';
-import { setSearch } from '@/redux/search';
 
 export default function CafePage({ params }: { params: { name: string } }) {
   const [isEdit, setIsEdit] = useState<{ id: string }>({ id: '' });
 
-  const dispatch = useDispatch<AppDispatch>();
-  const { cafe, address, time, comments, isFav } = useSelector((state: RootState) => state.cafe);
-  const { token } = useSelector((state: RootState) => state.auth);
-  const { profile } = useSelector((state: RootState) => state.user);
-  const { search } = useSelector((state: RootState) => state.search);
+  const dispatch = useAppDispatch();
+  const { cafe, address, time, comments, isFav } = useAppSelector((state) => state.cafe);
+  const { profile } = useAppSelector((state) => state.auth);
+  const { cafes } = useAppSelector((state) => state.search);
   const local = process.env.NEXT_PUBLIC_URL;
 
   const { name } = params;
@@ -31,20 +28,14 @@ export default function CafePage({ params }: { params: { name: string } }) {
 
   useEffect(() => {
     if (address.country || address.districts) {
-      dispatch(setSearch({ address: { country: address.country, districts: address.districts } }));
+      dispatch(getCafes({ area: address.country, district: address.districts }));
     }
   }, [address, dispatch]);
-
-  useEffect(() => {
-    if (Object.keys(profile).length > 0) {
-      dispatch(setProfile({ ...profile, myFav: profile.myFav }));
-    }
-  }, [isFav, profile, dispatch]);
 
   const handleMyFav = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    if (!token) {
+    if (!profile) {
       return alert('請先登入');
     }
 
@@ -174,7 +165,7 @@ export default function CafePage({ params }: { params: { name: string } }) {
             ) : (
               <p className="fs-1 text-center text-light">留下第一筆留言!</p>
             )}
-            {!token ? (
+            {!profile ? (
               <p className="fs-1-5 text-gray text-center">
                 請先
                 <Link href="/login" className="text-blue">
@@ -187,7 +178,7 @@ export default function CafePage({ params }: { params: { name: string } }) {
             )}
           </section>
           <section className="col-lg-4 col">
-            {Object.keys(search).length > 0 && <Board nowPage={0} perpage={6} />}
+            {Object.keys(cafes).length > 0 && <Board nowPage={0} perpage={6} />}
           </section>
         </div>
       </div>

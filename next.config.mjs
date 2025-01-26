@@ -8,7 +8,7 @@ const nextConfig = {
   env: {
     MONGODB_URL: process.env.MONGODB_URL,
     GCP_MAP_KEY: process.env.GCP_MAP_KEY,
-    GCP_MAP_ID: process.env.GCP_MAP_ID,
+    GCP_MAP_ID: process.env.NODE_ENV === 'production' ? process.env.GCP_MAP_ID : ' DEMO_MAP_ID',
   },
 };
 

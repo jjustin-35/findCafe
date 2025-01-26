@@ -1,22 +1,29 @@
 'use client';
 
-import { use } from 'react';
-import { Box } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { searchCafes, getCurrentLocation } from '@/redux/search';
-import { getCafesByApi } from '@/apis/search';
+import { useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from '@/redux/hooks';
+import { getCafes, getCurrentLocation } from '@/redux/search';
 import CafeList from '@/components/CafeList';
 import Map from '@/components/Map';
 
 const CafeInfo = () => {
-  const { currentLocation } = useAppSelector((state) => state.search);
-  const cafes = use(getCafesByApi({ position: currentLocation }));
+  const { currentLocation, cafes, isLoading } = useAppSelector((state) => state.search);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!currentLocation) {
+      dispatch(getCurrentLocation());
+      return;
+    }
+
+    dispatch(getCafes({ position: currentLocation }));
+  }, [currentLocation]);
 
   return (
-    <Box>
+    <div>
       <Map cafes={cafes} />
-      <CafeList cafes={cafes} />
-    </Box>
+      <CafeList cafes={cafes} isLoading={isLoading} />
+    </div>
   );
 };
 

@@ -9,12 +9,13 @@ import { StyledDrawer, Puller, PullerIcon } from './styled';
 
 const drawerBleeding = 56;
 
-const CafeList = ({ cafes }: { cafes: CafeData[] }) => {
+const CafeList = ({ cafes, isLoading }: { cafes: CafeData[]; isLoading: boolean }) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
   const [isOpen, setIsOpen] = useState(true);
 
   return (
+    // passive event listener issue: https://github.com/mui/material-ui/issues/37814
     <StyledDrawer
       variant={isDesktop ? 'permanent' : 'temporary'}
       anchor={isDesktop ? 'left' : 'bottom'}
@@ -35,11 +36,11 @@ const CafeList = ({ cafes }: { cafes: CafeData[] }) => {
       </Puller>
 
       {isDesktop && (
-        <Box py={2}>
+        <Box py={2} position="sticky" top={0} bgcolor="inherit" zIndex={1}>
           <SearchBar hasButton />
         </Box>
       )}
-      <List cafes={cafes} />
+      <List cafes={cafes} isLoading={isLoading} />
     </StyledDrawer>
   );
 };

@@ -1,11 +1,9 @@
 'use server';
 
-import { Prisma } from '@prisma/client';
 import prisma from '@/lib/prisma';
-import { isEmpty } from '@/helpers/object';
-import { ApiCafeType, SearchCafesData } from '@/constants/types';
+import { ApiCafeData, CafeData, SearchCafesData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
-import calculateRank from '@/helpers/rankAndTags';
+import { calculateRank } from '@/helpers/rankAndTags';
 
 export const getAreas = async (city?: string) => {
   try {
@@ -32,7 +30,7 @@ export const getAreas = async (city?: string) => {
   }
 };
 
-export const getCafesByApi = async (data: SearchCafesData) => {
+export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
   const { areaKey, district, location, position, keyword, rank } = data;
 
   const distance = 0.01;
@@ -44,25 +42,36 @@ export const getCafesByApi = async (data: SearchCafesData) => {
   };
 
   try {
-    const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey}`);
-    const cafes: ApiCafeType[] = await resp.json();
+    const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey || ''}`);
+    const cafes: ApiCafeData[] = await resp.json();
 
-    // handle conditionals
-    const filteredCafes = cafes.filter((cafe) => {
-      const { name, address, latitude, longitude, wifi, seat, quiet, tasty, cheap, music } = cafe;
+    if (!cafes.length) return [];
 
-      const lat = parseFloat(latitude);
-      const lon = parseFloat(longitude);
+    // handle conditions
+    const filteredCafes = cafes
+      .map((cafe) => ({
+        ...cafe,
+        latitude: parseFloat(cafe.latitude),
+        longitude: parseFloat(cafe.longitude),
+        cafeRank: calculateRank(cafe),
+      }))
+      .filter((cafe) => {
+        const { name, address, latitude, longitude, cafeRank } = cafe;
 
-      const isKeywordMatched = !keyword || name.includes(keyword) || address.includes(keyword);
-      const isDistrictMatched = !district || address.includes(district);
-      const isLocationMatched = !location || address.includes(location);
-      const isGteRank = !rank || calculateRank({ wifi, seat, quiet, tasty, cheap, music }) >= rank;
-      const isInScope =
-        !position || (lat >= scope.minLat && lat <= scope.maxLat && lon >= scope.minLng && lon <= scope.maxLng);
+        const isKeywordMatched = !keyword || name.includes(keyword) || address.includes(keyword);
+        const isDistrictMatched = !district || address.includes(district);
+        const isLocationMatched = !location || address.includes(location);
+        const isGteRank = !rank || cafeRank >= rank;
+        const isInScope =
+          !position ||
+          (latitude >= scope.minLat &&
+            latitude <= scope.maxLat &&
+            longitude >= scope.minLng &&
+            longitude <= scope.maxLng);
 
-      return isKeywordMatched && isDistrictMatched && isLocationMatched && isGteRank && isInScope;
-    });
+        return isKeywordMatched && isDistrictMatched && isLocationMatched && isGteRank && isInScope;
+      })
+      .sort((a, b) => b.cafeRank - a.cafeRank);
 
     return filteredCafes;
   } catch (error) {
@@ -71,104 +80,104 @@ export const getCafesByApi = async (data: SearchCafesData) => {
   }
 };
 
-export const searchCafes = async (data: SearchCafesData) => {
-  if (!data) return [];
+// export const searchCafes = async (data: SearchCafesData) => {
+//   if (!data) return [];
 
-  const { area, district, location, position, keyword, rank, advantages } = data;
+//   const { area, district, location, position, keyword, rank, advantages } = data;
 
-  // position
-  let positionOptions: Prisma.CafeAddressWhereInput = {};
-  if (position) {
-    const scope = 0.01;
-    const minLat = position.lat - scope;
-    const maxLat = position.lat + scope;
-    const minLng = position.lng - scope;
-    const maxLng = position.lng + scope;
+//   // position
+//   let positionOptions: Prisma.CafeAddressWhereInput = {};
+//   if (position) {
+//     const scope = 0.01;
+//     const minLat = position.lat - scope;
+//     const maxLat = position.lat + scope;
+//     const minLng = position.lng - scope;
+//     const maxLng = position.lng + scope;
 
-    positionOptions = {
-      latitude: {
-        gte: minLat,
-        lte: maxLat,
-      },
-      longitude: {
-        gte: minLng,
-        lte: maxLng,
-      },
-    };
-  }
+//     positionOptions = {
+//       latitude: {
+//         gte: minLat,
+//         lte: maxLat,
+//       },
+//       longitude: {
+//         gte: minLng,
+//         lte: maxLng,
+//       },
+//     };
+//   }
 
-  const address: Prisma.CafeAddressWhereInput = {
-    ...(area && { area }),
-    ...(district && { district }),
-    ...(location && {
-      location: {
-        contains: location,
-        mode: 'insensitive',
-      },
-    }),
-    ...positionOptions,
-  };
+//   const address: Prisma.CafeAddressWhereInput = {
+//     ...(area && { area }),
+//     ...(district && { district }),
+//     ...(location && {
+//       location: {
+//         contains: location,
+//         mode: 'insensitive',
+//       },
+//     }),
+//     ...positionOptions,
+//   };
 
-  const keywordOptions: Prisma.StringFilter = {
-    contains: keyword,
-    mode: 'insensitive',
-  };
+//   const keywordOptions: Prisma.StringFilter = {
+//     contains: keyword,
+//     mode: 'insensitive',
+//   };
 
-  const keywordSearch: Prisma.CafeWhereInput = {
-    ...(keyword && {
-      name: keywordOptions,
-      description: keywordOptions,
-      tags: {
-        some: {
-          name: keywordOptions,
-        },
-      },
-      address: {
-        area: keywordOptions,
-        district: keywordOptions,
-        location: keywordOptions,
-      },
-    }),
-  };
+//   const keywordSearch: Prisma.CafeWhereInput = {
+//     ...(keyword && {
+//       name: keywordOptions,
+//       description: keywordOptions,
+//       tags: {
+//         some: {
+//           name: keywordOptions,
+//         },
+//       },
+//       address: {
+//         area: keywordOptions,
+//         district: keywordOptions,
+//         location: keywordOptions,
+//       },
+//     }),
+//   };
 
-  const searchOptions: Prisma.CafeFindManyArgs = {
-    where: {
-      ...(!isEmpty(address) && {
-        address,
-      }),
-      ...keywordSearch,
-      ...(rank && {
-        stars: {
-          gte: rank,
-        },
-      }),
-      ...(advantages && {
-        tags: {
-          some: {
-            name: {
-              in: advantages,
-            },
-          },
-        },
-      }),
-    },
-  };
+//   const searchOptions: Prisma.CafeFindManyArgs = {
+//     where: {
+//       ...(!isEmpty(address) && {
+//         address,
+//       }),
+//       ...keywordSearch,
+//       ...(rank && {
+//         stars: {
+//           gte: rank,
+//         },
+//       }),
+//       ...(advantages && {
+//         tags: {
+//           some: {
+//             name: {
+//               in: advantages,
+//             },
+//           },
+//         },
+//       }),
+//     },
+//   };
 
-  try {
-    const cafes = await prisma.cafe.findMany({
-      include: {
-        address: true,
-        tags: true,
-        img: true,
-      },
-      ...searchOptions,
-    });
+//   try {
+//     const cafes = await prisma.cafe.findMany({
+//       include: {
+//         address: true,
+//         tags: true,
+//         img: true,
+//       },
+//       ...searchOptions,
+//     });
 
-    console.log(cafes);
+//     console.log(cafes);
 
-    return cafes;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
+//     return cafes;
+//   } catch (error) {
+//     console.error(error);
+//     return [];
+//   }
+// };

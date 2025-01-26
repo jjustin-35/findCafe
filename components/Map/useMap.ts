@@ -23,8 +23,9 @@ const addMarkers = async ({
   const { AdvancedMarkerElement, PinElement } = await loader.importLibrary('marker');
   const { InfoWindow } = await loader.importLibrary('maps');
 
-  return locations.map((location) => {
+  const markers = locations.map((location) => {
     const { info, ...position } = location;
+    console.log(position);
     const markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
       map,
       position,
@@ -49,8 +50,8 @@ const addMarkers = async ({
     if (isCafe) {
       const content = document.createElement('div');
       content.innerHTML = `
-      <h5 style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">${info?.name}</h5>
-      <p style="font-size: 14px; margin-bottom: 4px;">${info?.address}</p>
+      <h5 style="font-size: 16px; font-weight: bold; margin: 0 0 8px;">${info?.name}</h5>
+      <p style="font-size: 14px; margin: 0;">${info?.address}</p>
       `;
       const infoWindow = new InfoWindow({
         content,
@@ -61,6 +62,8 @@ const addMarkers = async ({
 
     return marker;
   });
+
+  return markers;
 };
 
 const useMap = () => {

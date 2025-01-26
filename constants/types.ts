@@ -53,7 +53,7 @@ export type ImageData = {
   height?: number;
 };
 
-export type CafeData = {
+export type ApiCafeData = {
   id: string;
   name: string;
   city: string;
@@ -72,7 +72,13 @@ export type CafeData = {
   standing_desk: 'yes' | 'no';
   mrt: string;
   open_time: string;
+};
+
+export type CafeData = Omit<ApiCafeData, 'latitude' | 'longitude'> & {
   images?: ImageData[];
+  cafeRank: number;
+  latitude: number;
+  longitude: number;
 };
 
 export type Position = {
