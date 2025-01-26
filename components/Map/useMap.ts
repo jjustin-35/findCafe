@@ -47,12 +47,10 @@ const addMarkers = async ({
     const marker = new AdvancedMarkerElement(markerOptions);
 
     if (isCafe) {
-      const content = `
-        <div>
-          <h5 style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">${info?.name}</h5>
-          <p style="font-size: 14px; margin-bottom: 4px;">${info?.address}</p>
-          <p style="font-size: 14px; margin-bottom: 4px;">${info?.phone}</p>
-        </div>
+      const content = document.createElement('div');
+      content.innerHTML = `
+      <h5 style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">${info?.name}</h5>
+      <p style="font-size: 14px; margin-bottom: 4px;">${info?.address}</p>
       `;
       const infoWindow = new InfoWindow({
         content,

@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma';
 import { isEmpty } from '@/helpers/object';
 import { ApiCafeType, SearchCafesData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
-import calculateRank from '@/helpers/calculateRank';
+import calculateRank from '@/helpers/rankAndTags';
 
 export const getAreas = async (city?: string) => {
   try {
@@ -32,7 +32,7 @@ export const getAreas = async (city?: string) => {
   }
 };
 
-export const searchCafesByApi = async (data: SearchCafesData) => {
+export const getCafesByApi = async (data: SearchCafesData) => {
   const { areaKey, district, location, position, keyword, rank } = data;
 
   const distance = 0.01;
@@ -64,6 +64,7 @@ export const searchCafesByApi = async (data: SearchCafesData) => {
       return isKeywordMatched && isDistrictMatched && isLocationMatched && isGteRank && isInScope;
     });
 
+    return filteredCafes;
   } catch (error) {
     console.error(error);
     return [];

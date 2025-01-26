@@ -3,7 +3,7 @@ import { grey } from '@mui/material/colors';
 import { CafeData } from '@/constants/types';
 import { useAppSelector } from '@/redux/hooks';
 import CafeListLoader from '../Loaders/cafeList';
-import CafeListItem from './item';
+import CafeItem from '../CafeItem';
 
 const List = ({ cafes }: { cafes: CafeData[] }) => {
   const { isLoading } = useAppSelector((state) => state.search);
@@ -24,7 +24,7 @@ const List = ({ cafes }: { cafes: CafeData[] }) => {
     return (
       <Stack gap={2} direction="column">
         {cafes?.map((cafe) => (
-          <CafeListItem key={cafe.id} cafe={cafe} />
+          <CafeItem key={cafe.id} cafe={cafe} />
         ))}
       </Stack>
     );

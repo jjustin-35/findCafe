@@ -2,15 +2,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Stack, Typography, Rating, Chip } from '@mui/material';
 import { CafeData } from '@/constants/types';
+import { calculateRank, getTags } from '@/helpers/rankAndTags';
+import { tagData } from './data';
 
 const CafeListItem = ({ cafe }: { cafe: CafeData }) => {
-  const { img, address, tags, name } = cafe;
+  const { images, address, name } = cafe;
   const path = `/cafe/${name}`;
-  const stars = Math.round(cafe.stars);
+  const firstImg = images[0];
+  const stars = calculateRank(cafe);
+  const tags = getTags(cafe);
+
   return (
     <Link href={path}>
       <Stack gap={2}>
-        <Image src={img[0].pic} alt={img[0].name} width={100} height={100} />
+        <Image src={firstImg.src} alt={firstImg.alt} width={100} height={100} />
         <Stack direction="column" alignItems="center" gap={1}>
           <Typography variant="h4" component="h3" color="primary">
             {name}
@@ -18,11 +23,11 @@ const CafeListItem = ({ cafe }: { cafe: CafeData }) => {
           <Rating value={stars} readOnly />
           <Stack direction="row" gap={1}>
             {tags.map((tag) => (
-              <Chip key={tag.id} label={tag.name} />
+              <Chip key={tag} label={tagData[tag]} />
             ))}
           </Stack>
           <Typography variant="body1" component="p" color="text.secondary">
-            {address.location}
+            {address}
           </Typography>
         </Stack>
       </Stack>

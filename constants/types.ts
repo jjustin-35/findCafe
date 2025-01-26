@@ -1,5 +1,3 @@
-import { Prisma } from '@prisma/client';
-
 type ErrorResponse = {
   error?: {
     error_code: string;
@@ -55,15 +53,7 @@ export type ImageData = {
   height?: number;
 };
 
-export type CafeData = Partial<Prisma.CafeGetPayload<{
-  include: {
-    img: true;
-    address: true;
-    tags: true;
-  };
-}>>;
-
-export type ApiCafeType = {
+export type CafeData = {
   id: string;
   name: string;
   city: string;
@@ -82,6 +72,7 @@ export type ApiCafeType = {
   standing_desk: 'yes' | 'no';
   mrt: string;
   open_time: string;
+  images?: ImageData[];
 };
 
 export type Position = {
