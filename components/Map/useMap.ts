@@ -38,7 +38,7 @@ const addMarkers = async ({
         glyph: pin,
         background: theme.palette.primary.main,
         borderColor: '#ffffff',
-        scale: 0.8,
+        scale: 0.9,
       });
 
       markerOptions.content = pinSvg.element;
@@ -55,7 +55,9 @@ const addMarkers = async ({
       const infoWindow = new InfoWindow({
         content,
       });
-      const openInfoWindow = () => infoWindow.open({ map, anchor: marker });
+      const openInfoWindow = () => {
+        infoWindow.open({ map, anchor: marker });
+      };
       marker.addListener('click', openInfoWindow);
     }
 

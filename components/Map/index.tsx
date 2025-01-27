@@ -2,11 +2,13 @@
 
 import { useEffect } from 'react';
 import { Box } from '@mui/material';
+import { useAppSelector } from '@/redux/hooks';
 import useMap from './useMap';
 import { CafeData } from '@/constants/types';
 
 const Map = ({ cafes }: { cafes: CafeData[] }) => {
-  const { mapRef, setCafes } = useMap();
+  const { map, mapRef, cafeMarkers, setCafes } = useMap();
+  const { isSearching } = useAppSelector((state) => state.search);
 
   useEffect(() => {
     const locations = cafes.map((cafe) => ({
@@ -16,7 +18,16 @@ const Map = ({ cafes }: { cafes: CafeData[] }) => {
     }));
 
     setCafes(locations);
-  }, [cafes]);
+    if (isSearching) {
+      map.setCenter({ lat: locations[0].lat, lng: locations[0].lng });
+    }
+  }, [cafes, isSearching]);
+
+  useEffect(() => {
+    if (isSearching) {
+      cafeMarkers[0].click();
+    }
+  }, [cafeMarkers, isSearching]);
 
   return (
     <Box

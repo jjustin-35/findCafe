@@ -4,7 +4,7 @@ import { getAreas as getAreasApi, getCafes as getCafesApi } from '@/apis/search'
 import getCurrentLocationApi from '@/helpers/getCurrentLocation';
 import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
-import { isEqual } from '@/helpers/object';
+import { isEmpty, isEqual } from '@/helpers/object';
 
 interface SearchState {
   status: Status;
@@ -12,6 +12,7 @@ interface SearchState {
   areas: Prisma.AreaGetPayload<{ include: { districts: true } }>[];
   currentLocation: Position | null;
   cafes: CafeData[];
+  isSearching: boolean;
 }
 
 const initialState: SearchState = {
@@ -20,6 +21,7 @@ const initialState: SearchState = {
   areas: [],
   currentLocation: null,
   cafes: [],
+  isSearching: false,
 };
 
 export const getAreas = createAsyncThunk('search/getAreas', async () => {
@@ -67,6 +69,12 @@ const searchSlice = createSlice({
     setErr: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
+    setIsSearching: (state, action: PayloadAction<boolean>) => {
+      state.isSearching = action.payload;
+    },
+    clearSearchStates: (state) => {
+      state = { ...initialState };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAreas.fulfilled, (state, action) => {
@@ -92,6 +100,6 @@ const searchSlice = createSlice({
   },
 });
 
-export const { setErr } = searchSlice.actions;
+export const { setErr, setIsSearching, clearSearchStates } = searchSlice.actions;
 
 export default searchSlice.reducer;

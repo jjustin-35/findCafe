@@ -46,7 +46,7 @@ export type SearchCafesData = {
   areaKey?: string;
   district?: string;
   location?: string;
-  position?: Omit<Position, 'info'>;
+  position?: Position;
   keyword?: string;
   rank?: number;
   advantages?: CafeAdvantage[];

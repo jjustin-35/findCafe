@@ -42,7 +42,12 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
   };
 
   try {
-    const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey || ''}`);
+    const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey || ''}`, {
+      cache: 'force-cache',
+      next: {
+        revalidate: 3600,
+      }
+    });
     const cafes: ApiCafeData[] = await resp.json();
 
     if (!cafes.length) return [];

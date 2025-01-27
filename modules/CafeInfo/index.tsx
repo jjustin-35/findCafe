@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import { getCafes, getCurrentLocation } from '@/redux/search';
+import { getCafes, getCurrentLocation, clearSearchStates } from '@/redux/search';
 import CafeList from '@/components/CafeList';
 import Map from '@/components/Map';
 
@@ -18,6 +18,12 @@ const CafeInfo = () => {
 
     dispatch(getCafes({ position: currentLocation }));
   }, [currentLocation]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearSearchStates());
+    };
+  }, []);
 
   return (
     <div>
