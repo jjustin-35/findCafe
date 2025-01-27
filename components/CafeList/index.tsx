@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { CafeData } from '@/constants/types';
+import { CafeData, Status } from '@/constants/types';
 import List from './list';
 import SearchBar from '../SearchBar';
 import { StyledDrawer, Puller, PullerIcon } from './styled';
 
 const drawerBleeding = 56;
 
-const CafeList = ({ cafes, isLoading }: { cafes: CafeData[]; isLoading: boolean }) => {
+const CafeList = ({ cafes, status }: { cafes: CafeData[]; status: Status }) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
   const [isOpen, setIsOpen] = useState(true);
@@ -40,7 +40,9 @@ const CafeList = ({ cafes, isLoading }: { cafes: CafeData[]; isLoading: boolean 
           <SearchBar hasButton />
         </Box>
       )}
-      <List cafes={cafes} isLoading={isLoading} />
+      <Box overflow="auto">
+        <List cafes={cafes} status={status} />
+      </Box>
     </StyledDrawer>
   );
 };

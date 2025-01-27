@@ -15,6 +15,12 @@ export type ApiFunctionWithoutParams<R = any> = () => Promise<ApiResponse<R>>;
 export type ApiFunctionWithParams<P = any, R = any> = (params?: P) => Promise<ApiResponse<R>>;
 export type ApiFunction<P = void, R = any> = P extends void ? ApiFunctionWithoutParams<R> : ApiFunctionWithParams<P, R>;
 
+export enum Status {
+  IDLE = 'idle',
+  PENDING = 'pending',
+  FULFILLED = 'fulfilled',
+}
+
 export type DistrictData = {
   zip: string;
   name: string;

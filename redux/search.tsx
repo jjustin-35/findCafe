@@ -2,12 +2,12 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Prisma } from '@prisma/client';
 import { getAreas as getAreasApi, getCafes as getCafesApi } from '@/apis/search';
 import getCurrentLocationApi from '@/helpers/getCurrentLocation';
-import { SearchCafesData, CafeData, Position } from '@/constants/types';
+import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
 
 interface SearchState {
-  isLoading: boolean;
+  status: Status;
   error: string | null;
   areas: Prisma.AreaGetPayload<{ include: { districts: true } }>[];
   currentLocation: Position | null;
@@ -15,7 +15,7 @@ interface SearchState {
 }
 
 const initialState: SearchState = {
-  isLoading: false,
+  status: Status.IDLE,
   error: null,
   areas: [],
   currentLocation: null,
@@ -80,14 +80,14 @@ const searchSlice = createSlice({
     });
     builder.addCase(getCafes.fulfilled, (state, action) => {
       state.cafes = action.payload;
-      state.isLoading = false;
+      state.status = Status.FULFILLED;
     });
     builder.addCase(getCafes.pending, (state) => {
-      state.isLoading = true;
+      state.status = Status.PENDING;
     });
     builder.addCase(getCafes.rejected, (state, action) => {
       state.error = action.error.message || 'An error occurred';
-      state.isLoading = false;
+      state.status = Status.FULFILLED;
     });
   },
 });

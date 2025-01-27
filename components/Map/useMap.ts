@@ -25,7 +25,6 @@ const addMarkers = async ({
 
   const markers = locations.map((location) => {
     const { info, ...position } = location;
-    console.log(position);
     const markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
       map,
       position,

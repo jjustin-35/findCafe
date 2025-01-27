@@ -12,7 +12,6 @@ const SearchBar = ({ hasButton }: { hasButton?: boolean }) => {
   const dispatch = useAppDispatch();
 
   const onSubmit = ({ keyword }: { keyword: string }) => {
-    console.log(keyword);
     dispatch(getCafes({ keyword }));
   };
 

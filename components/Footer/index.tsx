@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container as MuiContainer, Typography, List, ListItem, Box } from '@mui/material';
 import { RootState } from '@/config/configureStore';
 import { setErr } from '@/redux/search';
-import { setProfile } from '@/redux/user';
+import { setProfile } from '@/redux/auth';
 import Icon from '@/components/Icon';
 import { Container } from '@/style/styles';
 import { NavLink, NavAnchor } from './styled';

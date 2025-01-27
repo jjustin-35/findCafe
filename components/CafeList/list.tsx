@@ -1,12 +1,12 @@
 import { Stack, Box, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { CafeData } from '@/constants/types';
+import { CafeData, Status } from '@/constants/types';
 import CafeListLoader from '../Loaders/cafeList';
 import CafeItem from '../CafeItem';
 
-const List = ({ cafes, isLoading }: { cafes: CafeData[]; isLoading?: boolean }) => {
+const List = ({ cafes, status }: { cafes: CafeData[]; status: Status }) => {
   const content = (() => {
-    if (!cafes || isLoading) {
+    if (status === Status.IDLE || status === Status.PENDING) {
       return <CafeListLoader />;
     }
 

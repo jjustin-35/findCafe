@@ -5,6 +5,7 @@ export const StyledDrawer = styled(SwipeableDrawer)`
   & .MuiDrawer-paper {
     background-color: ${({ theme }) => theme.palette.secondary.light};
     margin-top: 64px;
+    overflow-y: visible;
     ${({ theme }) => theme.breakpoints.up('mobile')} {
       width: 100%;
       height: calc(50vh - 64px);

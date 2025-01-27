@@ -7,7 +7,7 @@ import CafeList from '@/components/CafeList';
 import Map from '@/components/Map';
 
 const CafeInfo = () => {
-  const { currentLocation, cafes, isLoading } = useAppSelector((state) => state.search);
+  const { currentLocation, cafes, status } = useAppSelector((state) => state.search);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const CafeInfo = () => {
   return (
     <div>
       <Map cafes={cafes} />
-      <CafeList cafes={cafes} isLoading={isLoading} />
+      <CafeList cafes={cafes} status={status} />
     </div>
   );
 };
