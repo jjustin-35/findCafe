@@ -9,7 +9,7 @@ import tagData from '@/constants/tags';
 
 const CafeListItem = ({ cafe }: { cafe: CafeData }) => {
   const { images, address, name } = cafe;
-  const path = `/cafe/${name}?lat=${cafe?.latitude}&lng=${cafe?.longitude}`;
+  const path = `/cafe/${name}`;
   const firstImg = images?.[0];
   const stars = calculateRank(cafe);
   const tags = getTags(cafe);
