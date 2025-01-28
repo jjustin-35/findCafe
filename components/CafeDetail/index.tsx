@@ -2,14 +2,19 @@
 
 import { Typography, useTheme, useMediaQuery, Stack, Chip, Rating } from '@mui/material';
 import CafeBoard from '../CafeBoard';
-import { CafeData } from '@/constants/types';
+import { CafeData, Status } from '@/constants/types';
 import tagData from '@/constants/tags';
 import { getTags } from '@/helpers/rankAndTags';
+import CafeInfoLoader from '../Loaders/cafeInfo';
 
-const CafeDetail = ({ cafe }: { cafe: CafeData }) => {
+const CafeDetail = ({ cafe, status }: { cafe: CafeData; status: Status }) => {
   const theme = useTheme();
   const { grey } = theme.palette;
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
+
+  if ((status === Status.IDLE && !cafe) || status === Status.PENDING) {
+    return <CafeInfoLoader />;
+  }
 
   if (!cafe) {
     return (

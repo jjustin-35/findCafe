@@ -1,17 +1,14 @@
 'use client';
 
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import { getCurrentLocation } from '@/redux/search';
-import { CafeData } from '@/constants/types';
+import { getCafes, getCurrentLocation } from '@/redux/search';
 import Map from '@/components/Map';
 import CafeDetail from '@/components/CafeDetail';
 
-const CafeInfo = ({ getCafes }: { getCafes: Promise<CafeData[]> }) => {
-  const { currentLocation } = useAppSelector((state) => state.search);
+const CafeInfo = ({ cafeName }: { cafeName: string }) => {
+  const { currentLocation, cafes, status } = useAppSelector((state) => state.search);
   const dispatch = useAppDispatch();
-  const cafes = use(getCafes);
-  const cafe = cafes?.[0];
 
   useEffect(() => {
     if (!currentLocation) {
@@ -20,10 +17,14 @@ const CafeInfo = ({ getCafes }: { getCafes: Promise<CafeData[]> }) => {
     }
   }, [currentLocation]);
 
+  useEffect(() => {
+    dispatch(getCafes({ keyword: cafeName }));
+  }, [cafeName]);
+
   return (
     <>
-      <Map cafes={[cafe]} isSearching />
-      <CafeDetail cafe={cafe} />
+      <Map cafes={cafes} isSearching />
+      <CafeDetail cafe={cafes?.[0]} status={status} />
     </>
   );
 };

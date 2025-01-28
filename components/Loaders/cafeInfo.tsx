@@ -10,7 +10,7 @@ const TextLoader = () => (
   </Stack>
 );
 
-const CafeDetailLoader = () => {
+const CafeInfoLoader = () => {
   return (
     <Stack gap={3} direction="column" width="400px">
       <Skeleton variant="text" width="100%" height={60} />
@@ -21,15 +21,6 @@ const CafeDetailLoader = () => {
         <Skeleton variant="rectangular" width={200} height={120} sx={{ flexShrink: 0 }} />
       </Stack>
       <TextLoader />
-    </Stack>
-  );
-};
-
-const CafeInfoLoader = () => {
-  return (
-    <Stack gap={1} direction="row">
-      <CafeDetailLoader />
-      <Skeleton variant="rectangular" width="100%" height="100vh" />
     </Stack>
   );
 };

@@ -19,10 +19,10 @@ const Map = ({ cafes, isSearching }: { cafes: CafeData[]; isSearching?: boolean 
   }, [cafes]);
 
   useEffect(() => {
-    if (map && isSearching) {
-      map.setCenter({ ...cafeLocations[0] });
-    }
-  }, [cafes, isSearching, map]);
+    if (!cafeLocations[0] || !map) return;
+    if (!isSearching) return;
+    map.setCenter({ ...cafeLocations[0] });
+  }, [cafeLocations, isSearching, map]);
 
   return (
     <Box
