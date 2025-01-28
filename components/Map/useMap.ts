@@ -129,6 +129,7 @@ const useMap = () => {
     mapRef,
     map,
     cafeMarkers,
+    cafeLocations,
     setCafes,
   };
 };

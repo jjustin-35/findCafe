@@ -43,7 +43,7 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
 
   try {
     const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey || ''}`, {
-      cache: 'force-cache',
+      // cache: 'force-cache',
       next: {
         revalidate: 3600,
       }

@@ -1,11 +1,11 @@
 import Header from '@/components/Header';
-import CafeInfo from '@/modules/CafeInfo';
+import CafesResult from '@/modules/CafesResult';
 
 const Cafe = () => {
   return (
     <>
       <Header />
-      <CafeInfo />
+      <CafesResult />
     </>
   );
 };

@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { Stack, Typography, Rating, Chip } from '@mui/material';
 import { CafeData } from '@/constants/types';
 import { calculateRank, getTags } from '@/helpers/rankAndTags';
-import { tagData } from './data';
+import tagData from '@/constants/tags';
 
 const CafeListItem = ({ cafe }: { cafe: CafeData }) => {
   const { images, address, name } = cafe;
-  const path = `/cafe/${name}`;
+  const path = `/cafe/${name}?lat=${cafe?.latitude}&lng=${cafe?.longitude}`;
   const firstImg = images?.[0];
   const stars = calculateRank(cafe);
   const tags = getTags(cafe);

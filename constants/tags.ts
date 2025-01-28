@@ -1,4 +1,4 @@
-export const tagData = {
+const tagData = {
   wifi: '有wifi',
   seat: '座位多',
   quiet: '環境安靜',
@@ -6,3 +6,5 @@ export const tagData = {
   cheap: '東西便宜',
   music: '音樂好聽',
 };
+
+export default tagData;
