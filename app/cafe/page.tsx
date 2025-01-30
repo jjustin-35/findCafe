@@ -29,9 +29,7 @@ const Cafe = () => {
 
   return (
     <>
-      <Box py={2} position="sticky" top={0} bgcolor="inherit" zIndex={1}>
-        <SearchBar hasButton />
-      </Box>
+      <SearchBar hasButton />
       <Map cafes={cafes} isSearching={isSearching} />
       <CafeList cafes={cafes} status={status} />
     </>
