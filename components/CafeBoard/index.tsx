@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { CafeData, Status } from '@/constants/types';
-import SearchBar from '../SearchBar';
 import { StyledDrawer, Puller, PullerIcon } from './styled';
 
 const drawerBleeding = 56;
@@ -35,12 +33,6 @@ const CafeBoard = ({ title, children }: { title?: string; children: React.ReactN
           </Typography>
         )}
       </Puller>
-
-      {isDesktop && (
-        <Box py={2} position="sticky" top={0} bgcolor="inherit" zIndex={1}>
-          <SearchBar hasButton />
-        </Box>
-      )}
       <Box overflow="auto" p={3}>{children}</Box>
     </StyledDrawer>
   );
