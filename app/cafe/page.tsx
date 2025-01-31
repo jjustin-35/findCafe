@@ -1,12 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Box } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { getCafes, getCurrentLocation, clearSearchStates } from '@/redux/search';
 import CafeList from '@/components/CafeList';
 import Map from '@/components/Map';
-import SearchBar from '@/components/SearchBar';
 
 const Cafe = () => {
   const { currentLocation, cafes, status, isSearching } = useAppSelector((state) => state.search);
@@ -29,7 +27,6 @@ const Cafe = () => {
 
   return (
     <>
-      <SearchBar hasButton />
       <Map cafes={cafes} isSearching={isSearching} />
       <CafeList cafes={cafes} status={status} />
     </>

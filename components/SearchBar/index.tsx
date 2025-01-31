@@ -8,7 +8,7 @@ import { setIsSearching } from '@/redux/search';
 import { getCafes } from '@/redux/search';
 import { Form } from './styled';
 
-const SearchBar = ({ hasButton }: { hasButton?: boolean }) => {
+const SearchBar = () => {
   const { register, handleSubmit } = useForm();
   const dispatch = useAppDispatch();
 
@@ -30,10 +30,10 @@ const SearchBar = ({ hasButton }: { hasButton?: boolean }) => {
           mobile: 'fit-content',
           laptop: 400,
         },
-        translate: {
-          mobile: '-50%',
+        transform: {
+          mobile: 'translateX(-50%)',
           laptop: 'unset',
-        }
+        },
       }}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -49,11 +49,9 @@ const SearchBar = ({ hasButton }: { hasButton?: boolean }) => {
             },
           }}
         />
-        {hasButton && (
-          <Button variant="contained" color="primary" type="submit">
-            搜尋
-          </Button>
-        )}
+        <Button variant="contained" color="primary" type="submit">
+          搜尋
+        </Button>
       </Form>
     </Box>
   );
