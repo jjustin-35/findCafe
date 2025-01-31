@@ -12,25 +12,23 @@ const CafeDetail = ({ cafe, status }: { cafe: CafeData; status: Status }) => {
   const { grey } = theme.palette;
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
 
-  if ((status === Status.IDLE && !cafe) || status === Status.PENDING) {
-    return <CafeInfoLoader />;
-  }
+  const content = (() => {
+    if ((status === Status.IDLE && !cafe) || status === Status.PENDING) {
+      return <CafeInfoLoader />;
+    }
 
-  if (!cafe) {
-    return (
-      <CafeBoard>
+    if (!cafe) {
+      return (
         <Typography color={grey[500]} variant="h6" fontWeight="bold" textAlign="center">
           找不到咖啡廳
         </Typography>
-      </CafeBoard>
-    );
-  }
+      );
+    }
 
-  const { name, address, cafeRank } = cafe;
-  const tags = getTags(cafe);
+    const { name, address, cafeRank } = cafe;
+    const tags = getTags(cafe);
 
-  return (
-    <CafeBoard title={name}>
+    return (
       <Stack direction="column" gap={2}>
         {isDesktop && (
           <Typography variant="h5" component="h3" fontWeight="bold" color="primary">
@@ -49,8 +47,10 @@ const CafeDetail = ({ cafe, status }: { cafe: CafeData; status: Status }) => {
           {address}
         </Typography>
       </Stack>
-    </CafeBoard>
-  );
+    );
+  })();
+
+  return <CafeBoard title={cafe?.name}>{content}</CafeBoard>;
 };
 
 export default CafeDetail;

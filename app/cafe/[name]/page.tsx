@@ -2,8 +2,9 @@
 
 import { useEffect, use } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import { getCafes, getCurrentLocation } from '@/redux/search';
+import { getCafes, getCurrentLocation, clearSearchStates } from '@/redux/search';
 import Map from '@/components/Map';
+import SearchBar from '@/components/SearchBar';
 import CafeDetail from '@/components/CafeDetail';
 
 const Cafe = ({ params }: { params: Promise<{ name: string }> }) => {
@@ -23,8 +24,15 @@ const Cafe = ({ params }: { params: Promise<{ name: string }> }) => {
     dispatch(getCafes({ keyword: name }));
   }, [name]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearSearchStates());
+    };
+  }, []);
+
   return (
     <>
+      <SearchBar hasReturnBtn />
       <Map cafes={cafes} isSearching />
       <CafeDetail cafe={cafes?.[0]} status={status} />
     </>

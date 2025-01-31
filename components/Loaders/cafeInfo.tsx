@@ -12,8 +12,7 @@ const TextLoader = () => (
 
 const CafeInfoLoader = () => {
   return (
-    <Stack gap={3} direction="column" width="400px">
-      <Skeleton variant="text" width="100%" height={60} />
+    <Stack gap={3} direction="column" maxWidth="400px">
       <Skeleton variant="text" width="100%" height={60} />
       <TextLoader />
       <Stack gap={1} direction="row" overflow="hidden">

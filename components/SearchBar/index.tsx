@@ -1,21 +1,45 @@
 'use client';
 
-import React from 'react';
-import { TextField, Button, Box } from '@mui/material';
+import Link from 'next/link';
+import { IconButton, TextField, Box, InputAdornment } from '@mui/material';
+import { ArrowBack as ArrowBackIcon, Search as SearchIcon } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
-import { useAppDispatch } from '@/redux/hooks';
-import { setIsSearching } from '@/redux/search';
-import { getCafes } from '@/redux/search';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { setIsSearching, getCafes } from '@/redux/search';
+import { Status } from '@/constants/types';
 import { Form } from './styled';
 
-const SearchBar = () => {
+const StartIconButton = () => (
+  <InputAdornment position="start" sx={{ mr: 0 }}>
+    <Link href="/cafe">
+      <IconButton>
+        <ArrowBackIcon />
+      </IconButton>
+    </Link>
+  </InputAdornment>
+);
+
+const EndIconButton = () => (
+  <InputAdornment position="end" sx={{ ml: 0 }}>
+    <IconButton type="submit">
+      <SearchIcon />
+    </IconButton>
+  </InputAdornment>
+);
+
+const SearchBar = ({ hasReturnBtn }: { hasReturnBtn?: boolean }) => {
   const { register, handleSubmit } = useForm();
+  const { status } = useAppSelector((state) => state.search);
   const dispatch = useAppDispatch();
 
   const onSubmit = ({ keyword }: { keyword: string }) => {
     dispatch(getCafes({ keyword }));
     dispatch(setIsSearching(true));
   };
+
+  if (status === Status.IDLE) {
+    return null;
+  }
 
   return (
     <Box
@@ -24,7 +48,7 @@ const SearchBar = () => {
       top={64}
       left={{ mobile: '50%', laptop: 0 }}
       bgcolor={{ mobile: 'transparent', laptop: 'secondary.light' }}
-      zIndex={{ mobile: 999, laptop: 9999 }}
+      zIndex={{ mobile: 999, laptop: 1300 }}
       sx={{
         width: {
           mobile: 'fit-content',
@@ -37,21 +61,36 @@ const SearchBar = () => {
       }}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          size="small"
-          type="text"
-          {...register('keyword')}
-          placeholder="搜尋關鍵字"
-          sx={{
-            bgcolor: {
-              mobile: 'white',
-              laptop: 'transparent',
-            },
-          }}
-        />
-        <Button variant="contained" color="primary" type="submit">
-          搜尋
-        </Button>
+        <Box display="flex" alignItems="center">
+          <TextField
+            size="small"
+            type="text"
+            variant="outlined"
+            placeholder="找找咖啡廳..."
+            {...register('keyword')}
+            slotProps={{
+              input: {
+                ...(hasReturnBtn && { startAdornment: <StartIconButton /> }),
+                endAdornment: <EndIconButton />,
+                sx: {
+                  px: 1,
+                  borderRadius: '24px',
+                  bgcolor: {
+                    mobile: 'white',
+                    laptop: 'transparent',
+                  },
+                  boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)',
+                },
+              },
+            }}
+            sx={{
+              width: {
+                mobile: 250,
+                laptop: 'unset',
+              },
+            }}
+          />
+        </Box>
       </Form>
     </Box>
   );

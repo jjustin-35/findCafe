@@ -1,5 +1,5 @@
 const tagData = {
-  wifi: '有wifi',
+  wifi: 'wifi 良好',
   seat: '座位多',
   quiet: '環境安靜',
   tasty: '餐點好吃',

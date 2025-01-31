@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { getCafes, getCurrentLocation, clearSearchStates } from '@/redux/search';
+import SearchBar from '@/components/SearchBar';
 import CafeList from '@/components/CafeList';
 import Map from '@/components/Map';
 
@@ -27,6 +28,7 @@ const Cafe = () => {
 
   return (
     <>
+      <SearchBar />
       <Map cafes={cafes} isSearching={isSearching} />
       <CafeList cafes={cafes} status={status} />
     </>

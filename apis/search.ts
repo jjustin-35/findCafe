@@ -30,6 +30,8 @@ export const getAreas = async (city?: string) => {
   }
 };
 
+let cacheData: { data: ApiCafeData[] | null; expireAt: number | null } = { data: null, expireAt: null };
+
 export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
   const { areaKey, district, location, position, keyword, rank } = data;
 
@@ -42,15 +44,21 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
   };
 
   try {
-    const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey || ''}`, {
-      // cache: 'force-cache',
-      next: {
-        revalidate: 3600,
-      }
-    });
-    const cafes: ApiCafeData[] = await resp.json();
+    let cafes: ApiCafeData[];
+    if (cacheData?.data && cacheData.expireAt > Date.now()) {
+      cafes = cacheData.data;
+    } else {
+      const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey || ''}`, {
+        cache: 'force-cache',
+        next: {
+          revalidate: 3600,
+        },
+      });
+      cafes = await resp.json();
+      cacheData = { data: [...cafes], expireAt: Date.now() + 3600000 };
+    }
 
-    if (!cafes.length) return [];
+    if (!cafes?.length) return [];
 
     // handle conditions
     const filteredCafes = cafes

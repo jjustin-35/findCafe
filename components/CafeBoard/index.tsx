@@ -9,7 +9,7 @@ const drawerBleeding = 56;
 const CafeBoard = ({ title, children }: { title?: string; children: React.ReactNode }) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     // passive event listener issue: https://github.com/mui/material-ui/issues/37814

@@ -12,7 +12,7 @@ import MobileMenu from './mobileMenu';
 const Header = () => {
   const { isAuth } = useSelector((state: RootState) => state.auth);
   return (
-    <AppBar position="sticky" sx={{ zIndex: 1300 }}>
+    <AppBar position="sticky" sx={{ zIndex: 1400 }}>
       <Container>
         <Toolbar
           disableGutters
