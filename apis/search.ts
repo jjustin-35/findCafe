@@ -45,17 +45,18 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
 
   try {
     let cafes: ApiCafeData[];
+    const revalidate = 3600;
     if (cacheData?.data && cacheData.expireAt > Date.now()) {
       cafes = cacheData.data;
     } else {
       const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey || ''}`, {
         cache: 'force-cache',
         next: {
-          revalidate: 3600,
+          revalidate,
         },
       });
       cafes = await resp.json();
-      cacheData = { data: [...cafes], expireAt: Date.now() + 3600000 };
+      cacheData = { data: [...cafes], expireAt: Date.now() + revalidate * 1000 };
     }
 
     if (!cafes?.length) return [];
