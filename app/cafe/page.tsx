@@ -8,7 +8,7 @@ import CafeList from '@/components/CafeList';
 import Map from '@/components/Map';
 
 const Cafe = () => {
-  const { currentLocation, cafes, status, isSearching } = useAppSelector((state) => state.search);
+  const { currentLocation, cafes, status } = useAppSelector((state) => state.search);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const Cafe = () => {
   return (
     <>
       <SearchBar />
-      <Map cafes={cafes} isSearching={isSearching} />
+      <Map cafes={cafes} />
       <CafeList cafes={cafes} status={status} />
     </>
   );

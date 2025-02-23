@@ -5,8 +5,8 @@ import { Box } from '@mui/material';
 import useMap from './useMap';
 import { CafeData } from '@/constants/types';
 
-const Map = ({ cafes, isSearching }: { cafes: CafeData[]; isSearching?: boolean }) => {
-  const { map, mapRef, cafeLocations, setCafes } = useMap();
+const Map = ({ cafes }: { cafes: CafeData[] }) => {
+  const { mapRef, setCafes } = useMap();
 
   useEffect(() => {
     const cafeInfos = cafes.map((cafe) => ({
@@ -17,12 +17,6 @@ const Map = ({ cafes, isSearching }: { cafes: CafeData[]; isSearching?: boolean 
 
     setCafes(cafeInfos);
   }, [cafes]);
-
-  useEffect(() => {
-    if (!cafeLocations[0] || !map) return;
-    if (!isSearching) return;
-    map.setCenter({ ...cafeLocations[0] });
-  }, [cafeLocations, isSearching, map]);
 
   return (
     <Box

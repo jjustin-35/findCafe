@@ -26,6 +26,7 @@ const useMap = () => {
     zoom: 15,
     mapId: process.env.GCP_MAP_ID,
     disableDefaultUI: true,
+    gestureHandling: 'cooperative',
   };
 
   // init map
@@ -51,7 +52,7 @@ const useMap = () => {
       const isLocationChanged = !isEqual(curLocationTemp, currentLocation);
 
       if (isLocationChanged) {
-        map.setCenter(currentLocation);
+        map.panTo(currentLocation);
         await addMarkers({ map, locations: [currentLocation] });
         setCurLocationTemp(currentLocation);
       }
@@ -103,6 +104,7 @@ const useMap = () => {
 
       if (isCafe) {
         marker.addListener('click', () => {
+          map.panTo(position);
           dispatch(getCafes({ keyword: info?.name }));
           dispatch(setIsSearching(true));
         });
