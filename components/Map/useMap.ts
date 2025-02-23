@@ -5,6 +5,8 @@ import { Position } from '@/constants/types';
 import { theme } from '@/style/theme';
 import { isEqual } from '@/helpers/object';
 
+console.log(process.env)
+
 const loader = new Loader({
   apiKey: process.env.GCP_MAP_KEY,
   version: 'weekly',
