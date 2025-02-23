@@ -9,13 +9,13 @@ const Map = ({ cafes, isSearching }: { cafes: CafeData[]; isSearching?: boolean 
   const { map, mapRef, cafeLocations, setCafes } = useMap();
 
   useEffect(() => {
-    const locations = cafes.map((cafe) => ({
+    const cafeInfos = cafes.map((cafe) => ({
       lat: cafe.latitude,
       lng: cafe.longitude,
       info: cafe,
     }));
 
-    setCafes(locations);
+    setCafes(cafeInfos);
   }, [cafes]);
 
   useEffect(() => {
