@@ -33,7 +33,7 @@ const CafeBoard = ({ title, children }: { title?: string; children: React.ReactN
           </Typography>
         )}
       </Puller>
-      <Box overflow="auto" p={3} marginTop={{ mobile: 0,laptop: "64px"}}>{children}</Box>
+      <Box overflow="auto" p={3} marginTop={{ mobile: 0, laptop: "64px" }}>{children}</Box>
     </StyledDrawer>
   );
 };
