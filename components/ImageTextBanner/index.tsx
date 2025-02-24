@@ -1,8 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { Stack, Typography, TypographyOwnProps } from '@mui/material';
 import { ImageData } from '@/constants/types';
+import { Image } from './styled';
+
 export interface ImageTextBannerProps {
   data: {
     image: ImageData;
@@ -18,17 +19,18 @@ export interface ImageTextBannerProps {
 
 const ImageTextBanner = ({ data, styles }: ImageTextBannerProps) => {
   const { image, title, description } = data;
+
   return (
-    <Stack direction={styles?.isReverse ? 'row-reverse' : 'row'} spacing={2}>
+    <Stack
+      direction={{
+        mobile: 'column',
+        laptop: styles?.isReverse ? 'row-reverse' : 'row',
+      }}
+      spacing={2}
+    >
       <Image
         {...image}
         sizes="100vw"
-        style={{
-          width: '100%',
-          maxWidth: '60%',
-          height: 'auto',
-          objectFit: 'cover'
-        }}
         width={785}
         height={450}
       />
@@ -36,7 +38,11 @@ const ImageTextBanner = ({ data, styles }: ImageTextBannerProps) => {
         direction="column"
         justifyContent="center"
         spacing={2}
-        sx={{ padding: '20px 0', width: '100%', maxWidth: '40%' }}
+        sx={{
+          padding: '20px 0',
+          width: '100%',
+          maxWidth: { mobile: '100%', laptop: '40%' },
+        }}
       >
         <Typography component="h2" variant="h5" color="primary.main" fontWeight="bold" {...styles?.title}>
           {title}

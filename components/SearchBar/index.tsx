@@ -85,8 +85,8 @@ const SearchBar = ({ hasReturnBtn }: { hasReturnBtn?: boolean }) => {
                 ...(hasReturnBtn && { startAdornment: <StartIconButton /> }),
                 endAdornment: (
                   <Box display="flex">
-                    <AdvancedSearch onFilterChange={handleFilterChange} />
                     <EndIconButton />
+                    <AdvancedSearch onFilterChange={handleFilterChange} />
                   </Box>
                 ),
                 sx: {

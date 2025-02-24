@@ -23,6 +23,8 @@ export const getAreas = async (city?: string) => {
       },
     });
 
+    console.log(allAreas);
+
     return allAreas;
   } catch (error) {
     console.error(error);
@@ -49,7 +51,7 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     if (cacheData?.data && cacheData.expireAt > Date.now()) {
       cafes = cacheData.data;
     } else {
-      const response = await fetch(API_PATHS.CAFES);
+      const response = await fetch(API_PATHS.NOMAD_CAFE_API);
       cafes = await response.json();
       cacheData = {
         data: cafes,

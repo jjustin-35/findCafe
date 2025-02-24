@@ -5,6 +5,8 @@ const tagData = {
   tasty: '餐點好吃',
   cheap: '東西便宜',
   music: '音樂好聽',
-};
+} as const;
+
+export type TagType = keyof typeof tagData;
 
 export default tagData;
