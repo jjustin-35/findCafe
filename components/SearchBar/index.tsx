@@ -38,11 +38,11 @@ const SearchBar = ({ hasReturnBtn }: { hasReturnBtn?: boolean }) => {
     dispatch(setIsSearching(true));
   };
 
-  const handleFilterChange = ({ tags, location, minRating }: { tags: string[], location: string, minRating: number }) => {
+  const handleFilterChange = ({ tags, area, minRating }: { tags: string[], area: string, minRating: number }) => {
     const keyword = watch('keyword');
     dispatch(getCafes({ 
       keyword,
-      area: location,
+      areaKey: area,
       rank: minRating,
       tags
     }));

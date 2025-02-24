@@ -1286,7 +1286,8 @@
                 "name": "茄萣區"
             }
         ],
-        "name": "高雄市"
+        "name": "高雄市",
+        "key": "kaohsiung"
     },
     {
         "districts": [
@@ -1315,7 +1316,8 @@
                 "name": "湖西鄉"
             }
         ],
-        "name": "澎湖縣"
+        "name": "澎湖縣",
+        "key": "penghu"
     },
     {
         "districts": [
@@ -1344,7 +1346,8 @@
                 "name": "烏坵鄉"
             }
         ],
-        "name": "金門縣"
+        "name": "金門縣",
+        "key": "kinmen"
     },
     {
         "districts": [
@@ -1481,7 +1484,8 @@
                 "name": "滿州鄉"
             }
         ],
-        "name": "屏東縣"
+        "name": "屏東縣",
+        "key": "pingtung"
     },
     {
         "districts": [
@@ -1550,7 +1554,8 @@
                 "name": "達仁鄉"
             }
         ],
-        "name": "台東縣"
+        "name": "台東縣",
+        "key": "taitung"
     },
     {
         "districts": [
@@ -1607,6 +1612,7 @@
                 "name": "富里鄉"
             }
         ],
-        "name": "花蓮縣"
+        "name": "花蓮縣",
+        "key": "hualien"
     }
 ]

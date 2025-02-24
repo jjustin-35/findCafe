@@ -23,8 +23,6 @@ export const getAreas = async (city?: string) => {
       },
     });
 
-    console.log(allAreas);
-
     return allAreas;
   } catch (error) {
     console.error(error);
@@ -72,7 +70,7 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
 
     // Filter by location if specified
     if (location) {
-      filteredCafes = filteredCafes.filter((cafe) => 
+      filteredCafes = filteredCafes.filter((cafe) =>
         cafe.address.includes(location) || cafe.city.includes(location)
       );
     }
@@ -114,7 +112,7 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     if (tags && tags.length > 0) {
       filteredCafes = filteredCafes.filter((cafe) => {
         return tags.every(tag => {
-          switch(tag) {
+          switch (tag) {
             case 'wifi':
               return cafe.wifi >= 4;
             case 'seat':
@@ -133,6 +131,8 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
         });
       });
     }
+
+    console.log(filteredCafes)
 
     // Transform the filtered cafes to include rank
     return filteredCafes.map((cafe) => ({

@@ -66,11 +66,11 @@ const FilterContent = ({
                 <InputLabel id="select-location-label" sx={{ px: 1, bgcolor: 'white' }}>地區</InputLabel>
                 <Select
                     labelId="select-location-label"
-                    value={filters.location}
-                    onChange={(e) => handleFilter({ location: e.target.value })}
+                    value={filters.area}
+                    onChange={(e) => handleFilter({ area: e.target.value })}
                 >
                     {areas.map((area) => (
-                        <MenuItem key={area.id} value={area.id}>
+                        <MenuItem key={area.id} value={area.key}>
                             {area.name}
                         </MenuItem>
                     ))}

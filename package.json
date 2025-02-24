@@ -37,7 +37,7 @@
     "@googlemaps/js-api-loader": "^1.16.8",
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.4",
-    "@prisma/client": "^5.18.0",
+    "@prisma/client": "^6.4.1",
     "@reduxjs/toolkit": "^2.2.7",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",

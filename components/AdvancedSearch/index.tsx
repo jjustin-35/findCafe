@@ -13,7 +13,7 @@ import FilterContent from './filter';
 
 export interface FilterValues {
   tags: TagType[];
-  location: string;
+  area: string;
   minRating: number;
 }
 
@@ -28,7 +28,7 @@ const AdvancedSearch = ({ onFilterChange }: AdvancedSearchProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [filters, setFilters] = useState<FilterValues>({
     tags: [],
-    location: '',
+    area: '',
     minRating: 0,
   });
 
