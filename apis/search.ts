@@ -33,7 +33,7 @@ export const getAreas = async (city?: string) => {
 let cacheData: { data: ApiCafeData[] | null; expireAt: number | null } = { data: null, expireAt: null };
 
 export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
-  const { areaKey, district, location, position, keyword, rank } = data;
+  const { areaKey, district, location, position, keyword, rank, tags } = data;
 
   const distance = 0.01;
   const scope = position && {
@@ -49,45 +49,96 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     if (cacheData?.data && cacheData.expireAt > Date.now()) {
       cafes = cacheData.data;
     } else {
-      const resp = await fetch(`${API_PATHS.NOMAD_CAFE_API}${areaKey || ''}`, {
-        cache: 'force-cache',
-        next: {
-          revalidate,
-        },
-      });
-      cafes = await resp.json();
-      cacheData = { data: [...cafes], expireAt: Date.now() + revalidate * 1000 };
+      const response = await fetch(API_PATHS.CAFES);
+      cafes = await response.json();
+      cacheData = {
+        data: cafes,
+        expireAt: Date.now() + revalidate * 1000,
+      };
     }
 
-    if (!cafes?.length) return [];
+    let filteredCafes = cafes;
 
-    // handle conditions
-    const filteredCafes = cafes
-      .map((cafe) => ({
-        ...cafe,
-        latitude: parseFloat(cafe.latitude),
-        longitude: parseFloat(cafe.longitude),
-        cafeRank: calculateRank(cafe),
-      }))
-      .filter((cafe) => {
-        const { name, address, latitude, longitude, cafeRank } = cafe;
+    // Filter by area/district if specified
+    if (areaKey || district) {
+      filteredCafes = filteredCafes.filter((cafe) => {
+        if (areaKey && !cafe.city.includes(areaKey)) return false;
+        if (district && !cafe.address.includes(district)) return false;
+        return true;
+      });
+    }
 
-        const isKeywordMatched = !keyword || name.includes(keyword) || address.includes(keyword);
-        const isDistrictMatched = !district || address.includes(district);
-        const isLocationMatched = !location || address.includes(location);
-        const isGteRank = !rank || cafeRank >= rank;
-        const isInScope =
-          !position ||
-          (latitude >= scope.minLat &&
-            latitude <= scope.maxLat &&
-            longitude >= scope.minLng &&
-            longitude <= scope.maxLng);
+    // Filter by location if specified
+    if (location) {
+      filteredCafes = filteredCafes.filter((cafe) => 
+        cafe.address.includes(location) || cafe.city.includes(location)
+      );
+    }
 
-        return isKeywordMatched && isDistrictMatched && isLocationMatched && isGteRank && isInScope;
-      })
-      .sort((a, b) => b.cafeRank - a.cafeRank);
+    // Filter by position if specified
+    if (scope) {
+      filteredCafes = filteredCafes.filter((cafe) => {
+        const lat = parseFloat(cafe.latitude);
+        const lng = parseFloat(cafe.longitude);
+        return (
+          lat >= scope.minLat &&
+          lat <= scope.maxLat &&
+          lng >= scope.minLng &&
+          lng <= scope.maxLng
+        );
+      });
+    }
 
-    return filteredCafes;
+    // Filter by keyword if specified
+    if (keyword) {
+      const searchKeyword = keyword.toLowerCase();
+      filteredCafes = filteredCafes.filter((cafe) => {
+        return (
+          cafe.name.toLowerCase().includes(searchKeyword) ||
+          cafe.address.toLowerCase().includes(searchKeyword)
+        );
+      });
+    }
+
+    // Filter by minimum rating if specified
+    if (rank) {
+      filteredCafes = filteredCafes.filter((cafe) => {
+        const cafeRank = calculateRank(cafe);
+        return cafeRank >= rank;
+      });
+    }
+
+    // Filter by tags if specified
+    if (tags && tags.length > 0) {
+      filteredCafes = filteredCafes.filter((cafe) => {
+        return tags.every(tag => {
+          switch(tag) {
+            case 'wifi':
+              return cafe.wifi >= 4;
+            case 'seat':
+              return cafe.seat >= 4;
+            case 'quiet':
+              return cafe.quiet >= 4;
+            case 'tasty':
+              return cafe.tasty >= 4;
+            case 'cheap':
+              return cafe.cheap >= 4;
+            case 'music':
+              return cafe.music >= 4;
+            default:
+              return true;
+          }
+        });
+      });
+    }
+
+    // Transform the filtered cafes to include rank
+    return filteredCafes.map((cafe) => ({
+      ...cafe,
+      cafeRank: calculateRank(cafe),
+      latitude: parseFloat(cafe.latitude),
+      longitude: parseFloat(cafe.longitude),
+    }));
   } catch (error) {
     console.error(error);
     return [];

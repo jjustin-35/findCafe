@@ -1,4 +1,4 @@
-import { Stack, Box, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { CafeData, Status } from '@/constants/types';
 import CafeBoard from '../CafeBoard';
@@ -29,7 +29,7 @@ const List = ({ cafes, status }: { cafes: CafeData[]; status: Status }) => {
   })();
 
   return (
-    <CafeBoard title="咖啡廳列表">{content}</CafeBoard>
+    <CafeBoard title="咖啡廳">{content}</CafeBoard>
   );
 };
 

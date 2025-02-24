@@ -50,6 +50,7 @@ export type SearchCafesData = {
   keyword?: string;
   rank?: number;
   advantages?: CafeAdvantage[];
+  tags?: string[];
 };
 
 export type ImageData = {

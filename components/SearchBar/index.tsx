@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setIsSearching, getCafes } from '@/redux/search';
 import { Status } from '@/constants/types';
 import { Form } from './styled';
+import AdvancedSearch from '../AdvancedSearch';
 
 const StartIconButton = () => (
   <InputAdornment position="start" sx={{ mr: 0 }}>
@@ -28,12 +29,23 @@ const EndIconButton = () => (
 );
 
 const SearchBar = ({ hasReturnBtn }: { hasReturnBtn?: boolean }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
   const { status } = useAppSelector((state) => state.search);
   const dispatch = useAppDispatch();
 
   const onSubmit = ({ keyword }: { keyword: string }) => {
     dispatch(getCafes({ keyword }));
+    dispatch(setIsSearching(true));
+  };
+
+  const handleFilterChange = ({ tags, location, minRating }: { tags: string[], location: string, minRating: number }) => {
+    const keyword = watch('keyword');
+    dispatch(getCafes({ 
+      keyword,
+      area: location,
+      rank: minRating,
+      tags
+    }));
     dispatch(setIsSearching(true));
   };
 
@@ -71,7 +83,12 @@ const SearchBar = ({ hasReturnBtn }: { hasReturnBtn?: boolean }) => {
             slotProps={{
               input: {
                 ...(hasReturnBtn && { startAdornment: <StartIconButton /> }),
-                endAdornment: <EndIconButton />,
+                endAdornment: (
+                  <Box display="flex">
+                    <AdvancedSearch onFilterChange={handleFilterChange} />
+                    <EndIconButton />
+                  </Box>
+                ),
                 sx: {
                   px: 1,
                   borderRadius: '24px',
