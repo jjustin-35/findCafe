@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 import { ApiCafeData, CafeData, SearchCafesData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
 import { calculateRank } from '@/helpers/rankAndTags';
+import { delay } from '@/helpers/time';
 
 export const getAreas = async (city?: string) => {
   try {
@@ -48,6 +49,7 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     const revalidate = 3600;
     if (cacheData?.data && cacheData.expireAt > Date.now()) {
       cafes = cacheData.data;
+      await delay(300);
     } else {
       const response = await fetch(API_PATHS.NOMAD_CAFE_API);
       cafes = await response.json();

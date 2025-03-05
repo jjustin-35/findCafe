@@ -2,7 +2,7 @@ import { Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { CafeData, Status } from '@/constants/types';
 import CafeBoard from '../CafeBoard';
-import CafeListLoader from '../Loaders/cafeList';
+import CafeListLoader from '../Loaders/Cafe/cafeList';
 import CafeItem from './item';
 
 const List = ({ cafes, status }: { cafes: CafeData[]; status: Status }) => {
@@ -29,7 +29,7 @@ const List = ({ cafes, status }: { cafes: CafeData[]; status: Status }) => {
   })();
 
   return (
-    <CafeBoard title="咖啡廳">{content}</CafeBoard>
+    <CafeBoard cafes={cafes} title="咖啡廳">{content}</CafeBoard>
   );
 };
 

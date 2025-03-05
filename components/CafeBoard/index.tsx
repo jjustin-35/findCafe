@@ -1,15 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { CafeData } from '@/constants/types';
 import { StyledDrawer, Puller, PullerIcon } from './styled';
 
 const drawerBleeding = 56;
 
-const CafeBoard = ({ title, children }: { title?: string; children: React.ReactNode }) => {
+const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: string; children: React.ReactNode }) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!cafes?.length) {
+      setIsOpen(false);
+      return;
+    }
+
+    if (!isOpen) setIsOpen(true);
+  }, [cafes]);
 
   return (
     // passive event listener issue: https://github.com/mui/material-ui/issues/37814

@@ -8,7 +8,7 @@ export const StyledDrawer = styled(SwipeableDrawer)`
     overflow-y: visible;
     ${({ theme }) => theme.breakpoints.up('mobile')} {
       width: 100%;
-      height: calc(50% - (64px + 56px));
+      height: calc(55% - (64px + 56px));
     }
 
     ${({ theme }) => theme.breakpoints.up('laptop')} {
