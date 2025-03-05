@@ -7,14 +7,8 @@ export const isEqual = (object1: object, object2: object): boolean => {
     return object1 === object2;
   }
 
-  const keys1 = Object.keys(object1);
-  const keys2 = Object.keys(object2);
+  const json1 = JSON.stringify(object1);
+  const json2 = JSON.stringify(object2);
 
-  if (keys1.length !== keys2.length) {
-    return false;
-  }
-
-  const result = keys1.every((key) => object1?.[key] === object2?.[key]);
-
-  return result;
+  return json1 === json2;
 };

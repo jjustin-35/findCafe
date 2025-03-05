@@ -13,10 +13,11 @@ const loader = new Loader({
 });
 
 const useMap = () => {
-  const { currentLocation } = useAppSelector((state) => state.search);
+  const { currentLocation, isSearching } = useAppSelector((state) => state.search);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [curLocationTemp, setCurLocationTemp] = useState<Position | null>(null);
   const [cafeLocations, setCafeLocations] = useState<Position[]>([]);
+  const [cafeLocationOri, setCafeLocationsOri] = useState<Position[]>([]);
   const [cafeMarkers, setCafeMarkers] = useState<google.maps.marker.AdvancedMarkerElement[]>([]);
   const mapRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
@@ -63,13 +64,20 @@ const useMap = () => {
   useEffect(() => {
     (async () => {
       if (!map) return;
-      const markers = await addMarkers({ map, locations: cafeLocations, isCafe: true });
-      setCafeMarkers(markers);
+      if (isSearching)map.panTo(cafeLocations[0]);
+      const newLocations = cafeLocations.filter((location) => {
+        return !cafeLocationOri.some((oriLocation) => isEqual(oriLocation, location));
+      });
+      console.log(newLocations);
+      if (newLocations.length > 0) {
+        const markers = await addMarkers({ map, locations: newLocations, isCafe: true });
+        setCafeMarkers([...cafeMarkers, ...markers]);
+        setCafeLocationsOri([...cafeLocationOri, ...newLocations]);
+      }
     })();
   }, [map, cafeLocations]);
 
   const addMarkers = async ({
-    map,
     locations,
     isCafe = false,
   }: {
