@@ -113,7 +113,7 @@ const useMap = () => {
       if (isCafe) {
         marker.addListener('click', () => {
           map.panTo(position);
-          dispatch(getCafes({ keyword: info?.name, isSearching: true }));
+          dispatch(getCafes({ keyword: info?.name, isSearching: true, isCafeDetail: true }));
         });
       }
 

@@ -10,7 +10,7 @@ import Map from '@/components/Map';
 import { Position } from '@/constants/types';
 
 const Cafe = () => {
-  const { currentLocation, cafes, status, isSearching } = useAppSelector((state) => state.cafes);
+  const { currentLocation, cafes, status, isCafeDetail } = useAppSelector((state) => state.cafes);
   const dispatch = useAppDispatch();
   const { mapRef, setCafes, searchByText } = useMap();
 
@@ -34,7 +34,7 @@ const Cafe = () => {
       const promises = cafes.map(async (cafe): Promise<Position> => {
         let images: { src: string; alt: string }[] = [];
         let rating: number | null = null;
-        if (isSearching) {
+        if (isCafeDetail) {
           const result = await searchByText(cafe.name);
           images = result?.photos?.map((photo, idx) => ({ src: photo.getURI(), alt: `img-${cafe.name}-${idx}` }));
           rating = result?.rating || 0;
@@ -51,11 +51,10 @@ const Cafe = () => {
       });
 
       const cafeInfos = await Promise.all(promises);
-      console.log(cafeInfos);
 
       setCafes(cafeInfos);
     })();
-  }, [cafes, isSearching]);
+  }, [cafes, isCafeDetail]);
 
   return (
     <>

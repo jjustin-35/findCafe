@@ -13,6 +13,7 @@ interface SearchState {
   currentLocation: Position | null;
   cafes: CafeData[];
   isSearching: boolean;
+  isCafeDetail: boolean;
 }
 
 const initialState: SearchState = {
@@ -22,6 +23,7 @@ const initialState: SearchState = {
   currentLocation: null,
   cafes: [],
   isSearching: false,
+  isCafeDetail: false,
 };
 
 export const getAreas = createAsyncThunk('search/getAreas', async () => {
@@ -47,16 +49,16 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
   },
 );
 
-export const getCafes = createAsyncThunk('search/getCafes', async (searchContent: SearchCafesData & { isSearching?: boolean }, thunkAPI) => {
+export const getCafes = createAsyncThunk('search/getCafes', async (searchContent: SearchCafesData & { isSearching?: boolean; isCafeDetail?: boolean }, thunkAPI) => {
   try {
-    const { isSearching, ...content } = searchContent;
+    const { isSearching, isCafeDetail, ...content } = searchContent;
     const cafes = await getCafesApi(content);
 
     if (!cafes?.length) {
       return thunkAPI.rejectWithValue('No cafes found');
     }
 
-    return { cafes, isSearching };
+    return { cafes, isSearching, isCafeDetail };
   } catch (error) {
     console.error(error);
     return thunkAPI.rejectWithValue(error);
@@ -90,6 +92,7 @@ const searchSlice = createSlice({
     builder.addCase(getCafes.fulfilled, (state, action) => {
       state.cafes = action.payload.cafes;
       state.isSearching = action.payload.isSearching;
+      state.isCafeDetail = action.payload.isCafeDetail;
       state.status = Status.FULFILLED;
     });
     builder.addCase(getCafes.pending, (state) => {
