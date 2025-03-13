@@ -31,12 +31,14 @@ const Cafe = () => {
 
   useEffect(() => {
     (async () => {
-      if (!isSearching) return;
       const promises = cafes.map(async (cafe): Promise<Position> => {
-        const result = await searchByText(cafe.name);
-        if (!result) return;
-        const { photos = [], rating } = result;
-        const images = photos.map((photo, idx) => ({ src: photo.getURI(), alt: `img-${cafe.name}-${idx}` }));
+        let images: { src: string; alt: string }[] = [];
+        let rating: number | null = null;
+        if (isSearching) {
+          const result = await searchByText(cafe.name);
+          images = result?.photos?.map((photo, idx) => ({ src: photo.getURI(), alt: `img-${cafe.name}-${idx}` }));
+          rating = result?.rating || 0;
+        }
         return ({
           lat: cafe.latitude,
           lng: cafe.longitude,
@@ -49,6 +51,7 @@ const Cafe = () => {
       });
 
       const cafeInfos = await Promise.all(promises);
+      console.log(cafeInfos);
 
       setCafes(cafeInfos);
     })();

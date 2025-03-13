@@ -87,6 +87,7 @@ const useMap = () => {
     const { AdvancedMarkerElement, PinElement } = await loader.importLibrary('marker');
 
     const markers = locations.map((location) => {
+      console.log(location)
       const { info, ...position } = location;
       const markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
         map,
@@ -112,8 +113,7 @@ const useMap = () => {
       if (isCafe) {
         marker.addListener('click', () => {
           map.panTo(position);
-          dispatch(getCafes({ keyword: info?.name }));
-          dispatch(setIsSearching(true));
+          dispatch(getCafes({ keyword: info?.name, isSearching: true }));
         });
       }
 

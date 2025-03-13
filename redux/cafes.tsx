@@ -47,15 +47,16 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
   },
 );
 
-export const getCafes = createAsyncThunk('search/getCafes', async (searchContent: SearchCafesData, thunkAPI) => {
+export const getCafes = createAsyncThunk('search/getCafes', async (searchContent: SearchCafesData & { isSearching?: boolean }, thunkAPI) => {
   try {
-    const cafes = await getCafesApi(searchContent);
+    const { isSearching, ...content } = searchContent;
+    const cafes = await getCafesApi(content);
 
     if (!cafes?.length) {
       return thunkAPI.rejectWithValue('No cafes found');
     }
 
-    return cafes;
+    return { cafes, isSearching };
   } catch (error) {
     console.error(error);
     return thunkAPI.rejectWithValue(error);
@@ -87,7 +88,8 @@ const searchSlice = createSlice({
       state.error = action.error.message || 'An error occurred';
     });
     builder.addCase(getCafes.fulfilled, (state, action) => {
-      state.cafes = action.payload;
+      state.cafes = action.payload.cafes;
+      state.isSearching = action.payload.isSearching;
       state.status = Status.FULFILLED;
     });
     builder.addCase(getCafes.pending, (state) => {
