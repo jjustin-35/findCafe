@@ -1,23 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
 import { Box } from '@mui/material';
-import useMap from './useMap';
-import { CafeData } from '@/constants/types';
 
-const Map = ({ cafes }: { cafes: CafeData[] }) => {
-  const { mapRef, setCafes } = useMap();
-
-  useEffect(() => {
-    const cafeInfos = cafes.map((cafe) => ({
-      lat: cafe.latitude,
-      lng: cafe.longitude,
-      info: cafe,
-    }));
-
-    setCafes(cafeInfos);
-  }, [cafes]);
-
+const Map = ({ mapRef }: { mapRef: React.RefObject<HTMLDivElement> }) => {
   return (
     <Box
       id="map"

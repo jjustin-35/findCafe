@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { Position } from '@/constants/types';
 import { theme } from '@/style/theme';
 import { isEqual } from '@/helpers/object';
-import { getCafes, setIsSearching } from '@/redux/search';
+import { getCafes, setIsSearching } from '@/redux/cafes';
 
 const loader = new Loader({
   apiKey: process.env.GCP_MAP_KEY,
@@ -13,7 +13,7 @@ const loader = new Loader({
 });
 
 const useMap = () => {
-  const { currentLocation, isSearching } = useAppSelector((state) => state.search);
+  const { currentLocation, isSearching } = useAppSelector((state) => state.cafes);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [curLocationTemp, setCurLocationTemp] = useState<Position | null>(null);
   const [cafeLocations, setCafeLocations] = useState<Position[]>([]);
@@ -64,11 +64,10 @@ const useMap = () => {
   useEffect(() => {
     (async () => {
       if (!map) return;
-      if (isSearching)map.panTo(cafeLocations[0]);
+      if (isSearching) map.panTo(cafeLocations[0]);
       const newLocations = cafeLocations.filter((location) => {
         return !cafeLocationOri.some((oriLocation) => isEqual(oriLocation, location));
       });
-      console.log(newLocations);
       if (newLocations.length > 0) {
         const markers = await addMarkers({ map, locations: newLocations, isCafe: true });
         setCafeMarkers([...cafeMarkers, ...markers]);
@@ -124,6 +123,49 @@ const useMap = () => {
     return markers;
   };
 
+  const searchByText = async (query: string): Promise<google.maps.places.Place | null> => {
+    try {
+      const { Place } = await loader.importLibrary('places');
+
+      if (!map) return null;
+
+      return new Promise((resolve) => {
+        const request = {
+          textQuery: query,
+          fields: ['id', 'displayName', 'formattedAddress', 'location', 'rating', 'photos'],
+          includedType: 'cafe',
+          locationBias: currentLocation || undefined,
+          maxResultCount: 5,
+          language: 'zh-TW',
+        };
+
+        Place.searchByText(request)
+          .then(({ places }) => {
+            if (!places || places.length === 0) {
+              console.log('No places found for query:', query);
+              resolve(null);
+              return;
+            }
+
+            // 如果找到地點，將地圖移動到該位置
+            if (places[0].location && map) {
+              map.panTo(places[0].location);
+            }
+
+            console.log('Found place:', places[0].displayName, 'with ID:', places[0].id);
+            resolve(places[0] || null);
+          })
+          .catch((error) => {
+            console.error('Error searching place by text:', error);
+            resolve(null);
+          });
+      });
+    } catch (error) {
+      console.error('Error searching place by text:', error);
+      return null;
+    }
+  };
+
   const setCafes = (locations: Position[]) => {
     setCafeLocations(locations);
   };
@@ -134,6 +176,7 @@ const useMap = () => {
     cafeMarkers,
     cafeLocations,
     setCafes,
+    searchByText,
   };
 };
 

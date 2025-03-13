@@ -11,7 +11,7 @@ const drawerBleeding = 56;
 const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: string; children: React.ReactNode }) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
-  const { isSearching } = useAppSelector((state) => state.search);
+  const { isSearching } = useAppSelector((state) => state.cafes);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {

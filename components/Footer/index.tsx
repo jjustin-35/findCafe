@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container as MuiContainer, Typography, List, ListItem, Box } from '@mui/material';
 import { RootState } from '@/config/configureStore';
-import { setErr } from '@/redux/search';
+import { setErr } from '@/redux/cafes';
 import { setProfile } from '@/redux/auth';
 import Icon from '@/components/Icon';
 import { Container } from '@/style/styles';

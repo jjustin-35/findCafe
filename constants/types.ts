@@ -83,7 +83,7 @@ export type ApiCafeData = {
 
 export type CafeData = Omit<ApiCafeData, 'latitude' | 'longitude'> & {
   images?: ImageData[];
-  cafeRank: number;
+  rating: number;
   latitude: number;
   longitude: number;
 };

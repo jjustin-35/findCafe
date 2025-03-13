@@ -4,7 +4,7 @@ import { getAreas as getAreasApi, getCafes as getCafesApi } from '@/apis/search'
 import getCurrentLocationApi from '@/helpers/getCurrentLocation';
 import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
-import { isEmpty, isEqual } from '@/helpers/object';
+import { isEqual } from '@/helpers/object';
 
 interface SearchState {
   status: Status;
@@ -33,7 +33,7 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
   'search/getCurrentLocation',
   async (_, { getState, rejectWithValue }) => {
     try {
-      const { currentLocation: oriLocation } = getState().search;
+      const { currentLocation: oriLocation } = getState().cafes;
       const location = await getCurrentLocationApi();
       if (isEqual(location, oriLocation)) {
         return oriLocation;

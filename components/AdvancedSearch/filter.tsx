@@ -10,7 +10,7 @@ import {
     Button,
 } from '@mui/material';
 import tagData, { TagType } from '@/constants/tags';
-import { getAreas } from '@/redux/search';
+import { getAreas } from '@/redux/cafes';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { FilterValues } from './index';
 
@@ -27,7 +27,7 @@ const FilterContent = ({
     onFilterChange: (filters: FilterValues) => void;
     handleClose: () => void;
 }) => {
-    const { areas } = useAppSelector((state) => state.search);
+    const { areas } = useAppSelector((state) => state.cafes);
     const dispatch = useAppDispatch();
 
     useEffect(() => {

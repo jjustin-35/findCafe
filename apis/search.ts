@@ -134,12 +134,10 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
       });
     }
 
-    console.log(filteredCafes)
-
     // Transform the filtered cafes to include rank
     return filteredCafes.map((cafe) => ({
       ...cafe,
-      cafeRank: calculateRank(cafe),
+      rating: calculateRank(cafe),
       latitude: parseFloat(cafe.latitude),
       longitude: parseFloat(cafe.longitude),
     }));

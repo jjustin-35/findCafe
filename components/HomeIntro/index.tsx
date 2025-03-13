@@ -6,7 +6,7 @@ import ImageTextBanner from '@/components/ImageTextBanner';
 import data from './data';
 import { useAppDispatch } from '@/redux/hooks';
 import { useEffect } from 'react';
-import { getAreas } from '@/redux/search';
+import { getAreas } from '@/redux/cafes';
 
 const Wrapper = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.grey[50],
