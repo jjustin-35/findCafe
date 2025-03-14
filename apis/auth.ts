@@ -12,9 +12,10 @@ import { ERROR_TYPES } from '@/constants/errorTypes';
 // TODO: refactor 登入、註冊
 type Tokens = { access_token: string; refresh_token: string };
 
-const clearCookies = () => {
-  cookies().delete('access_token');
-  cookies().delete('refresh_token');
+const clearCookies = async () => {
+  const cookieStore = await cookies();
+  cookieStore.delete('access_token');
+  cookieStore.delete('refresh_token');
 };
 
 export const generateToken = async (email: string, userId: string): Promise<Tokens> => {
@@ -52,8 +53,9 @@ export const login: ApiFunction<{ email: string; password: string }, User> = asy
   }
 
   const tokens = await generateToken(user.email, user.id);
-  cookies().set('access_token', tokens.access_token, { httpOnly: true });
-  cookies().set('refresh_token', tokens.refresh_token, { httpOnly: true });
+  const cookieStore = await cookies();
+  cookieStore.set('access_token', tokens.access_token, { httpOnly: true });
+  cookieStore.set('refresh_token', tokens.refresh_token, { httpOnly: true });
 
   return { data: user };
 };

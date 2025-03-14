@@ -1,16 +1,12 @@
-import { Loader } from '@googlemaps/js-api-loader';
 import { useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { CafeData, Position } from '@/constants/types';
 import { theme } from '@/style/theme';
 import { isEqual } from '@/helpers/object';
 import { getCafes, setIsSearching } from '@/redux/cafes';
+import { getLoader } from '@/lib/mapLoader';
 
-const loader = new Loader({
-  apiKey: process.env.GCP_MAP_KEY,
-  version: 'weekly',
-  libraries: ['places'],
-});
+const loader = getLoader();
 
 const useMap = () => {
   const { currentLocation, isSearching } = useAppSelector((state) => state.cafes);
@@ -133,71 +129,6 @@ const useMap = () => {
     return markers;
   };
 
-  const searchByText = async (query: string): Promise<google.maps.places.Place | null> => {
-    try {
-      const { Place } = await loader.importLibrary('places');
-
-      if (!map) return null;
-
-      return new Promise((resolve) => {
-        const request = {
-          textQuery: query,
-          fields: ['id', 'displayName', 'formattedAddress', 'location', 'rating', 'photos'],
-          includedType: 'cafe',
-          locationBias: currentLocation || undefined,
-          maxResultCount: 5,
-          language: 'zh-TW',
-        };
-
-        Place.searchByText(request)
-          .then(({ places }) => {
-            if (!places || places.length === 0) {
-              console.log('No places found for query:', query);
-              resolve(null);
-              return;
-            }
-
-            // 如果找到地點，將地圖移動到該位置
-            if (places[0].location && map) {
-              map.panTo(places[0].location);
-            }
-
-            console.log('Found place:', places[0].displayName, 'with ID:', places[0].id);
-            resolve(places[0] || null);
-          })
-          .catch((error) => {
-            console.error('Error searching place by text:', error);
-            resolve(null);
-          });
-      });
-    } catch (error) {
-      console.error('Error searching place by text:', error);
-      return null;
-    }
-  };
-
-  const nearBySearch = async () => {
-    const { Place } = await loader.importLibrary('places');
-
-    if (!map) return null;
-    const center = new google.maps.LatLng(currentLocation?.lat, currentLocation?.lng);
-
-    const request: google.maps.places.SearchNearbyRequest = {
-      fields: ['id', 'rating', 'photos'],
-      includedTypes: ['cafe'],
-      locationRestriction: {
-        center: center,
-        radius: 500,
-      },
-      language: 'zh-TW',
-      region: 'TW',
-    };
-
-    const result = await Place.searchNearby(request);
-
-    return result?.places || [];
-  }
-
   const setCafes = (cafes: CafeData[]) => {
     setCafesList(cafes);
   };
@@ -208,7 +139,6 @@ const useMap = () => {
     cafeMarkers,
     cafesList,
     setCafes,
-    searchByText,
   };
 };
 

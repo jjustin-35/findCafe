@@ -33,7 +33,7 @@ export const getAreas = async (city?: string) => {
 let cacheData: { data: ApiCafeData[] | null; expireAt: number | null } = { data: null, expireAt: null };
 
 export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
-  const { areaKey, district, location, position, keyword, rank, tags } = data;
+  const { areaKey, district, location, position, keyword, tags } = data;
 
   const distance = 0.01;
   const scope = position && {
@@ -136,105 +136,3 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     return [];
   }
 };
-
-// export const searchCafes = async (data: SearchCafesData) => {
-//   if (!data) return [];
-
-//   const { area, district, location, position, keyword, rank, advantages } = data;
-
-//   // position
-//   let positionOptions: Prisma.CafeAddressWhereInput = {};
-//   if (position) {
-//     const scope = 0.01;
-//     const minLat = position.lat - scope;
-//     const maxLat = position.lat + scope;
-//     const minLng = position.lng - scope;
-//     const maxLng = position.lng + scope;
-
-//     positionOptions = {
-//       latitude: {
-//         gte: minLat,
-//         lte: maxLat,
-//       },
-//       longitude: {
-//         gte: minLng,
-//         lte: maxLng,
-//       },
-//     };
-//   }
-
-//   const address: Prisma.CafeAddressWhereInput = {
-//     ...(area && { area }),
-//     ...(district && { district }),
-//     ...(location && {
-//       location: {
-//         contains: location,
-//         mode: 'insensitive',
-//       },
-//     }),
-//     ...positionOptions,
-//   };
-
-//   const keywordOptions: Prisma.StringFilter = {
-//     contains: keyword,
-//     mode: 'insensitive',
-//   };
-
-//   const keywordSearch: Prisma.CafeWhereInput = {
-//     ...(keyword && {
-//       name: keywordOptions,
-//       description: keywordOptions,
-//       tags: {
-//         some: {
-//           name: keywordOptions,
-//         },
-//       },
-//       address: {
-//         area: keywordOptions,
-//         district: keywordOptions,
-//         location: keywordOptions,
-//       },
-//     }),
-//   };
-
-//   const searchOptions: Prisma.CafeFindManyArgs = {
-//     where: {
-//       ...(!isEmpty(address) && {
-//         address,
-//       }),
-//       ...keywordSearch,
-//       ...(rank && {
-//         stars: {
-//           gte: rank,
-//         },
-//       }),
-//       ...(advantages && {
-//         tags: {
-//           some: {
-//             name: {
-//               in: advantages,
-//             },
-//           },
-//         },
-//       }),
-//     },
-//   };
-
-//   try {
-//     const cafes = await prisma.cafe.findMany({
-//       include: {
-//         address: true,
-//         tags: true,
-//         img: true,
-//       },
-//       ...searchOptions,
-//     });
-
-//     console.log(cafes);
-
-//     return cafes;
-//   } catch (error) {
-//     console.error(error);
-//     return [];
-//   }
-// };

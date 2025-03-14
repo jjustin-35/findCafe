@@ -12,7 +12,7 @@ import { CafeData } from '@/constants/types';
 const Cafe = () => {
   const { currentLocation, cafes, status, isCafeDetail } = useAppSelector((state) => state.cafes);
   const dispatch = useAppDispatch();
-  const { mapRef, cafesList, setCafes, searchByText } = useMap();
+  const { mapRef, cafesList, setCafes } = useMap();
 
   const cafeList = useMemo(() => cafesList.map(cafe => cafe), [cafesList]);
 
@@ -37,9 +37,9 @@ const Cafe = () => {
         let images: { src: string; alt: string }[] = [];
         let rating: number | null = null;
         if (isCafeDetail) {
-          const result = await searchByText(cafe.name);
-          images = result?.photos?.map((photo, idx) => ({ src: photo.getURI(), alt: `img-${cafe.name}-${idx}` }));
-          rating = result?.rating || 0;
+          // const result = await searchByText(cafe.name);
+          // images = result?.photos?.map((photo, idx) => ({ src: photo.getURI(), alt: `img-${cafe.name}-${idx}` }));
+          // rating = result?.rating || 0;
         }
         return {
           ...cafe,
