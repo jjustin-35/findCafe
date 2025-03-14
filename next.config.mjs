@@ -10,6 +10,9 @@ const nextConfig = {
     GCP_MAP_KEY: global.env.GCP_MAP_KEY,
     GCP_MAP_ID: process.env.NODE_ENV === 'production' ? global.env.GCP_MAP_ID : ' DEMO_MAP_ID',
   },
+  images: {
+    domains: ['localhost', 'places.googleapis.com', 'storage.googleapis.com'],
+  },
 };
 
 export default nextConfig;

@@ -3,7 +3,6 @@
 import prisma from '@/lib/prisma';
 import { ApiCafeData, CafeData, SearchCafesData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
-import { calculateRank } from '@/helpers/rankAndTags';
 import { delay } from '@/helpers/time';
 
 export const getAreas = async (city?: string) => {
@@ -102,14 +101,6 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
       });
     }
 
-    // Filter by minimum rating if specified
-    if (rank) {
-      filteredCafes = filteredCafes.filter((cafe) => {
-        const cafeRank = calculateRank(cafe);
-        return cafeRank >= rank;
-      });
-    }
-
     // Filter by tags if specified
     if (tags && tags.length > 0) {
       filteredCafes = filteredCafes.filter((cafe) => {
@@ -137,7 +128,6 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     // Transform the filtered cafes to include rank
     return filteredCafes.map((cafe) => ({
       ...cafe,
-      rating: calculateRank(cafe),
       latitude: parseFloat(cafe.latitude),
       longitude: parseFloat(cafe.longitude),
     }));
