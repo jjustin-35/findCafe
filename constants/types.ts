@@ -60,6 +60,14 @@ export type ImageData = {
   height?: number;
 };
 
+export type MapApiCafeData = {
+  id: string;
+  name: string;
+  images: ImageData[];
+  rating: number;
+  location: Position;
+}
+
 export type ApiCafeData = {
   id: string;
   name: string;
@@ -81,9 +89,7 @@ export type ApiCafeData = {
   open_time: string;
 };
 
-export type CafeData = Omit<ApiCafeData, 'latitude' | 'longitude'> & {
-  images?: ImageData[];
-  rating?: number;
+export type CafeData = Omit<ApiCafeData, 'latitude' | 'longitude'> & Partial<MapApiCafeData> & {
   latitude: number;
   longitude: number;
 };

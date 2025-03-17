@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from '@/lib/prisma';
-import { ApiCafeData, CafeData, SearchCafesData } from '@/constants/types';
+import { ApiCafeData, CafeData, MapApiCafeData, SearchCafesData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
 import { delay } from '@/helpers/time';
 
@@ -32,17 +32,8 @@ export const getAreas = async (city?: string) => {
 
 let cacheData: { data: ApiCafeData[] | null; expireAt: number | null } = { data: null, expireAt: null };
 
-export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
-  const { areaKey, district, location, position, keyword, tags } = data;
-
-  const distance = 0.01;
-  const scope = position && {
-    minLat: position.lat - distance,
-    maxLat: position.lat + distance,
-    minLng: position.lng - distance,
-    maxLng: position.lng + distance,
-  };
-
+export const getCafes = async (data: MapApiCafeData[], query: SearchCafesData): Promise<CafeData[]> => {
+  const { areaKey, district, location, keyword, tags } = query;
   try {
     let cafes: ApiCafeData[];
     const revalidate = 3600;
@@ -74,20 +65,6 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
       filteredCafes = filteredCafes.filter((cafe) =>
         cafe.address.includes(location) || cafe.city.includes(location)
       );
-    }
-
-    // Filter by position if specified
-    if (scope) {
-      filteredCafes = filteredCafes.filter((cafe) => {
-        const lat = parseFloat(cafe.latitude);
-        const lng = parseFloat(cafe.longitude);
-        return (
-          lat >= scope.minLat &&
-          lat <= scope.maxLat &&
-          lng >= scope.minLng &&
-          lng <= scope.maxLng
-        );
-      });
     }
 
     // Filter by keyword if specified
