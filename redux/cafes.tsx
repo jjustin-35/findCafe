@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Prisma } from '@prisma/client';
-import { getAreas as getAreasApi, getCafes as getCafesApi } from '@/apis/search';
+import { getAreas as getAreasApi, getCafesData as getCafesDataApi } from '@/apis/search';
 import getCurrentLocationApi from '@/helpers/getCurrentLocation';
-import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
+import { SearchCafesData, CafeData, Position, Status, MapApiCafeData } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
 
@@ -49,10 +49,10 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
   },
 );
 
-export const getCafes = createAsyncThunk('search/getCafes', async (searchContent: SearchCafesData & { isSearching?: boolean; isCafeDetail?: boolean }, thunkAPI) => {
+export const getCafesData = createAsyncThunk('search/getCafesData', async (data: { cafeData: MapApiCafeData[]; query: SearchCafesData; isSearching?: boolean; isCafeDetail?: boolean }, thunkAPI) => {
   try {
-    const { isSearching, isCafeDetail, ...content } = searchContent;
-    const cafes = await getCafesApi(content);
+    const { cafeData, query, isCafeDetail, isSearching } = data;
+    const cafes = await getCafesDataApi(cafeData, query);
 
     if (!cafes?.length) {
       return thunkAPI.rejectWithValue('No cafes found');
@@ -89,16 +89,16 @@ const searchSlice = createSlice({
     builder.addCase(getCurrentLocation.rejected, (state, action) => {
       state.error = action.error.message || 'An error occurred';
     });
-    builder.addCase(getCafes.fulfilled, (state, action) => {
+    builder.addCase(getCafesData.fulfilled, (state, action) => {
       state.cafes = action.payload.cafes;
       state.isSearching = action.payload.isSearching;
       state.isCafeDetail = action.payload.isCafeDetail;
       state.status = Status.FULFILLED;
     });
-    builder.addCase(getCafes.pending, (state) => {
+    builder.addCase(getCafesData.pending, (state) => {
       state.status = Status.PENDING;
     });
-    builder.addCase(getCafes.rejected, (state, action) => {
+    builder.addCase(getCafesData.rejected, (state, action) => {
       state.error = action.error.message || 'An error occurred';
       state.status = Status.FULFILLED;
     });

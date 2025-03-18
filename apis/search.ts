@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 import { ApiCafeData, CafeData, MapApiCafeData, SearchCafesData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
 import { delay } from '@/helpers/time';
+import { calculateDistance } from '@/helpers/caculateDistance';
 
 export const getAreas = async (city?: string) => {
   try {
@@ -32,24 +33,51 @@ export const getAreas = async (city?: string) => {
 
 let cacheData: { data: ApiCafeData[] | null; expireAt: number | null } = { data: null, expireAt: null };
 
-export const getCafes = async (data: MapApiCafeData[], query: SearchCafesData): Promise<CafeData[]> => {
+export const getCafesData = async (cafes: MapApiCafeData[], query: SearchCafesData): Promise<CafeData[]> => {
   const { areaKey, district, location, keyword, tags } = query;
   try {
-    let cafes: ApiCafeData[];
+    let cafeList: ApiCafeData[];
     const revalidate = 3600;
     if (cacheData?.data && cacheData.expireAt > Date.now()) {
-      cafes = cacheData.data;
+      cafeList = cacheData.data;
       await delay(300);
     } else {
       const response = await fetch(API_PATHS.NOMAD_CAFE_API);
-      cafes = await response.json();
+      cafeList = await response.json();
       cacheData = {
-        data: cafes,
+        data: cafeList,
         expireAt: Date.now() + revalidate * 1000,
       };
     }
 
-    let filteredCafes = cafes;
+    let filteredCafes = cafeList.reduce<CafeData[]>((acc, cafeItem) => {
+      const cafe = cafes.find(cafe => {
+        // unit: km
+        const maxDistance = 0.2;
+
+        const cafeItemLat = parseFloat(cafeItem.latitude);
+        const cafeItemLng = parseFloat(cafeItem.longitude);
+
+        const distance = calculateDistance(
+          { lat: cafeItemLat, lng: cafeItemLng },
+          { lat: cafe.location.lat, lng: cafe.location.lng }
+        );
+
+        // if distance is less than maxDistance, means the cafe is close to the location, return true
+        return distance <= maxDistance;
+      });
+
+      if (cafe) {
+        const newCafe = {
+          ...cafeItem,
+          ...cafe,
+          latitude: parseFloat(cafeItem.latitude),
+          longitude: parseFloat(cafeItem.longitude),
+        };
+        acc.push(newCafe);
+      }
+      return acc;
+    }, []);
 
     // Filter by area/district if specified
     if (areaKey || district) {
@@ -102,12 +130,7 @@ export const getCafes = async (data: MapApiCafeData[], query: SearchCafesData): 
       });
     }
 
-    // Transform the filtered cafes to include rank
-    return filteredCafes.map((cafe) => ({
-      ...cafe,
-      latitude: parseFloat(cafe.latitude),
-      longitude: parseFloat(cafe.longitude),
-    }));
+    return filteredCafes;
   } catch (error) {
     console.error(error);
     return [];

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Stack, Typography, Rating, Chip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { getCafes } from '@/redux/cafes';
+import { getCafesData } from '@/redux/cafes';
 import { CafeData } from '@/constants/types';
 import { getTags } from '@/helpers/rankAndTags';
 import tagData from '@/constants/tags';
@@ -18,7 +18,7 @@ const CafeListItem = ({ cafe }: { cafe: CafeData }) => {
 
   const onClick = () => {
     if (isCafeDetail) return;
-    dispatch(getCafes({
+    dispatch(getCafesData({
       keyword: cafe.name,
       position: { lat: cafe.latitude, lng: cafe.longitude },
       isCafeDetail: true,

@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { CafeData, Position } from '@/constants/types';
 import { theme } from '@/style/theme';
 import { isEqual } from '@/helpers/object';
-import { getCafes, setIsSearching } from '@/redux/cafes';
+import { getCafesData, setIsSearching } from '@/redux/cafes';
 import { getLoader } from '@/lib/mapLoader';
 
 const loader = getLoader();
@@ -119,7 +119,7 @@ const useMap = () => {
       if (isCafe) {
         marker.addListener('click', () => {
           map.panTo(position);
-          dispatch(getCafes({ keyword: info?.name, isSearching: true, isCafeDetail: true }));
+          dispatch(getCafesData({ keyword: info?.name, isSearching: true, isCafeDetail: true }));
         });
       }
 

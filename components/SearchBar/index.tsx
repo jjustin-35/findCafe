@@ -5,7 +5,7 @@ import { IconButton, TextField, Box, InputAdornment } from '@mui/material';
 import { ArrowBack as ArrowBackIcon, Search as SearchIcon } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { setIsSearching, getCafes } from '@/redux/cafes';
+import { setIsSearching, getCafesData } from '@/redux/cafes';
 import { Status } from '@/constants/types';
 import { Form } from './styled';
 import AdvancedSearch from '../AdvancedSearch';
@@ -37,13 +37,13 @@ const SearchBar = ({ hasReturnBtn }: { hasReturnBtn?: boolean }) => {
   const onSubmit = async ({ keyword }: { keyword: string }) => {
     if (!keyword) return; 
 
-    dispatch(getCafes({ keyword }));
+    dispatch(getCafesData({ keyword }));
     dispatch(setIsSearching(true));
   };
 
   const handleFilterChange = ({ tags, area, minRating }: { tags: string[], area: string, minRating: number }) => {
     const keyword = watch('keyword');
-    dispatch(getCafes({ 
+    dispatch(getCafesData({ 
       keyword,
       areaKey: area,
       rank: minRating,
