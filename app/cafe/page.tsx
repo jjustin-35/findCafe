@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import { getCafes, getCurrentLocation, clearSearchStates } from '@/redux/cafes';
+import { getCafes, getCurrentLocation, clearSearchStates, getCafeDetails } from '@/redux/cafes';
 import useMap from '@/helpers/useMap';
 import SearchBar from '@/components/SearchBar';
 import CafeList from '@/components/CafeList';
@@ -10,7 +10,7 @@ import Map from '@/components/Map';
 import { CafeData } from '@/constants/types';
 
 const Cafe = () => {
-  const { currentLocation, cafes, status, isCafeDetail } = useAppSelector((state) => state.cafes);
+  const { currentLocation, cafes, status, isCafeDetail, detailStatus } = useAppSelector((state) => state.cafes);
   const dispatch = useAppDispatch();
   const { mapRef, cafesList, setCafes } = useMap();
 
@@ -31,34 +31,23 @@ const Cafe = () => {
     };
   }, []);
 
+  // Fetch cafe details when in detail view
   useEffect(() => {
-    (async () => {
-      const promises = cafes.map(async (cafe): Promise<CafeData> => {
-        let images: { src: string; alt: string }[] = [];
-        let rating: number | null = null;
-        if (isCafeDetail) {
-          // const result = await searchByText(cafe.name);
-          // images = result?.photos?.map((photo, idx) => ({ src: photo.getURI(), alt: `img-${cafe.name}-${idx}` }));
-          // rating = result?.rating || 0;
-        }
-        return {
-          ...cafe,
-          images,
-          rating,
-        };
-      });
-
-      const cafeInfos = await Promise.all(promises);
-
-      setCafes(cafeInfos);
-    })();
+    if (isCafeDetail && cafes.length > 0) {
+      dispatch(getCafeDetails());
+    }
   }, [cafes, isCafeDetail]);
+
+  // Update map with cafes data
+  useEffect(() => {
+    setCafes(cafes);
+  }, [cafes, setCafes]);
 
   return (
     <>
       <SearchBar />
       <Map mapRef={mapRef} />
-      <CafeList cafes={cafeList} status={status} />
+      <CafeList cafes={cafeList} status={isCafeDetail ? detailStatus : status} />
     </>
   );
 };
