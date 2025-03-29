@@ -3,13 +3,13 @@ import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { CafeData, Position } from '@/constants/types';
 import { theme } from '@/style/theme';
 import { isEqual } from '@/helpers/object';
-import { getCafes, setIsSearching } from '@/redux/cafes';
+import { getCafeDetails, } from '@/redux/cafes';
 import { getLoader } from '@/lib/mapLoader';
 
 const loader = getLoader();
 
 const useMap = () => {
-  const { currentLocation, isSearching } = useAppSelector((state) => state.cafes);
+  const { currentLocation, isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [curLocationTemp, setCurLocationTemp] = useState<Position | null>(null);
   const [cafesList, setCafesList] = useState<CafeData[]>([]);
@@ -81,7 +81,7 @@ const useMap = () => {
         setCafeListOri([...cafeListOri, ...newCafes]);
       }
     })();
-  }, [map, cafesList]);
+  }, [map, cafesList, isCafeDetail]);
 
   const addMarkers = async ({
     locations,
@@ -119,7 +119,7 @@ const useMap = () => {
       if (isCafe) {
         marker.addListener('click', () => {
           map.panTo(position);
-          dispatch(getCafes({ keyword: info?.name, isSearching: true, isCafeDetail: true }));
+          dispatch(getCafeDetails({ cafe: info }));
         });
       }
 

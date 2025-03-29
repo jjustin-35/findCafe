@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { IconButton, TextField, Box, InputAdornment } from '@mui/material';
 import { ArrowBack as ArrowBackIcon, Search as SearchIcon } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
@@ -9,17 +8,16 @@ import { setIsSearching, getCafes } from '@/redux/cafes';
 import { Status } from '@/constants/types';
 import { Form } from './styled';
 import AdvancedSearch from '../AdvancedSearch';
-import useMap from '../../helpers/useMap';
 
-const StartIconButton = () => (
-  <InputAdornment position="start" sx={{ mr: 0 }}>
-    <Link href="/cafe">
-      <IconButton>
+const StartIconButton = ({ onReturn }: { onReturn?: () => void }) => {
+  return (
+    <InputAdornment position="start" sx={{ mr: 0 }}>
+      <IconButton onClick={onReturn}>
         <ArrowBackIcon />
       </IconButton>
-    </Link>
-  </InputAdornment>
-);
+    </InputAdornment>
+  );
+};
 
 const EndIconButton = () => (
   <InputAdornment position="end" sx={{ ml: 0 }}>
@@ -29,26 +27,34 @@ const EndIconButton = () => (
   </InputAdornment>
 );
 
-const SearchBar = ({ hasReturnBtn }: { hasReturnBtn?: boolean }) => {
+const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBack?: () => void }) => {
   const { register, handleSubmit, watch } = useForm();
-  const { status } = useAppSelector((state) => state.cafes);
+  const { status, currentLocation } = useAppSelector((state) => state.cafes);
   const dispatch = useAppDispatch();
 
+  const onReturn = () => {
+    if (!currentLocation || !hasReturnBtn) return;
+    if (moveBack) moveBack();
+    dispatch(getCafes({ position: currentLocation }));
+  };
+
   const onSubmit = async ({ keyword }: { keyword: string }) => {
-    if (!keyword) return; 
+    if (!keyword) return;
 
     dispatch(getCafes({ keyword }));
     dispatch(setIsSearching(true));
   };
 
-  const handleFilterChange = ({ tags, area, minRating }: { tags: string[], area: string, minRating: number }) => {
+  const handleFilterChange = ({ tags, area, minRating }: { tags: string[]; area: string; minRating: number }) => {
     const keyword = watch('keyword');
-    dispatch(getCafes({ 
-      keyword,
-      areaKey: area,
-      rank: minRating,
-      tags
-    }));
+    dispatch(
+      getCafes({
+        keyword,
+        areaKey: area,
+        rank: minRating,
+        tags,
+      }),
+    );
     dispatch(setIsSearching(true));
   };
 
@@ -85,7 +91,7 @@ const SearchBar = ({ hasReturnBtn }: { hasReturnBtn?: boolean }) => {
             {...register('keyword')}
             slotProps={{
               input: {
-                ...(hasReturnBtn && { startAdornment: <StartIconButton /> }),
+                ...(hasReturnBtn && { startAdornment: <StartIconButton onReturn={onReturn} /> }),
                 endAdornment: (
                   <Box display="flex">
                     <EndIconButton />

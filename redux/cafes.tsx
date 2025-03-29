@@ -54,62 +54,45 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
   },
 );
 
-export const getCafes = createAsyncThunk('search/getCafes', async (searchContent: SearchCafesData & { isSearching?: boolean; isCafeDetail?: boolean }, thunkAPI) => {
-  try {
-    const { isSearching, isCafeDetail, ...content } = searchContent;
-    const cafes = await getCafesApi(content);
-
-    if (!cafes?.length) {
-      return thunkAPI.rejectWithValue('No cafes found');
-    }
-
-    return { cafes, isSearching, isCafeDetail };
-  } catch (error) {
-    console.error(error);
-    return thunkAPI.rejectWithValue(error);
-  }
-});
-
-export const getCafeDetails = createAsyncThunk<CafeData[], void, { state: RootState }>(
-  'search/getCafeDetails',
-  async (_, { getState, rejectWithValue }) => {
+export const getCafes = createAsyncThunk(
+  'search/getCafes',
+  async (searchContent: SearchCafesData & { isSearching?: boolean; isCafeDetail?: boolean }, thunkAPI) => {
     try {
-      const { cafes } = getState().cafes;
-      
-      const detailedCafes = await Promise.all(
-        cafes.map(async (cafe): Promise<CafeData> => {
-          let images: { src: string; alt: string }[] = [];
-          let rating: number | null = null;
-          
-          // Fetch rating and images from Google Place API
-          const result = await searchByText(
-            { keyword: cafe.name }, 
-            { lat: cafe.latitude, lng: cafe.longitude }
-          );
-          
-          if (result?.photos) {
-            images = result.photos.map((photo, idx) => ({ 
-              src: photo.getURI(), 
-              alt: `img-${cafe.name}-${idx}` 
-            }));
-          }
-          
-          rating = result?.rating || null;
-          
-          return {
-            ...cafe,
-            images,
-            rating,
-          };
-        })
-      );
-      
-      return detailedCafes;
+      const { isSearching, ...content } = searchContent;
+      const cafes = await getCafesApi(content);
+
+      if (!cafes?.length) {
+        return thunkAPI.rejectWithValue('No cafes found');
+      }
+
+      return { cafes, isSearching };
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
+export const getCafeDetails = createAsyncThunk<CafeData, { cafe: CafeData }, { state: RootState }>(
+  'search/getCafeDetails',
+  async ({ cafe }, { rejectWithValue }) => {
+    try {
+      // Fetch rating and images from Google Place API
+      const result = await searchByText({ keyword: cafe.name }, { lat: cafe.latitude, lng: cafe.longitude });
+
+      const images =
+        result?.photos?.map((photo, idx) => ({
+          src: photo.getURI(),
+          alt: `img-${cafe.name}-${idx}`,
+        })) || [];
+      const rating = result?.rating || null;
+
+      return { ...cafe, images, rating };
     } catch (error) {
       console.error('Error fetching cafe details:', error);
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 const searchSlice = createSlice({
@@ -139,7 +122,7 @@ const searchSlice = createSlice({
     builder.addCase(getCafes.fulfilled, (state, action) => {
       state.cafes = action.payload.cafes;
       state.isSearching = action.payload.isSearching;
-      state.isCafeDetail = action.payload.isCafeDetail;
+      state.isCafeDetail = false;
       state.status = Status.FULFILLED;
     });
     builder.addCase(getCafes.pending, (state) => {
@@ -153,7 +136,8 @@ const searchSlice = createSlice({
       state.detailStatus = Status.PENDING;
     });
     builder.addCase(getCafeDetails.fulfilled, (state, action) => {
-      state.cafes = action.payload;
+      state.cafeDetail = action.payload;
+      state.isCafeDetail = true;
       state.detailStatus = Status.FULFILLED;
     });
     builder.addCase(getCafeDetails.rejected, (state, action) => {

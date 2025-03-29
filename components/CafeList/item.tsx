@@ -1,15 +1,14 @@
 'use client';
 
-import Image from 'next/image';
 import { Stack, Typography, Rating, Chip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { getCafes } from '@/redux/cafes';
-import { CafeData } from '@/constants/types';
+import { getCafeDetails } from '@/redux/cafes';
+import { CafeData, Position } from '@/constants/types';
 import { getTags } from '@/helpers/rankAndTags';
 import tagData from '@/constants/tags';
 import Images from '../Images';
 
-const CafeListItem = ({ cafe }: { cafe: CafeData }) => {
+const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (position: Position) => void }) => {
   const dispatch = useAppDispatch();
   const { isCafeDetail } = useAppSelector((state) => state.cafes);
   const { images, address, name } = cafe;
@@ -18,14 +17,8 @@ const CafeListItem = ({ cafe }: { cafe: CafeData }) => {
 
   const onClick = () => {
     if (isCafeDetail) return;
-    dispatch(
-      getCafes({
-        keyword: cafe.name,
-        position: { lat: cafe.latitude, lng: cafe.longitude },
-        isCafeDetail: true,
-        isSearching: true,
-      }),
-    );
+    dispatch(getCafeDetails({ cafe }));
+    moveTo({ lat: cafe.latitude, lng: cafe.longitude });
   };
 
   return (

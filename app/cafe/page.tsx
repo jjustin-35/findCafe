@@ -7,14 +7,16 @@ import useMap from '@/helpers/useMap';
 import SearchBar from '@/components/SearchBar';
 import CafeList from '@/components/CafeList';
 import Map from '@/components/Map';
-import { CafeData } from '@/constants/types';
+import { Position } from '@/constants/types';
 
 const Cafe = () => {
-  const { currentLocation, cafes, status, isCafeDetail, detailStatus } = useAppSelector((state) => state.cafes);
+  const { currentLocation, cafes, cafeDetail, status, isCafeDetail, detailStatus } = useAppSelector(
+    (state) => state.cafes,
+  );
   const dispatch = useAppDispatch();
-  const { mapRef, cafesList, setCafes } = useMap();
+  const { mapRef, cafesList, setCafes, map } = useMap();
 
-  const cafeList = useMemo(() => cafesList.map(cafe => cafe), [cafesList]);
+  const cafeList = useMemo(() => (isCafeDetail ? [cafeDetail] : cafesList), [cafesList, cafeDetail, isCafeDetail]);
 
   useEffect(() => {
     if (!currentLocation) {
@@ -31,23 +33,24 @@ const Cafe = () => {
     };
   }, []);
 
-  // Fetch cafe details when in detail view
-  useEffect(() => {
-    if (isCafeDetail && cafes.length > 0) {
-      dispatch(getCafeDetails());
-    }
-  }, [cafes, isCafeDetail]);
-
   // Update map with cafes data
   useEffect(() => {
     setCafes(cafes);
   }, [cafes, setCafes]);
 
+  const moveTo = (position: Position) => {
+    map?.panTo(position);
+  };
+
+  const moveBack = () => {
+    map?.panTo(currentLocation);
+  };
+
   return (
     <>
-      <SearchBar />
+      <SearchBar hasReturnBtn={isCafeDetail} moveBack={moveBack} />
       <Map mapRef={mapRef} />
-      <CafeList cafes={cafeList} status={isCafeDetail ? detailStatus : status} />
+      <CafeList cafes={cafeList} status={isCafeDetail ? detailStatus : status} moveTo={moveTo} />
     </>
   );
 };
