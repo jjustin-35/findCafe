@@ -95,8 +95,8 @@ export const getCafeDetails = createAsyncThunk<CafeData, { cafe: CafeData }, { s
   },
 );
 
-const searchSlice = createSlice({
-  name: 'search',
+const cafeSlice = createSlice({
+  name: 'cafes',
   initialState,
   reducers: {
     setErr: (state, action: PayloadAction<string | null>) => {
@@ -133,20 +133,20 @@ const searchSlice = createSlice({
       state.status = Status.FULFILLED;
     });
     builder.addCase(getCafeDetails.pending, (state) => {
-      state.detailStatus = Status.PENDING;
+      state.status = Status.PENDING;
     });
     builder.addCase(getCafeDetails.fulfilled, (state, action) => {
       state.cafeDetail = action.payload;
       state.isCafeDetail = true;
-      state.detailStatus = Status.FULFILLED;
+      state.status = Status.FULFILLED;
     });
     builder.addCase(getCafeDetails.rejected, (state, action) => {
       state.error = action.error.message || 'An error occurred';
-      state.detailStatus = Status.FULFILLED;
+      state.status = Status.FULFILLED;
     });
   },
 });
 
-export const { setErr, setIsSearching, clearSearchStates } = searchSlice.actions;
+export const { setErr, setIsSearching, clearSearchStates } = cafeSlice.actions;
 
-export default searchSlice.reducer;
+export default cafeSlice.reducer;

@@ -7,14 +7,14 @@ import useMap from '@/helpers/useMap';
 import SearchBar from '@/components/SearchBar';
 import CafeList from '@/components/CafeList';
 import Map from '@/components/Map';
-import { Position } from '@/constants/types';
+import { CafeData } from '@/constants/types';
 
 const Cafe = () => {
-  const { currentLocation, cafes, cafeDetail, status, isCafeDetail, detailStatus } = useAppSelector(
+  const { currentLocation, cafes, cafeDetail, status, isCafeDetail } = useAppSelector(
     (state) => state.cafes,
   );
   const dispatch = useAppDispatch();
-  const { mapRef, cafesList, setCafes, map } = useMap();
+  const { mapRef, cafesList, cafeMarkers, setCafes, map, handleBlurAll } = useMap();
 
   const cafeList = useMemo(() => (isCafeDetail ? [cafeDetail] : cafesList), [cafesList, cafeDetail, isCafeDetail]);
 
@@ -38,11 +38,14 @@ const Cafe = () => {
     setCafes(cafes);
   }, [cafes, setCafes]);
 
-  const moveTo = (position: Position) => {
-    map?.panTo(position);
+  const moveTo = (cafe: CafeData) => {
+    const currentMarker = cafeMarkers.find((marker) => marker.cafeId === cafe.id);
+    if (!currentMarker) return;
+    currentMarker.onFocus(cafe);
   };
 
   const moveBack = () => {
+    handleBlurAll();
     map?.panTo(currentLocation);
   };
 
@@ -50,7 +53,7 @@ const Cafe = () => {
     <>
       <SearchBar hasReturnBtn={isCafeDetail} moveBack={moveBack} />
       <Map mapRef={mapRef} />
-      <CafeList cafes={cafeList} status={isCafeDetail ? detailStatus : status} moveTo={moveTo} />
+      <CafeList cafes={cafeList} status={status} moveTo={moveTo} />
     </>
   );
 };

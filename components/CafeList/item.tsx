@@ -3,12 +3,12 @@
 import { Stack, Typography, Rating, Chip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { getCafeDetails } from '@/redux/cafes';
-import { CafeData, Position } from '@/constants/types';
+import { CafeData } from '@/constants/types';
 import { getTags } from '@/helpers/rankAndTags';
 import tagData from '@/constants/tags';
 import Images from '../Images';
 
-const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (position: Position) => void }) => {
+const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (cafe: CafeData) => void }) => {
   const dispatch = useAppDispatch();
   const { isCafeDetail } = useAppSelector((state) => state.cafes);
   const { images, address, name } = cafe;
@@ -18,7 +18,7 @@ const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (position: Pos
   const onClick = () => {
     if (isCafeDetail) return;
     dispatch(getCafeDetails({ cafe }));
-    moveTo({ lat: cafe.latitude, lng: cafe.longitude });
+    moveTo(cafe);
   };
 
   return (

@@ -3,18 +3,30 @@ import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { CafeData, Position } from '@/constants/types';
 import { theme } from '@/style/theme';
 import { isEqual } from '@/helpers/object';
-import { getCafeDetails, } from '@/redux/cafes';
+import { getCafeDetails } from '@/redux/cafes';
 import { getLoader } from '@/lib/mapLoader';
 
 const loader = getLoader();
 
 const useMap = () => {
-  const { currentLocation, isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
+  const { currentLocation, isSearching, isCafeDetail, cafeDetail } = useAppSelector((state) => state.cafes);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [curLocationTemp, setCurLocationTemp] = useState<Position | null>(null);
   const [cafesList, setCafesList] = useState<CafeData[]>([]);
   const [cafeListOri, setCafeListOri] = useState<CafeData[]>([]);
-  const [cafeMarkers, setCafeMarkers] = useState<google.maps.marker.AdvancedMarkerElement[]>([]);
+  const [cafeMarkers, setCafeMarkers] = useState<{
+    cafeId: string;
+    marker: google.maps.marker.AdvancedMarkerElement;
+    onFocus: (info: CafeData) => void;
+  }[]>([]);
+  const [focusedCafeAndInfo, setFocusedCafeAndInfo] = useState<{
+    cafe: CafeData;
+    infoWindow: google.maps.InfoWindow;
+  } | null>(null);
+  const [prevFocusedCafeAndInfo, setPrevFocusedCafeAndInfo] = useState<{
+    cafe: CafeData;
+    infoWindow: google.maps.InfoWindow;
+  } | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
@@ -83,6 +95,37 @@ const useMap = () => {
     })();
   }, [map, cafesList, isCafeDetail]);
 
+  // handle cafe focus
+  useEffect(() => {
+    if (!map) return;
+    prevFocusedCafeAndInfo?.infoWindow?.close();
+    setPrevFocusedCafeAndInfo(focusedCafeAndInfo);
+  }, [map, focusedCafeAndInfo]);
+
+  const handleCafeFocus = (cafe: CafeData, marker: google.maps.marker.AdvancedMarkerElement) => {
+    if (!map) return;
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: `<div style="font-size: 14px; text-align: center">${cafe.name}</div>`,
+    });
+    map.panTo({
+      lat: cafe.latitude,
+      lng: cafe.longitude,
+    });
+    infoWindow.open({
+      map,
+      anchor: marker,
+    });
+
+    setFocusedCafeAndInfo({ cafe, infoWindow });
+  };
+
+  const handleBlurAll = () => {
+    if (!map) return;
+    prevFocusedCafeAndInfo?.infoWindow?.close();
+    setPrevFocusedCafeAndInfo(null);
+  };
+
   const addMarkers = async ({
     locations,
     isCafe = false,
@@ -115,15 +158,18 @@ const useMap = () => {
       }
 
       const marker = new AdvancedMarkerElement(markerOptions);
+      const onFocus = (info: CafeData) => {
+        handleCafeFocus(info, marker);
+      };
 
       if (isCafe) {
         marker.addListener('click', () => {
-          map.panTo(position);
+          onFocus(info);
           dispatch(getCafeDetails({ cafe: info }));
         });
       }
 
-      return marker;
+      return { cafeId: info?.id, marker, onFocus };
     });
 
     return markers;
@@ -138,6 +184,7 @@ const useMap = () => {
     map,
     cafeMarkers,
     cafesList,
+    handleBlurAll,
     setCafes,
   };
 };

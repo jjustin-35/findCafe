@@ -5,7 +5,7 @@ import CafeBoard from '../CafeBoard';
 import CafeListLoader from '../Loaders/Cafe/cafeList';
 import CafeItem from './item';
 
-const List = ({ cafes, status, moveTo }: { cafes: CafeData[]; status: Status; moveTo: (position: Position) => void }) => {
+const List = ({ cafes, status, moveTo }: { cafes: CafeData[]; status: Status; moveTo: (cafe: CafeData) => void }) => {
   const content = (() => {
     if (status === Status.IDLE || status === Status.PENDING) {
       return <CafeListLoader />;
