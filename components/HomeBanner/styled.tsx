@@ -1,3 +1,5 @@
+'use client';
+
 import { styled } from '@mui/material/styles';
 
 export const HomeBannerImage = styled('div')`
@@ -13,6 +15,7 @@ export const Title = styled('h1')`
   font-size: 48px;
   font-weight: bold;
   color: white;
+  margin: 0 0 24px;
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
     text-align: start;

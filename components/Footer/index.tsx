@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container as MuiContainer, Typography, List, ListItem, Box } from '@mui/material';

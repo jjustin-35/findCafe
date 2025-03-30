@@ -1,6 +1,3 @@
-'use client';
-
-import React from 'react';
 import { Typography } from '@mui/material';
 import Icon from '@/components/Icon';
 import { Background, Wrapper } from './styled';

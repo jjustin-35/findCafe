@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
-import Provider from '@/lib/provider';
+import MuiProvider from '@/lib/MuiProvider';
+import ReduxProvider from '@/lib/reduxProvider';
 
 export const metadata: Metadata = {
   title: '找找咖啡',
@@ -11,7 +12,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="zh-tw">
       <body>
-        <Provider>{children}</Provider>
+        <MuiProvider>
+          <ReduxProvider>{children}</ReduxProvider>
+        </MuiProvider>
       </body>
     </html>
   );
