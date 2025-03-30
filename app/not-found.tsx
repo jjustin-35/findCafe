@@ -1,16 +1,23 @@
-'use client';
-
-import React from 'react';
+import { Button, Container, Typography } from '@mui/material';
 import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="container py-5 text-center">
-      <h1 className="fs-1 fw-bold mb-3">404 - 頁面未找到</h1>
-      <p className="fs-1-25 mb-4">抱歉，您所尋找的頁面不存在。</p>
-      <Link href="/" className="btn btn-primary fs-1-25">
+    <Container sx={{ py: 5, textAlign: 'center' }}>
+      <Typography variant="h3" component="h1" fontWeight="bold" mb={3}>
+        404 - 頁面未找到
+      </Typography>
+      <Typography variant="h6" mb={4}>
+        抱歉，您所尋找的頁面不存在。
+      </Typography>
+      <Button
+        component={Link}
+        href="/"
+        variant="contained"
+        size="large"
+      >
         返回首頁
-      </Link>
-    </div>
+      </Button>
+    </Container>
   );
 }

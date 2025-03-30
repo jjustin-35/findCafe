@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
                 Search
               </NavLink>
             </ListItem>
-            <ListItem sx={{ p: 0 }}>
+            {/* <ListItem sx={{ p: 0 }}>
               {isAuth ? (
                 <NavAnchor onClick={onLogout}>Logout</NavAnchor>
               ) : (
@@ -61,7 +61,7 @@ const Footer: React.FC = () => {
                   Login
                 </NavLink>
               )}
-            </ListItem>
+            </ListItem> */}
           </List>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
