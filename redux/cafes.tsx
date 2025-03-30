@@ -5,7 +5,8 @@ import getCurrentLocationApi from '@/helpers/getCurrentLocation';
 import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
-import { searchByText } from '@/apis/map';
+import { tags } from '@/constants/tags';
+// import { searchByText } from '@/apis/map';
 
 interface SearchState {
   status: Status;
@@ -60,12 +61,19 @@ export const getCafes = createAsyncThunk(
     try {
       const { isSearching, ...content } = searchContent;
       const cafes = await getCafesApi(content);
+      const newCafes = cafes.map((cafe) => {
+        const averageRating = tags.reduce((acc, tag) => acc + cafe[tag], 0) / tags.length;
+        return {
+          ...cafe,
+          rating: averageRating,
+        };
+      });
 
-      if (!cafes?.length) {
+      if (!newCafes?.length) {
         return thunkAPI.rejectWithValue('No cafes found');
       }
 
-      return { cafes, isSearching };
+      return { cafes: newCafes, isSearching };
     } catch (error) {
       console.error(error);
       return thunkAPI.rejectWithValue(error);
@@ -78,16 +86,16 @@ export const getCafeDetails = createAsyncThunk<CafeData, { cafe: CafeData }, { s
   async ({ cafe }, { rejectWithValue }) => {
     try {
       // Fetch rating and images from Google Place API
-      const result = await searchByText({ keyword: cafe.name }, { lat: cafe.latitude, lng: cafe.longitude });
+      // const result = await searchByText({ keyword: cafe.name }, { lat: cafe.latitude, lng: cafe.longitude });
 
-      const images =
-        result?.photos?.map((photo, idx) => ({
-          src: photo.getURI(),
-          alt: `img-${cafe.name}-${idx}`,
-        })) || [];
-      const rating = result?.rating || null;
+      // const images =
+      //   result?.photos?.map((photo, idx) => ({
+      //     src: photo.getURI(),
+      //     alt: `img-${cafe.name}-${idx}`,
+      //   })) || [];
+      // const rating = result?.rating || null;
 
-      return { ...cafe, images, rating };
+      return { ...cafe, images: [] };
     } catch (error) {
       console.error('Error fetching cafe details:', error);
       return rejectWithValue(error);
@@ -104,6 +112,9 @@ const cafeSlice = createSlice({
     },
     setIsSearching: (state, action: PayloadAction<boolean>) => {
       state.isSearching = action.payload;
+    },
+    setIsCafeDetail: (state, action: PayloadAction<boolean>) => {
+      state.isCafeDetail = action.payload;
     },
     clearSearchStates: (state) => {
       state = { ...initialState };
@@ -147,6 +158,6 @@ const cafeSlice = createSlice({
   },
 });
 
-export const { setErr, setIsSearching, clearSearchStates } = cafeSlice.actions;
+export const { setErr, setIsSearching, setIsCafeDetail, clearSearchStates } = cafeSlice.actions;
 
 export default cafeSlice.reducer;

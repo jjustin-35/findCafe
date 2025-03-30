@@ -27,14 +27,12 @@ const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (cafe: CafeDat
         <Typography variant="h6" component="h3" color="primary">
           {name}
         </Typography>
-        {isCafeDetail && (
-          <Stack direction="row" gap={1} alignItems="center">
-            <Rating value={rating} readOnly />
-            <Typography variant="body1" component="span">
-              {!cafe?.rating ? '未評分' : rating}
-            </Typography>
-          </Stack>
-        )}
+        <Stack direction="row" gap={1} alignItems="center">
+          <Rating value={rating} readOnly />
+          <Typography variant="body1" color="text.secondary" component="span">
+            {!cafe?.rating ? '未評分' : rating}
+          </Typography>
+        </Stack>
         {tags?.length > 0 && (
           <Stack direction="row" gap={1} flexWrap="wrap" width="100%">
             {tags.map((tag) => (

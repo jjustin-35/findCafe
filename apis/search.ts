@@ -47,7 +47,7 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     const revalidate = 3600;
     const cacheKey = generateKey('getCafes', { data });
     const cachedData = getCache<ApiCafeData[]>(cacheKey);
-    if (cachedData) {
+    if (cachedData?.length) {
       cafes = cachedData;
       await delay(300);
     } else {
@@ -59,11 +59,11 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
       });
     }
 
-    let filteredCafes = cafes;
+    let filteredCafes = cafes?.length ? cafes : [];
 
     // Filter by area/district if specified
     if (areaKey || district) {
-      filteredCafes = filteredCafes.filter((cafe) => {
+      filteredCafes = filteredCafes?.filter((cafe) => {
         if (areaKey && !cafe.city.includes(areaKey)) return false;
         if (district && !cafe.address.includes(district)) return false;
         return true;

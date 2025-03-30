@@ -1,6 +1,6 @@
 import { Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { CafeData, Position, Status } from '@/constants/types';
+import { CafeData, Status } from '@/constants/types';
 import CafeBoard from '../CafeBoard';
 import CafeListLoader from '../Loaders/Cafe/cafeList';
 import CafeItem from './item';

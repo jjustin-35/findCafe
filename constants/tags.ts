@@ -7,6 +7,8 @@ const tagData = {
   music: '音樂好聽',
 } as const;
 
+export const tags = Object.keys(tagData) as TagType[];
+
 export type TagType = keyof typeof tagData;
 
 export default tagData;

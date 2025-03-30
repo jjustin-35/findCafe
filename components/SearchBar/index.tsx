@@ -4,7 +4,7 @@ import { IconButton, TextField, Box, InputAdornment } from '@mui/material';
 import { ArrowBack as ArrowBackIcon, Search as SearchIcon } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { getCafes } from '@/redux/cafes';
+import { getCafes, setIsCafeDetail } from '@/redux/cafes';
 import { SearchCafesData, Status } from '@/constants/types';
 import { Form } from './styled';
 import AdvancedSearch from '../AdvancedSearch';
@@ -31,13 +31,14 @@ const EndIconButton = () => (
 const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBack?: () => void }) => {
   const { register, handleSubmit, watch } = useForm();
   const [advancedSearch, setAdvancedSearch] = useState<SearchCafesData | null>(null);
-  const { status, currentLocation } = useAppSelector((state) => state.cafes);
+  const { status, currentLocation, isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
   const dispatch = useAppDispatch();
 
   const onReturn = () => {
     if (!currentLocation || !hasReturnBtn) return;
     if (moveBack) moveBack();
-    dispatch(getCafes({ position: currentLocation }));
+    if (isSearching) dispatch(getCafes({ position: currentLocation, isSearching: false }));
+    if (isCafeDetail) dispatch(setIsCafeDetail(false));
   };
 
   const onSubmit = async ({ keyword }: { keyword: string }) => {
