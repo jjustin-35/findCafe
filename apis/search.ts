@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 import { ApiCafeData, CafeData, SearchCafesData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
 import { delay } from '@/helpers/time';
+import { generateKey, getCache, setCache } from '@/lib/apiCache';
 
 export const getAreas = async (city?: string) => {
   try {
@@ -30,8 +31,6 @@ export const getAreas = async (city?: string) => {
   }
 };
 
-let cacheData: { data: ApiCafeData[] | null; expireAt: number | null } = { data: null, expireAt: null };
-
 export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
   const { areaKey, district, location, position, keyword, tags } = data;
 
@@ -46,16 +45,18 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
   try {
     let cafes: ApiCafeData[];
     const revalidate = 3600;
-    if (cacheData?.data && cacheData.expireAt > Date.now()) {
-      cafes = cacheData.data;
+    const cacheKey = generateKey('getCafes', { data });
+    const cachedData = getCache<ApiCafeData[]>(cacheKey);
+    if (cachedData) {
+      cafes = cachedData;
       await delay(300);
     } else {
       const response = await fetch(API_PATHS.NOMAD_CAFE_API);
       cafes = await response.json();
-      cacheData = {
+      setCache(cacheKey, {
         data: cafes,
         expireAt: Date.now() + revalidate * 1000,
-      };
+      });
     }
 
     let filteredCafes = cafes;
@@ -71,9 +72,7 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
 
     // Filter by location if specified
     if (location) {
-      filteredCafes = filteredCafes.filter((cafe) =>
-        cafe.address.includes(location) || cafe.city.includes(location)
-      );
+      filteredCafes = filteredCafes.filter((cafe) => cafe.address.includes(location) || cafe.city.includes(location));
     }
 
     // Filter by position if specified
@@ -81,12 +80,7 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
       filteredCafes = filteredCafes.filter((cafe) => {
         const lat = parseFloat(cafe.latitude);
         const lng = parseFloat(cafe.longitude);
-        return (
-          lat >= scope.minLat &&
-          lat <= scope.maxLat &&
-          lng >= scope.minLng &&
-          lng <= scope.maxLng
-        );
+        return lat >= scope.minLat && lat <= scope.maxLat && lng >= scope.minLng && lng <= scope.maxLng;
       });
     }
 
@@ -94,17 +88,14 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     if (keyword) {
       const searchKeyword = keyword.toLowerCase();
       filteredCafes = filteredCafes.filter((cafe) => {
-        return (
-          cafe.name.toLowerCase().includes(searchKeyword) ||
-          cafe.address.toLowerCase().includes(searchKeyword)
-        );
+        return cafe.name.toLowerCase().includes(searchKeyword) || cafe.address.toLowerCase().includes(searchKeyword);
       });
     }
 
     // Filter by tags if specified
     if (tags && tags.length > 0) {
       filteredCafes = filteredCafes.filter((cafe) => {
-        return tags.every(tag => {
+        return tags.every((tag) => {
           switch (tag) {
             case 'wifi':
               return cafe.wifi >= 4;
