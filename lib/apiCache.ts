@@ -38,23 +38,36 @@ export function setCache<T>(key: string, data: T, expiresIn = DEFAULT_EXPIRES_IN
   });
 }
 
+function sortObjectKeys(obj: Record<string, any>): Record<string, any> {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(sortObjectKeys);
+  }
+
+  const sortedKeys = Object.keys(obj)
+    .filter((key) => obj[key] !== undefined && obj[key] !== null)
+    .sort((keyA, keyB) => keyA.localeCompare(keyB));
+  const result = sortedKeys.reduce<Record<string, any>>((acc, key) => {
+    acc[key] = sortObjectKeys(obj[key]);
+    return acc;
+  }, {});
+
+  return result;
+}
+
 export function generateKey(prefix: string, params: Record<string, any>): string {
-  const sortedParams = Object.entries(params)
-    .filter(([_, value]) => value !== undefined && value !== null)
-    .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-    .map(([key, value]) => {
-      if (typeof value === 'object') {
-        return `${key}:${JSON.stringify(value)}`;
-      }
-      return `${key}:${value}`;
-    })
+  const sortedParams = Object.entries(sortObjectKeys(params))
+    .map(([key, value]) => `${key}:${JSON.stringify(value)}`)
     .join('|');
 
   return `${prefix}|${sortedParams}`;
 }
 
 export function clear(): void {
-  cacheStore.forEach(item => {
+  cacheStore.forEach((item) => {
     if (item.timer) {
       clearTimeout(item.timer);
     }
