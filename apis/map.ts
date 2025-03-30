@@ -1,19 +1,19 @@
 import { Position, SearchCafesData } from "@/constants/types";
 import { getLoader } from "@/lib/mapLoader";
-import apiCache from "@/lib/apiCache";
+import {generateKey, getCache, setCache} from "@/lib/apiCache";
 
 const loader = getLoader();
 
 // google map api
 export const searchByText = async (query: SearchCafesData, currentLocation: Position | null): Promise<google.maps.places.Place | null> => {
     try {
-        const cacheKey = apiCache.generateKey('searchByText', {
+        const cacheKey = generateKey('searchByText', {
           query,
           currentLocation
         });
         
         // Check if result exists in cache
-        const cachedResult = apiCache.getCache<google.maps.places.Place>(cacheKey);
+        const cachedResult = getCache<google.maps.places.Place>(cacheKey);
         if (cachedResult) {
           console.log('Using cached result for:', query.keyword);
           return cachedResult;
@@ -44,7 +44,7 @@ export const searchByText = async (query: SearchCafesData, currentLocation: Posi
         
         // Store result in cache
         if (result) {
-          apiCache.setCache(cacheKey, result);
+          setCache(cacheKey, result);
         }
         
         return result;
@@ -63,13 +63,13 @@ export const searchNearby = async (currentLocation: Position | null) => {
         }
         
         // Generate cache key
-        const cacheKey = apiCache.generateKey('searchNearby', {
+        const cacheKey = generateKey('searchNearby', {
           lat: currentLocation.lat,
           lng: currentLocation.lng
         });
         
         // Check if result exists in cache
-        const cachedResult = apiCache.getCache<google.maps.places.Place[]>(cacheKey);
+        const cachedResult = getCache<google.maps.places.Place[]>(cacheKey);
         if (cachedResult) {
           console.log('Using cached nearby results for location:', currentLocation);
           return cachedResult;
@@ -96,7 +96,7 @@ export const searchNearby = async (currentLocation: Position | null) => {
         
         // Store result in cache
         if (places.length > 0) {
-          apiCache.setCache(cacheKey, places);
+          setCache(cacheKey, places);
         }
         
         return places;
