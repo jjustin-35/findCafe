@@ -95,12 +95,12 @@ const useMap = () => {
     })();
   }, [map, cafesList, isCafeDetail]);
 
-  // handle cafe focus
-  useEffect(() => {
-    if (!map) return;
-    prevFocusedCafeAndInfo?.infoWindow?.close();
-    setPrevFocusedCafeAndInfo(focusedCafeAndInfo);
-  }, [map, focusedCafeAndInfo]);
+  // // handle cafe focus
+  // useEffect(() => {
+  //   if (!map) return;
+  //   prevFocusedCafeAndInfo?.infoWindow?.close();
+  //   setPrevFocusedCafeAndInfo(focusedCafeAndInfo);
+  // }, [map, focusedCafeAndInfo]);
 
   const handleCafeFocus = (cafe: CafeData, marker: google.maps.marker.AdvancedMarkerElement) => {
     if (!map) return;
@@ -117,13 +117,17 @@ const useMap = () => {
       anchor: marker,
     });
 
+    if (focusedCafeAndInfo) {
+      console.log(focusedCafeAndInfo);
+      focusedCafeAndInfo.infoWindow.close();
+    }
     setFocusedCafeAndInfo({ cafe, infoWindow });
   };
 
   const handleBlurAll = () => {
     if (!map) return;
-    prevFocusedCafeAndInfo?.infoWindow?.close();
-    setPrevFocusedCafeAndInfo(null);
+    focusedCafeAndInfo?.infoWindow?.close();
+    setFocusedCafeAndInfo(null);
   };
 
   const addMarkers = async ({

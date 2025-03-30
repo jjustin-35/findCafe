@@ -4,10 +4,11 @@ import { IconButton, TextField, Box, InputAdornment } from '@mui/material';
 import { ArrowBack as ArrowBackIcon, Search as SearchIcon } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { setIsSearching, getCafes } from '@/redux/cafes';
-import { Status } from '@/constants/types';
+import { getCafes } from '@/redux/cafes';
+import { SearchCafesData, Status } from '@/constants/types';
 import { Form } from './styled';
 import AdvancedSearch from '../AdvancedSearch';
+import { useState } from 'react';
 
 const StartIconButton = ({ onReturn }: { onReturn?: () => void }) => {
   return (
@@ -29,6 +30,7 @@ const EndIconButton = () => (
 
 const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBack?: () => void }) => {
   const { register, handleSubmit, watch } = useForm();
+  const [advancedSearch, setAdvancedSearch] = useState<SearchCafesData | null>(null);
   const { status, currentLocation } = useAppSelector((state) => state.cafes);
   const dispatch = useAppDispatch();
 
@@ -41,21 +43,17 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
   const onSubmit = async ({ keyword }: { keyword: string }) => {
     if (!keyword) return;
 
-    dispatch(getCafes({ keyword }));
-    dispatch(setIsSearching(true));
+    dispatch(getCafes({ keyword, isSearching: true, ...advancedSearch }));
   };
 
   const handleFilterChange = ({ tags, area, minRating }: { tags: string[]; area: string; minRating: number }) => {
     const keyword = watch('keyword');
-    dispatch(
-      getCafes({
-        keyword,
-        areaKey: area,
-        rank: minRating,
-        tags,
-      }),
-    );
-    dispatch(setIsSearching(true));
+    setAdvancedSearch({
+      keyword,
+      areaKey: area,
+      rank: minRating,
+      tags,
+    });
   };
 
   if (status === Status.IDLE) {
