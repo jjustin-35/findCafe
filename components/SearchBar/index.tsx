@@ -9,6 +9,7 @@ import { SearchCafesData, Status } from '@/constants/types';
 import { Form } from './styled';
 import AdvancedSearch from '../AdvancedSearch';
 import { useState } from 'react';
+import { isEmpty } from '@/helpers/object';
 
 const StartIconButton = ({ onReturn }: { onReturn?: () => void }) => {
   return (
@@ -37,14 +38,23 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
   const onReturn = () => {
     if (!currentLocation || !hasReturnBtn) return;
     if (moveBack) moveBack();
+    if (isCafeDetail) {
+      dispatch(setIsCafeDetail(false));
+      return;
+    }
     if (isSearching) dispatch(getCafes({ position: currentLocation, isSearching: false }));
-    if (isCafeDetail) dispatch(setIsCafeDetail(false));
   };
 
   const onSubmit = async ({ keyword }: { keyword: string }) => {
-    if (!keyword) return;
-
-    dispatch(getCafes({ keyword, isSearching: true, ...advancedSearch }));
+    if (!keyword && isEmpty(advancedSearch)) return;
+    const { area, areaKey, position } = advancedSearch || {};
+    const searchPosition = (() => {
+      if (position) return position;
+      if (area || areaKey) return null;
+      if (currentLocation) return currentLocation;
+      return null;
+    })();
+    dispatch(getCafes({ keyword, isSearching: true, areaKey, position: searchPosition, ...advancedSearch }));
   };
 
   const handleFilterChange = ({ tags, area, minRating }: { tags: string[]; area: string; minRating: number }) => {

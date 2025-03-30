@@ -60,6 +60,8 @@ export const getCafes = createAsyncThunk(
   async (searchContent: SearchCafesData & { isSearching?: boolean; isCafeDetail?: boolean }, thunkAPI) => {
     try {
       const { isSearching, ...content } = searchContent;
+      thunkAPI.dispatch(setIsSearching(isSearching));
+
       const cafes = await getCafesApi(content);
       const newCafes = cafes.map((cafe) => {
         const averageRating = tags.reduce((acc, tag) => acc + cafe[tag], 0) / tags.length;
@@ -73,7 +75,7 @@ export const getCafes = createAsyncThunk(
         return thunkAPI.rejectWithValue('No cafes found');
       }
 
-      return { cafes: newCafes, isSearching };
+      return { cafes: newCafes };
     } catch (error) {
       console.error(error);
       return thunkAPI.rejectWithValue(error);
@@ -132,7 +134,6 @@ const cafeSlice = createSlice({
     });
     builder.addCase(getCafes.fulfilled, (state, action) => {
       state.cafes = action.payload.cafes;
-      state.isSearching = action.payload.isSearching;
       state.isCafeDetail = false;
       state.status = Status.FULFILLED;
     });

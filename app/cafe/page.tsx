@@ -10,7 +10,7 @@ import Map from '@/components/Map';
 import { CafeData } from '@/constants/types';
 
 const Cafe = () => {
-  const { currentLocation, cafes, cafeDetail, status, isCafeDetail } = useAppSelector(
+  const { currentLocation, cafes, cafeDetail, status, isCafeDetail, isSearching } = useAppSelector(
     (state) => state.cafes,
   );
   const dispatch = useAppDispatch();
@@ -51,7 +51,7 @@ const Cafe = () => {
 
   return (
     <>
-      <SearchBar hasReturnBtn={isCafeDetail} moveBack={moveBack} />
+      <SearchBar hasReturnBtn={isCafeDetail || isSearching} moveBack={moveBack} />
       <Map mapRef={mapRef} />
       <CafeList cafes={cafeList} status={status} moveTo={moveTo} />
     </>

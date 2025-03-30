@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { CafeData, Position } from '@/constants/types';
 import { theme } from '@/style/theme';
@@ -14,11 +14,13 @@ const useMap = () => {
   const [curLocationTemp, setCurLocationTemp] = useState<Position | null>(null);
   const [cafesList, setCafesList] = useState<CafeData[]>([]);
   const [cafeListOri, setCafeListOri] = useState<CafeData[]>([]);
-  const [cafeMarkers, setCafeMarkers] = useState<{
-    cafeId: string;
-    marker: google.maps.marker.AdvancedMarkerElement;
-    onFocus: (info: CafeData) => void;
-  }[]>([]);
+  const [cafeMarkers, setCafeMarkers] = useState<
+    {
+      cafeId: string;
+      marker: google.maps.marker.AdvancedMarkerElement;
+      onFocus: (info: CafeData) => void;
+    }[]
+  >([]);
   const [focusedCafeAndInfo, setFocusedCafeAndInfo] = useState<{
     cafe: CafeData;
     infoWindow: google.maps.InfoWindow;
@@ -96,33 +98,30 @@ const useMap = () => {
   }, [map, cafesList, isCafeDetail]);
 
   // // handle cafe focus
-  // useEffect(() => {
-  //   if (!map) return;
-  //   prevFocusedCafeAndInfo?.infoWindow?.close();
-  //   setPrevFocusedCafeAndInfo(focusedCafeAndInfo);
-  // }, [map, focusedCafeAndInfo]);
-
-  const handleCafeFocus = (cafe: CafeData, marker: google.maps.marker.AdvancedMarkerElement) => {
+  useEffect(() => {
     if (!map) return;
+    prevFocusedCafeAndInfo?.infoWindow?.close();
+    setPrevFocusedCafeAndInfo(focusedCafeAndInfo);
+  }, [map, focusedCafeAndInfo]);
 
-    const infoWindow = new google.maps.InfoWindow({
-      content: `<div style="font-size: 14px; text-align: center">${cafe.name}</div>`,
-    });
-    map.panTo({
-      lat: cafe.latitude,
-      lng: cafe.longitude,
-    });
-    infoWindow.open({
-      map,
-      anchor: marker,
-    });
+  const handleCafeFocus = 
+    (cafe: CafeData, marker: google.maps.marker.AdvancedMarkerElement) => {
+      if (!map) return;
 
-    if (focusedCafeAndInfo) {
-      console.log(focusedCafeAndInfo);
-      focusedCafeAndInfo.infoWindow.close();
-    }
-    setFocusedCafeAndInfo({ cafe, infoWindow });
-  };
+      const infoWindow = new google.maps.InfoWindow({
+        content: `<div style="font-size: 14px; text-align: center">${cafe.name}</div>`,
+      });
+      map.panTo({
+        lat: cafe.latitude,
+        lng: cafe.longitude,
+      });
+      infoWindow.open({
+        map,
+        anchor: marker,
+      });
+
+      setFocusedCafeAndInfo({ cafe, infoWindow });
+    };
 
   const handleBlurAll = () => {
     if (!map) return;

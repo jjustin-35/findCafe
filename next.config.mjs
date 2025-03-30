@@ -6,7 +6,7 @@ global.env = secureEnv({ secret: process.env.PASSWORD });
 const nextConfig = {
   /* config options here */
   env: {
-    MONGODB_URL: global.env.MONGODB_URL,
+    DATABASE_URL: global.env.DATABASE_URL,
     GCP_MAP_KEY: global.env.GCP_MAP_KEY,
     GCP_MAP_ID: process.env.NODE_ENV === 'production' ? global.env.GCP_MAP_ID : ' DEMO_MAP_ID',
   },
