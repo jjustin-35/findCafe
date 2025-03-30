@@ -1,11 +1,24 @@
 import { Position, SearchCafesData } from "@/constants/types";
 import { getLoader } from "@/lib/mapLoader";
+import apiCache from "@/lib/apiCache";
 
 const loader = getLoader();
 
 // google map api
 export const searchByText = async (query: SearchCafesData, currentLocation: Position | null): Promise<google.maps.places.Place | null> => {
     try {
+        const cacheKey = apiCache.generateKey('searchByText', {
+          query,
+          currentLocation
+        });
+        
+        // Check if result exists in cache
+        const cachedResult = apiCache.getCache<google.maps.places.Place>(cacheKey);
+        if (cachedResult) {
+          console.log('Using cached result for:', query.keyword);
+          return cachedResult;
+        }
+        
         const { Place } = await loader.importLibrary('places');
 
         const request = {
@@ -26,8 +39,15 @@ export const searchByText = async (query: SearchCafesData, currentLocation: Posi
             return null;
         }
 
-        console.log('Found place:', places[0].displayName, 'with ID:', places[0].id);
-        return places[0] || null;
+        const result = places[0] || null;
+        console.log('Found place:', result?.displayName, 'with ID:', result?.id);
+        
+        // Store result in cache
+        if (result) {
+          apiCache.setCache(cacheKey, result);
+        }
+        
+        return result;
 
     } catch (error) {
         console.error('Error searching place by text:', error);
@@ -37,9 +57,27 @@ export const searchByText = async (query: SearchCafesData, currentLocation: Posi
 
 export const searchNearby = async (currentLocation: Position | null) => {
     try {
+        // If no location info, return empty array
+        if (!currentLocation) {
+          return [];
+        }
+        
+        // Generate cache key
+        const cacheKey = apiCache.generateKey('searchNearby', {
+          lat: currentLocation.lat,
+          lng: currentLocation.lng
+        });
+        
+        // Check if result exists in cache
+        const cachedResult = apiCache.getCache<google.maps.places.Place[]>(cacheKey);
+        if (cachedResult) {
+          console.log('Using cached nearby results for location:', currentLocation);
+          return cachedResult;
+        }
+        
         const { Place } = await loader.importLibrary('places');
 
-        const center = new google.maps.LatLng(currentLocation?.lat, currentLocation?.lng);
+        const center = new google.maps.LatLng(currentLocation.lat, currentLocation.lng);
 
         const request: google.maps.places.SearchNearbyRequest = {
             fields: ['id', 'rating', 'photos'],
@@ -54,8 +92,14 @@ export const searchNearby = async (currentLocation: Position | null) => {
         };
 
         const result = await Place.searchNearby(request);
-
-        return result?.places || [];
+        const places = result?.places || [];
+        
+        // Store result in cache
+        if (places.length > 0) {
+          apiCache.setCache(cacheKey, places);
+        }
+        
+        return places;
     } catch (error) {
         console.error('Error searching place by text:', error);
         return [];
