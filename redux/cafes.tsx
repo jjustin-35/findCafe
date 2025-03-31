@@ -98,6 +98,7 @@ const cafeSlice = createSlice({
     },
     setCafeDetail: (state, action: PayloadAction<CafeData>) => {
       state.cafeDetail = action.payload;
+      state.isCafeDetail = true;
     },
     clearSearchStates: (state) => {
       state = { ...initialState };
