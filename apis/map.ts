@@ -30,7 +30,7 @@ export const searchByText = async (
       includedType: 'cafe',
       locationBias: currentLocation || undefined,
       maxResultCount: 20,
-      minRating: query.rank,
+      minRating: query.rating,
       language: 'zh-TW',
       region: 'TW',
     };

@@ -11,7 +11,7 @@ const drawerBleeding = 56;
 const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: string; children: React.ReactNode }) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
-  const { isSearching } = useAppSelector((state) => state.cafes);
+  const { isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -20,8 +20,8 @@ const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: stri
       return;
     }
 
-    if (!isOpen && isSearching) setIsOpen(true);
-  }, [cafes]);
+    if ((!isOpen && isSearching) || (!isOpen && isCafeDetail)) setIsOpen(true);
+  }, [cafes, isSearching, isCafeDetail]);
 
   return (
     // passive event listener issue: https://github.com/mui/material-ui/issues/37814

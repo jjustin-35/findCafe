@@ -95,28 +95,10 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     // Filter by tags if specified
     if (tags && tags.length > 0) {
       filteredCafes = filteredCafes.filter((cafe) => {
-        return tags.every((tag) => {
-          switch (tag) {
-            case 'wifi':
-              return cafe.wifi >= 4;
-            case 'seat':
-              return cafe.seat >= 4;
-            case 'quiet':
-              return cafe.quiet >= 4;
-            case 'tasty':
-              return cafe.tasty >= 4;
-            case 'cheap':
-              return cafe.cheap >= 4;
-            case 'music':
-              return cafe.music >= 4;
-            default:
-              return true;
-          }
-        });
+        return tags.every((tag) => cafe[tag] >= 4);
       });
     }
 
-    // Transform the filtered cafes to include rank
     return filteredCafes.map((cafe) => ({
       ...cafe,
       latitude: parseFloat(cafe.latitude),

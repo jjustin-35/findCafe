@@ -1,3 +1,5 @@
+import { TagType } from "./tags";
+
 type ErrorResponse = {
   error?: {
     error_code: string;
@@ -48,9 +50,9 @@ export type SearchCafesData = {
   location?: string;
   position?: Position;
   keyword?: string;
-  rank?: number;
+  rating?: number;
   advantages?: CafeAdvantage[];
-  tags?: string[];
+  tags?: TagType[];
 };
 
 export type ImageData = {

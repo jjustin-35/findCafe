@@ -10,6 +10,7 @@ import { Form } from './styled';
 import AdvancedSearch from '../AdvancedSearch';
 import { useState } from 'react';
 import { isEmpty } from '@/helpers/object';
+import { TagType } from '@/constants/tags';
 
 const StartIconButton = ({ onReturn }: { onReturn?: () => void }) => {
   return (
@@ -57,12 +58,12 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
     dispatch(getCafes({ keyword, isSearching: true, areaKey, position: searchPosition, ...advancedSearch }));
   };
 
-  const handleFilterChange = ({ tags, area, minRating }: { tags: string[]; area: string; minRating: number }) => {
+  const handleFilterChange = ({ tags, area, minRating }: { tags: TagType[]; area: string; minRating: number }) => {
     const keyword = watch('keyword');
     setAdvancedSearch({
       keyword,
       areaKey: area,
-      rank: minRating,
+      rating: minRating,
       tags,
     });
   };
