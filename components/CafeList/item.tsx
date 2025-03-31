@@ -2,7 +2,7 @@
 
 import { Stack, Typography, Rating, Chip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { getCafeDetails } from '@/redux/cafes';
+import { setCafeDetail } from '@/redux/cafes';
 import { CafeData } from '@/constants/types';
 import { getTags } from '@/helpers/rankAndTags';
 import tagData from '@/constants/tags';
@@ -17,7 +17,7 @@ const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (cafe: CafeDat
 
   const onClick = () => {
     if (isCafeDetail) return;
-    dispatch(getCafeDetails({ cafe }));
+    dispatch(setCafeDetail(cafe));
     moveTo(cafe);
   };
 

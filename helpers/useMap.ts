@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { CafeData, Position } from '@/constants/types';
 import { theme } from '@/style/theme';
 import { isEqual } from '@/helpers/object';
-import { getCafeDetails } from '@/redux/cafes';
+import { setCafeDetail } from '@/redux/cafes';
 import { getLoader } from '@/lib/mapLoader';
 
 const loader = getLoader();
@@ -168,7 +168,7 @@ const useMap = () => {
       if (isCafe) {
         marker.addListener('click', () => {
           onFocus(info);
-          dispatch(getCafeDetails({ cafe: info }));
+          dispatch(setCafeDetail(info));
         });
       }
 

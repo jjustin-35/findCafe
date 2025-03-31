@@ -83,28 +83,6 @@ export const getCafes = createAsyncThunk(
   },
 );
 
-export const getCafeDetails = createAsyncThunk<CafeData, { cafe: CafeData }, { state: RootState }>(
-  'search/getCafeDetails',
-  async ({ cafe }, { rejectWithValue }) => {
-    try {
-      // Fetch rating and images from Google Place API
-      // const result = await searchByText({ keyword: cafe.name }, { lat: cafe.latitude, lng: cafe.longitude });
-
-      // const images =
-      //   result?.photos?.map((photo, idx) => ({
-      //     src: photo.getURI(),
-      //     alt: `img-${cafe.name}-${idx}`,
-      //   })) || [];
-      // const rating = result?.rating || null;
-
-      return { ...cafe, images: [] };
-    } catch (error) {
-      console.error('Error fetching cafe details:', error);
-      return rejectWithValue(error);
-    }
-  },
-);
-
 const cafeSlice = createSlice({
   name: 'cafes',
   initialState,
@@ -117,6 +95,9 @@ const cafeSlice = createSlice({
     },
     setIsCafeDetail: (state, action: PayloadAction<boolean>) => {
       state.isCafeDetail = action.payload;
+    },
+    setCafeDetail: (state, action: PayloadAction<CafeData>) => {
+      state.cafeDetail = action.payload;
     },
     clearSearchStates: (state) => {
       state = { ...initialState };
@@ -144,21 +125,9 @@ const cafeSlice = createSlice({
       state.error = action.error.message || 'An error occurred';
       state.status = Status.FULFILLED;
     });
-    builder.addCase(getCafeDetails.pending, (state) => {
-      state.status = Status.PENDING;
-    });
-    builder.addCase(getCafeDetails.fulfilled, (state, action) => {
-      state.cafeDetail = action.payload;
-      state.isCafeDetail = true;
-      state.status = Status.FULFILLED;
-    });
-    builder.addCase(getCafeDetails.rejected, (state, action) => {
-      state.error = action.error.message || 'An error occurred';
-      state.status = Status.FULFILLED;
-    });
   },
 });
 
-export const { setErr, setIsSearching, setIsCafeDetail, clearSearchStates } = cafeSlice.actions;
+export const { setErr, setIsSearching, setIsCafeDetail, setCafeDetail, clearSearchStates } = cafeSlice.actions;
 
 export default cafeSlice.reducer;

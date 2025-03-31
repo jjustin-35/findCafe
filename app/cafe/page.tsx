@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
-import { getCafes, getCurrentLocation, clearSearchStates, getCafeDetails } from '@/redux/cafes';
+import { getCafes, getCurrentLocation, clearSearchStates } from '@/redux/cafes';
 import useMap from '@/helpers/useMap';
 import SearchBar from '@/components/SearchBar';
 import CafeList from '@/components/CafeList';
