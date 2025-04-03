@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { useState } from 'react';
-import { List, ListItem, Button, IconButton, Drawer, Typography } from '@mui/material';
+import { List, ListItem, IconButton, Drawer, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const MobileMenuItems = ({ isAuth }: { isAuth: boolean }) => {
+const MobileMenuItems = () => {
   return (
     <List>
       <ListItem>
@@ -47,7 +47,7 @@ const MobileMenuItems = ({ isAuth }: { isAuth: boolean }) => {
   );
 };
 
-const MobileMenu = ({ isAuth }: { isAuth: boolean }) => {
+const MobileMenu = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -90,7 +90,7 @@ const MobileMenu = ({ isAuth }: { isAuth: boolean }) => {
           }),
         ]}
       >
-        <MobileMenuItems isAuth={isAuth} />
+        <MobileMenuItems />
       </Drawer>
     </>
   );

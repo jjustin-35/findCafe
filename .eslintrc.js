@@ -9,9 +9,12 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'plugin:security/recommended',
+    'next',
   ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2021,
     ecmaFeatures: {
@@ -20,7 +23,7 @@ module.exports = {
     },
     sourceType: 'module',
   },
-  plugins: ['react', 'jest', 'prettier', 'security'],
+  plugins: ['react', 'jest', 'prettier', 'security', '@typescript-eslint'],
   settings: {
     react: {
       version: 'detect',
@@ -28,5 +31,8 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ['error', { jsxSingleQuote: false }],
+    'react/react-in-jsx-scope': 'off', // React 17+ 不需要在 JSX 中引入 React
+    '@typescript-eslint/no-unused-vars': ['warn'],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
 };

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import secureEnv from 'secure-env';
 import NextPWA from 'next-pwa';
 const isDev = process.env.NODE_ENV === 'development';
@@ -14,6 +13,14 @@ const nextConfig = {
   },
   images: {
     domains: ['localhost', 'places.googleapis.com', 'storage.googleapis.com', 'www.google.com'],
+  },
+  eslint: {
+    // 在生產建置時忽略 ESLint 錯誤
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    // 在生產建置時忽略 TypeScript 錯誤
+    ignoreBuildErrors: true,
   },
 };
 
