@@ -1,7 +1,8 @@
 // @ts-nocheck
 import secureEnv from 'secure-env';
 import NextPWA from 'next-pwa';
-global.env = secureEnv({ secret: process.env.PASSWORD });
+const isDev = process.env.NODE_ENV === 'development';
+global.env = isDev ? secureEnv({ secret: process.env.PASSWORD }) : process.env;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,7 +10,7 @@ const nextConfig = {
   env: {
     DATABASE_URL: global.env.DATABASE_URL,
     GCP_MAP_KEY: global.env.GCP_MAP_KEY,
-    GCP_MAP_ID: process.env.NODE_ENV === 'production' ? global.env.GCP_MAP_ID : ' DEMO_MAP_ID',
+    GCP_MAP_ID: isDev ? 'DEMO_MAP_ID' : global.env.GCP_MAP_ID,
   },
   images: {
     domains: ['localhost', 'places.googleapis.com', 'storage.googleapis.com', 'www.google.com'],
@@ -18,7 +19,7 @@ const nextConfig = {
 
 const withPWA = NextPWA({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
+  disable: isDev,
   register: true,
   skipWaiting: true,
   runtimeCaching: [
