@@ -5,6 +5,7 @@ import { ApiCafeData, CafeData, SearchCafesData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
 import { delay } from '@/helpers/time';
 import { generateKey, getCache, setCache } from '@/lib/apiCache';
+import { tags as allTags } from '@/constants/tags';
 
 export const getAreas = async (city?: string) => {
   try {
@@ -32,7 +33,7 @@ export const getAreas = async (city?: string) => {
 };
 
 export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
-  const { areaKey, district, location, position, keyword, tags } = data;
+  const { areaKey, district, location, position, keyword, tags, rating } = data;
 
   const distance = 0.01;
   const scope = position && {
@@ -59,7 +60,17 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
       });
     }
 
-    let filteredCafes = cafes?.length ? cafes : [];
+    let filteredCafes: CafeData[] = cafes?.length
+      ? cafes.map((cafe) => {
+          const averageRating = allTags.reduce((acc, tag) => acc + (cafe?.[tag] || 0), 0) / allTags.length;
+          return {
+            ...cafe,
+            rating: averageRating,
+            latitude: Number(cafe.latitude),
+            longitude: Number(cafe.longitude),
+          };
+        })
+      : [];
 
     // Filter by area/district if specified
     if (areaKey || district) {
@@ -67,6 +78,13 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
         if (areaKey && !cafe.city.includes(areaKey)) return false;
         if (district && !cafe.address.includes(district)) return false;
         return true;
+      });
+    }
+
+    // Filter by rating if specified
+    if (rating) {
+      filteredCafes = filteredCafes.filter((cafe) => {
+        return cafe.rating >= rating;
       });
     }
 
@@ -78,8 +96,8 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     // Filter by position if specified
     if (scope) {
       filteredCafes = filteredCafes.filter((cafe) => {
-        const lat = parseFloat(cafe.latitude);
-        const lng = parseFloat(cafe.longitude);
+        const lat = cafe.latitude;
+        const lng = cafe.longitude;
         return lat >= scope.minLat && lat <= scope.maxLat && lng >= scope.minLng && lng <= scope.maxLng;
       });
     }
@@ -95,15 +113,14 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     // Filter by tags if specified
     if (tags && tags.length > 0) {
       filteredCafes = filteredCafes.filter((cafe) => {
-        return tags.every((tag) => cafe[tag] >= 4);
+        return tags.every((tag) => (cafe?.[tag] || 0) >= 4);
       });
     }
 
-    return filteredCafes.map((cafe) => ({
-      ...cafe,
-      latitude: parseFloat(cafe.latitude),
-      longitude: parseFloat(cafe.longitude),
-    }));
+    // sort by rating
+    filteredCafes = filteredCafes.sort((a, b) => b.rating - a.rating);
+
+    return filteredCafes;
   } catch (error) {
     console.error(error);
     return [];
