@@ -10,12 +10,7 @@ export default function NotFound() {
       <Typography variant="h6" mb={4}>
         抱歉，您所尋找的頁面不存在。
       </Typography>
-      <Button
-        component={Link}
-        href="/"
-        variant="contained"
-        size="large"
-      >
+      <Button component={Link} href="/" variant="contained" size="large">
         返回首頁
       </Button>
     </Container>

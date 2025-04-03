@@ -1,12 +1,5 @@
-import { useState } from 'react';
-import {
-  IconButton,
-  Drawer,
-  Menu,
-  useTheme,
-  useMediaQuery,
-  Box,
-} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { IconButton, Drawer, Menu, useTheme, useMediaQuery, Box } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import { TagType } from '@/constants/tags';
 import FilterContent from './filter';
@@ -19,9 +12,11 @@ export interface FilterValues {
 
 interface AdvancedSearchProps {
   onFilterChange: (filters: FilterValues) => void;
+  shallClearFilter: boolean;
+  onClearFilter: () => void;
 }
 
-const AdvancedSearch = ({ onFilterChange }: AdvancedSearchProps) => {
+const AdvancedSearch = ({ shallClearFilter, onFilterChange, onClearFilter }: AdvancedSearchProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -31,6 +26,17 @@ const AdvancedSearch = ({ onFilterChange }: AdvancedSearchProps) => {
     area: '',
     minRating: 0,
   });
+
+  useEffect(() => {
+    if (shallClearFilter) {
+      setFilters({
+        tags: [],
+        area: '',
+        minRating: 0,
+      });
+      onClearFilter();
+    }
+  }, [shallClearFilter]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (isDesktop) {
@@ -51,7 +57,6 @@ const AdvancedSearch = ({ onFilterChange }: AdvancedSearchProps) => {
   const handleFilter = (data: Record<string, any>) => {
     setFilters({ ...filters, ...data });
   };
-
 
   return (
     <>
@@ -81,11 +86,7 @@ const AdvancedSearch = ({ onFilterChange }: AdvancedSearchProps) => {
           />
         </Menu>
       ) : (
-        <Drawer
-          anchor="left"
-          open={isDrawerOpen}
-          onClose={handleClose}
-        >
+        <Drawer anchor="left" open={isDrawerOpen} onClose={handleClose}>
           <Box sx={{ mt: '64px' }}>
             <FilterContent
               filters={filters}

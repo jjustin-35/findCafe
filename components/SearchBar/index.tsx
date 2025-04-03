@@ -5,12 +5,12 @@ import { ArrowBack as ArrowBackIcon, Search as SearchIcon } from '@mui/icons-mat
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { getCafes, setIsCafeDetail } from '@/redux/cafes';
-import { SearchCafesData, Status } from '@/constants/types';
+import { Status } from '@/constants/types';
 import { Form } from './styled';
 import AdvancedSearch from '../AdvancedSearch';
-import { useState } from 'react';
 import { isEmpty } from '@/helpers/object';
 import { TagType } from '@/constants/tags';
+import { useState } from 'react';
 
 const StartIconButton = ({ onReturn }: { onReturn?: () => void }) => {
   return (
@@ -32,12 +32,13 @@ const EndIconButton = () => (
 
 const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBack?: () => void }) => {
   const { register, handleSubmit, watch } = useForm();
-  const [advancedSearch, setAdvancedSearch] = useState<SearchCafesData | null>(null);
   const { status, currentLocation, isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
   const dispatch = useAppDispatch();
+  const [shallClearFilter, setShallClearFilter] = useState(false);
 
   const onReturn = () => {
     if (!currentLocation || !hasReturnBtn) return;
+    setShallClearFilter(true);
     if (moveBack) moveBack();
     if (isCafeDetail) {
       dispatch(setIsCafeDetail(false));
@@ -46,26 +47,24 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
     if (isSearching) dispatch(getCafes({ position: currentLocation, isSearching: false }));
   };
 
-  const onSubmit = async ({ keyword }: { keyword: string }) => {
-    if (!keyword && isEmpty(advancedSearch)) return;
-    const { area, areaKey, position } = advancedSearch || {};
+  const onClearFilter = () => {
+    setShallClearFilter(false);
+  };
+
+  const onSubmit = async (data: { keyword: string; areaKey?: string; tags?: TagType[]; rating?: number }) => {
+    if (isEmpty(data)) return;
+    const { keyword, areaKey, tags, rating } = data;
     const searchPosition = (() => {
-      if (position) return position;
-      if (area || areaKey) return null;
+      if (areaKey) return null;
       if (currentLocation) return currentLocation;
       return null;
     })();
-    dispatch(getCafes({ keyword, isSearching: true, areaKey, position: searchPosition, ...advancedSearch }));
+    dispatch(getCafes({ keyword, isSearching: true, areaKey, position: searchPosition, tags, rating }));
   };
 
-  const handleFilterChange = ({ tags, area, minRating }: { tags: TagType[]; area: string; minRating: number }) => {
+  const handleFilterChange = ({ tags, area, minRating }: { tags?: TagType[]; area?: string; minRating?: number }) => {
     const keyword = watch('keyword');
-    setAdvancedSearch({
-      keyword,
-      areaKey: area,
-      rating: minRating,
-      tags,
-    });
+    onSubmit({ keyword, areaKey: area, tags, rating: minRating });
   };
 
   if (status === Status.IDLE) {
@@ -105,7 +104,11 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
                 endAdornment: (
                   <Box display="flex">
                     <EndIconButton />
-                    <AdvancedSearch onFilterChange={handleFilterChange} />
+                    <AdvancedSearch
+                      shallClearFilter={shallClearFilter}
+                      onFilterChange={handleFilterChange}
+                      onClearFilter={onClearFilter}
+                    />
                   </Box>
                 ),
                 sx: {
