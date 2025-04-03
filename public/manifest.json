@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "FindCafe",
+  "name": "FindCafe - 尋找您附近的咖啡廳",
   "icons": [
     {
       "src": "favicon.ico",
@@ -16,10 +16,19 @@
       "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#4A6572",
+  "background_color": "#F9AA33",
+  "orientation": "portrait",
+  "description": "快速找到您附近的咖啡廳，查看評分、營業時間和設施"
 }
