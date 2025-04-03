@@ -9,7 +9,7 @@ import { getLoader } from '@/lib/mapLoader';
 const loader = getLoader();
 
 const useMap = () => {
-  const { currentLocation, isSearching, isCafeDetail, cafeDetail } = useAppSelector((state) => state.cafes);
+  const { currentLocation, isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [curLocationTemp, setCurLocationTemp] = useState<Position | null>(null);
   const [cafesList, setCafesList] = useState<CafeData[]>([]);
@@ -104,24 +104,23 @@ const useMap = () => {
     setPrevFocusedCafeAndInfo(focusedCafeAndInfo);
   }, [map, focusedCafeAndInfo]);
 
-  const handleCafeFocus = 
-    (cafe: CafeData, marker: google.maps.marker.AdvancedMarkerElement) => {
-      if (!map) return;
+  const handleCafeFocus = (cafe: CafeData, marker: google.maps.marker.AdvancedMarkerElement) => {
+    if (!map) return;
 
-      const infoWindow = new google.maps.InfoWindow({
-        content: `<div style="font-size: 14px; text-align: center">${cafe.name}</div>`,
-      });
-      map.panTo({
-        lat: cafe.latitude,
-        lng: cafe.longitude,
-      });
-      infoWindow.open({
-        map,
-        anchor: marker,
-      });
+    const infoWindow = new google.maps.InfoWindow({
+      content: `<div style="font-size: 14px; text-align: center">${cafe.name}</div>`,
+    });
+    map.panTo({
+      lat: cafe.latitude,
+      lng: cafe.longitude,
+    });
+    infoWindow.open({
+      map,
+      anchor: marker,
+    });
 
-      setFocusedCafeAndInfo({ cafe, infoWindow });
-    };
+    setFocusedCafeAndInfo({ cafe, infoWindow });
+  };
 
   const handleBlurAll = () => {
     if (!map) return;

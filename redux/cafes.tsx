@@ -5,7 +5,6 @@ import getCurrentLocationApi from '@/helpers/getCurrentLocation';
 import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
-import { tags } from '@/constants/tags';
 // import { searchByText } from '@/apis/map';
 
 interface SearchState {
@@ -32,13 +31,13 @@ const initialState: SearchState = {
   detailStatus: Status.IDLE,
 };
 
-export const getAreas = createAsyncThunk('search/getAreas', async () => {
+export const getAreas = createAsyncThunk('cafes/getAreas', async () => {
   const areas = await getAreasApi();
   return areas;
 });
 
 export const getCurrentLocation = createAsyncThunk<Position, void, { state: RootState }>(
-  'search/getCurrentLocation',
+  'cafes/getCurrentLocation',
   async (_, { getState, rejectWithValue }) => {
     try {
       const { currentLocation: oriLocation } = getState().cafes;
@@ -56,7 +55,7 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
 );
 
 export const getCafes = createAsyncThunk(
-  'search/getCafes',
+  'cafes/getCafes',
   async (searchContent: SearchCafesData & { isSearching?: boolean; isCafeDetail?: boolean }, thunkAPI) => {
     try {
       const { isSearching, ...content } = searchContent;
@@ -64,10 +63,9 @@ export const getCafes = createAsyncThunk(
 
       const cafes = await getCafesApi(content);
       const newCafes = cafes.map((cafe) => {
-        const averageRating = tags.reduce((acc, tag) => acc + cafe[tag], 0) / tags.length;
         return {
           ...cafe,
-          rating: averageRating,
+          rating: cafe.rating,
         };
       });
 

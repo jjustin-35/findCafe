@@ -82,7 +82,7 @@ export const searchNearby = async (currentLocation: Position | null) => {
     const center = new google.maps.LatLng(currentLocation.lat, currentLocation.lng);
 
     const request: google.maps.places.SearchNearbyRequest = {
-      fields: ['id', 'rating', 'photos'],
+      fields: ['id', 'rating', 'photos', 'openingHours', 'website', 'formattedAddress', 'location'],
       includedTypes: ['cafe'],
       locationRestriction: {
         center: center,
