@@ -76,8 +76,8 @@ export type ApiCafeData = {
   address: string;
   latitude: string;
   longitude: string;
-  limited_time: 'yes' | 'no';
-  socket: 'yes' | 'no';
+  limited_time: 'yes' | 'maybe' | 'no';
+  socket: 'yes' | 'maybe' | 'no';
   standing_desk: 'yes' | 'no';
   mrt: string;
   open_time: string;

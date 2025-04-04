@@ -5,7 +5,7 @@ import { defaultPosition } from '@/constants/position';
 
 const loader = getLoader();
 
-const fields = ['id', 'name', 'rating', 'photos', 'website', 'location', 'googleMapsLinks'];
+const fields = ['id', 'displayName', 'rating', 'photos', 'location', 'formattedAddress'];
 
 // google map api
 export const searchByText = async (
@@ -57,11 +57,6 @@ export const searchByText = async (
 
 export const searchNearby = async (currentLocation = defaultPosition) => {
   try {
-    // If no location info, return empty array
-    if (!currentLocation) {
-      return [];
-    }
-
     // Generate cache key
     const cacheKey = generateKey('searchNearby', {
       lat: currentLocation.lat,
@@ -101,7 +96,7 @@ export const searchNearby = async (currentLocation = defaultPosition) => {
 
     return places;
   } catch (error) {
-    console.error('Error searching place by text:', error);
+    console.error('Error searching place by nearby:', error);
     return [];
   }
 };

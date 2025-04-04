@@ -29,7 +29,9 @@ const List = ({ cafes, status, moveTo }: { cafes: CafeData[]; status: Status; mo
   })();
 
   return (
-    <CafeBoard cafes={cafes} title="咖啡廳">{content}</CafeBoard>
+    <CafeBoard cafes={cafes} title="咖啡廳">
+      {content}
+    </CafeBoard>
   );
 };
 

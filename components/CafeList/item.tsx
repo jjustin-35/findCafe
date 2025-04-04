@@ -4,7 +4,7 @@ import { Stack, Typography, Rating, Chip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setCafeDetail } from '@/redux/cafes';
 import { CafeData } from '@/constants/types';
-import { getTags } from '@/helpers/rankAndTags';
+import { getTags } from '@/helpers/getTags';
 import tagData from '@/constants/tags';
 import Images from '../Images';
 
@@ -43,10 +43,14 @@ const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (cafe: CafeDat
         <Typography marginBottom={1} variant="body1" component="p" color="text.secondary">
           {address}
         </Typography>
-        <Typography variant="body1" component="a" href={cafe?.mapLink} color="text.secondary">
-          前往 google map →
-        </Typography>
-        <Images images={images} />
+        {isCafeDetail && (
+          <>
+            <Typography variant="body1" component="a" href={cafe?.mapLink} color="text.secondary">
+              前往 google map →
+            </Typography>
+            <Images images={images} />
+          </>
+        )}
       </Stack>
     </Stack>
   );

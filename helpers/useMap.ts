@@ -163,12 +163,13 @@ const useMap = () => {
       const onFocus = (info: CafeData) => {
         handleCafeFocus(info, marker);
       };
+      const onMarkerClick = () => {
+        onFocus(info);
+        dispatch(setCafeDetail(info));
+      };
 
       if (isCafe) {
-        marker.addListener('click', () => {
-          onFocus(info);
-          dispatch(setCafeDetail(info));
-        });
+        marker.addListener('click', onMarkerClick);
       }
 
       return { cafeId: info?.id, marker, onFocus };

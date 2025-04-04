@@ -5,7 +5,9 @@ import { ApiCafeData, CafeData, SearchCafesData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
 import { delay } from '@/helpers/time';
 import { generateKey, getCache, setCache } from '@/lib/apiCache';
-import { tags as allTags } from '@/constants/tags';
+import { tagsWithoutRating, TagType } from '@/constants/tags';
+import isPropertyOf from '@/helpers/isPropertyOf';
+import { getTags } from '@/helpers/getTags';
 
 export const getAreas = async (city?: string) => {
   try {
@@ -62,10 +64,8 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
 
     let filteredCafes: CafeData[] = cafes?.length
       ? cafes.map((cafe) => {
-          const averageRating = allTags.reduce((acc, tag) => acc + (cafe?.[tag] || 0), 0) / allTags.length;
           return {
             ...cafe,
-            rating: averageRating,
             latitude: Number(cafe.latitude),
             longitude: Number(cafe.longitude),
           };
@@ -113,12 +113,10 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
     // Filter by tags if specified
     if (tags && tags.length > 0) {
       filteredCafes = filteredCafes.filter((cafe) => {
-        return tags.every((tag) => (cafe?.[tag] || 0) >= 4);
+        const cafeTags = getTags(cafe);
+        return tags.every((tag) => cafeTags.includes(tag));
       });
     }
-
-    // sort by rating
-    filteredCafes = filteredCafes.sort((a, b) => b.rating - a.rating);
 
     return filteredCafes;
   } catch (error) {

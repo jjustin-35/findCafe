@@ -63,6 +63,7 @@ export const getCafes = createAsyncThunk(
       const { isSearching, ...content } = searchContent;
       thunkAPI.dispatch(setIsSearching(isSearching));
       let cafes: Partial<CafeData>[] = [];
+      const baseMapUrl = 'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=';
 
       if (!isSearching) {
         const resp = await searchNearby(content.position);
@@ -73,6 +74,8 @@ export const getCafes = createAsyncThunk(
             latitude: cafe.location.lat(),
             longitude: cafe.location.lng(),
             rating: cafe.rating,
+            mapLink: baseMapUrl + cafe.id,
+            address: cafe.formattedAddress,
             images:
               cafe.photos?.map((photo, idx) => ({
                 src: photo.getURI(),
@@ -89,6 +92,8 @@ export const getCafes = createAsyncThunk(
             latitude: cafe.location.lat(),
             longitude: cafe.location.lng(),
             rating: cafe.rating,
+            mapLink: baseMapUrl + cafe.id,
+            address: cafe.formattedAddress,
             images:
               cafe.photos?.map((photo, idx) => ({
                 src: photo.getURI(),
@@ -104,12 +109,13 @@ export const getCafes = createAsyncThunk(
           return isWithinDistance(
             { lat: cafe.latitude, lng: cafe.longitude },
             { lat: info.latitude, lng: info.longitude },
-            20,
+            10,
           );
         });
         return {
           ...(cafeInfo && cafeInfo),
           ...cafe,
+          info: cafeInfo,
         };
       });
 
@@ -117,7 +123,9 @@ export const getCafes = createAsyncThunk(
         return thunkAPI.rejectWithValue('No cafes found');
       }
 
-      return { cafes: newCafes };
+      const sortedCafes = newCafes.sort((a, b) => b.rating - a.rating);
+
+      return { cafes: sortedCafes };
     } catch (error) {
       console.error(error);
       return thunkAPI.rejectWithValue(error);
