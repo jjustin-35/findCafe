@@ -55,7 +55,7 @@ const FilterContent = ({
         </Select>
       </FormControl>
 
-      <FormControl fullWidth sx={{ mt: 2 }}>
+      {/* <FormControl fullWidth sx={{ mt: 2 }}>
         <InputLabel id="select-location-label" sx={{ px: 1, bgcolor: 'white' }}>
           地區
         </InputLabel>
@@ -70,7 +70,7 @@ const FilterContent = ({
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </FormControl> */}
 
       <Box sx={{ mt: 3 }}>
         <Typography gutterBottom>評分</Typography>
@@ -79,7 +79,7 @@ const FilterContent = ({
           onChange={(_, value) => handleFilter({ minRating: value })}
           min={0}
           max={5}
-          step={0.5}
+          step={1}
           marks
           valueLabelDisplay="auto"
         />

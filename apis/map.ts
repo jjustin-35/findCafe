@@ -10,12 +10,12 @@ const fields = ['id', 'displayName', 'rating', 'photos', 'location', 'formattedA
 // google map api
 export const searchByText = async (
   query: SearchCafesData,
-  currentLocation: Position | null,
+  location: Position | null,
 ): Promise<google.maps.places.Place[] | null> => {
   try {
     const cacheKey = generateKey('searchByText', {
       query,
-      currentLocation,
+      location,
     });
 
     // Check if result exists in cache
@@ -27,11 +27,11 @@ export const searchByText = async (
 
     const { Place } = await loader.importLibrary('places');
 
-    const request = {
-      textQuery: query.keyword,
+    const request: google.maps.places.SearchByTextRequest = {
+      ...(query.keyword && { textQuery: query.keyword }),
       fields,
       includedType: 'cafe',
-      locationBias: currentLocation || defaultPosition,
+      locationBias: location || defaultPosition,
       maxResultCount: 20,
       minRating: query.rating,
       language: 'zh-TW',
@@ -55,24 +55,24 @@ export const searchByText = async (
   }
 };
 
-export const searchNearby = async (currentLocation = defaultPosition) => {
+export const searchNearby = async (location = defaultPosition) => {
   try {
     // Generate cache key
     const cacheKey = generateKey('searchNearby', {
-      lat: currentLocation.lat,
-      lng: currentLocation.lng,
+      lat: location.lat,
+      lng: location.lng,
     });
 
     // Check if result exists in cache
     const cachedResult = getCache<google.maps.places.Place[]>(cacheKey);
     if (cachedResult) {
-      console.log('Using cached nearby results for location:', currentLocation);
+      console.log('Using cached nearby results for location:', location);
       return cachedResult;
     }
 
     const { Place } = await loader.importLibrary('places');
 
-    const center = new google.maps.LatLng(currentLocation.lat, currentLocation.lng);
+    const center = new google.maps.LatLng(location.lat, location.lng);
 
     const request: google.maps.places.SearchNearbyRequest = {
       fields,

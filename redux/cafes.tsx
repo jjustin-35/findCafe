@@ -5,8 +5,9 @@ import getCurrentLocationApi from '@/helpers/getCurrentLocation';
 import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
-import { searchByText, searchNearby } from '@/apis/map';
+import { searchNearby } from '@/apis/map';
 import { isWithinDistance } from '@/helpers/comparePosition';
+import filterCafes from '@/helpers/filterCafes';
 // import { searchByText } from '@/apis/map';
 
 interface SearchState {
@@ -65,45 +66,25 @@ export const getCafes = createAsyncThunk(
       let cafes: Partial<CafeData>[] = [];
       const baseMapUrl = 'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=';
 
-      if (!isSearching) {
-        const resp = await searchNearby(content.position);
-        cafes = resp?.map((cafe) => {
-          return {
-            id: cafe.id,
-            name: cafe.displayName,
-            latitude: cafe.location.lat(),
-            longitude: cafe.location.lng(),
-            rating: cafe.rating,
-            mapLink: baseMapUrl + cafe.id,
-            address: cafe.formattedAddress,
-            images:
-              cafe.photos?.map((photo, idx) => ({
-                src: photo.getURI(),
-                alt: `${cafe.displayName}-${idx + 1}`,
-              })) || [],
-          };
-        });
-      } else {
-        const result = await searchByText(content, content.position);
-        cafes = result?.map((cafe) => {
-          return {
-            id: cafe.id,
-            name: cafe.displayName,
-            latitude: cafe.location.lat(),
-            longitude: cafe.location.lng(),
-            rating: cafe.rating,
-            mapLink: baseMapUrl + cafe.id,
-            address: cafe.formattedAddress,
-            images:
-              cafe.photos?.map((photo, idx) => ({
-                src: photo.getURI(),
-                alt: `${cafe.displayName}-${idx + 1}`,
-              })) || [],
-          };
-        });
-      }
+      const resp = await searchNearby(content.position);
+      cafes = resp?.map((cafe) => {
+        return {
+          id: cafe.id,
+          name: cafe.displayName,
+          latitude: cafe.location.lat(),
+          longitude: cafe.location.lng(),
+          rating: cafe.rating,
+          mapLink: baseMapUrl + cafe.id,
+          address: cafe.formattedAddress,
+          images:
+            cafe.photos?.map((photo, idx) => ({
+              src: photo.getURI(),
+              alt: `${cafe.displayName}-${idx + 1}`,
+            })) || [],
+        };
+      });
 
-      const cafesInfo = await getCafesApi(content);
+      const cafesInfo = await getCafesApi();
       const newCafes = cafes.map((cafe) => {
         const cafeInfo = cafesInfo.find((info) => {
           return isWithinDistance(
@@ -123,7 +104,8 @@ export const getCafes = createAsyncThunk(
         return thunkAPI.rejectWithValue('No cafes found');
       }
 
-      const sortedCafes = newCafes.sort((a, b) => b.rating - a.rating);
+      const filteredCafes = filterCafes(newCafes, content);
+      const sortedCafes = filteredCafes.sort((a, b) => b.rating - a.rating);
 
       return { cafes: sortedCafes };
     } catch (error) {

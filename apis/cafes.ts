@@ -1,13 +1,10 @@
 'use server';
 
 import prisma from '@/lib/prisma';
-import { ApiCafeData, CafeData, SearchCafesData } from '@/constants/types';
+import { ApiCafeData, CafeData } from '@/constants/types';
 import { API_PATHS } from '@/constants/apiPaths';
 import { delay } from '@/helpers/time';
 import { generateKey, getCache, setCache } from '@/lib/apiCache';
-import { tagsWithoutRating, TagType } from '@/constants/tags';
-import isPropertyOf from '@/helpers/isPropertyOf';
-import { getTags } from '@/helpers/getTags';
 
 export const getAreas = async (city?: string) => {
   try {
@@ -34,21 +31,11 @@ export const getAreas = async (city?: string) => {
   }
 };
 
-export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
-  const { areaKey, district, location, position, keyword, tags, rating } = data;
-
-  const distance = 0.01;
-  const scope = position && {
-    minLat: position.lat - distance,
-    maxLat: position.lat + distance,
-    minLng: position.lng - distance,
-    maxLng: position.lng + distance,
-  };
-
+export const getCafes = async (): Promise<CafeData[]> => {
   try {
     let cafes: ApiCafeData[];
     const revalidate = 3600;
-    const cacheKey = generateKey('getCafes', { data });
+    const cacheKey = generateKey('getCafes', {});
     const cachedData = getCache<ApiCafeData[]>(cacheKey);
     if (cachedData?.length) {
       cafes = cachedData;
@@ -62,7 +49,7 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
       });
     }
 
-    let filteredCafes: CafeData[] = cafes?.length
+    const newCafes: CafeData[] = cafes?.length
       ? cafes.map((cafe) => {
           return {
             ...cafe,
@@ -72,53 +59,7 @@ export const getCafes = async (data: SearchCafesData): Promise<CafeData[]> => {
         })
       : [];
 
-    // Filter by area/district if specified
-    if (areaKey || district) {
-      filteredCafes = filteredCafes?.filter((cafe) => {
-        if (areaKey && !cafe.city.includes(areaKey)) return false;
-        if (district && !cafe.address.includes(district)) return false;
-        return true;
-      });
-    }
-
-    // Filter by rating if specified
-    if (rating) {
-      filteredCafes = filteredCafes.filter((cafe) => {
-        return cafe.rating >= rating;
-      });
-    }
-
-    // Filter by location if specified
-    if (location) {
-      filteredCafes = filteredCafes.filter((cafe) => cafe.address.includes(location) || cafe.city.includes(location));
-    }
-
-    // Filter by position if specified
-    if (scope) {
-      filteredCafes = filteredCafes.filter((cafe) => {
-        const lat = cafe.latitude;
-        const lng = cafe.longitude;
-        return lat >= scope.minLat && lat <= scope.maxLat && lng >= scope.minLng && lng <= scope.maxLng;
-      });
-    }
-
-    // Filter by keyword if specified
-    if (keyword) {
-      const searchKeyword = keyword.toLowerCase();
-      filteredCafes = filteredCafes.filter((cafe) => {
-        return cafe.name.toLowerCase().includes(searchKeyword) || cafe.address.toLowerCase().includes(searchKeyword);
-      });
-    }
-
-    // Filter by tags if specified
-    if (tags && tags.length > 0) {
-      filteredCafes = filteredCafes.filter((cafe) => {
-        const cafeTags = getTags(cafe);
-        return tags.every((tag) => cafeTags.includes(tag));
-      });
-    }
-
-    return filteredCafes;
+    return newCafes;
   } catch (error) {
     console.error(error);
     return [];
