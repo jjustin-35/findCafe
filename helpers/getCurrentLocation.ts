@@ -1,7 +1,14 @@
+import { defaultPosition } from '@/constants/position';
+import { isEmpty } from './object';
+
 const getCurrentLocation = async () => {
   const location = await new Promise<GeolocationPosition>((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(resolve, reject);
   });
+
+  if (isEmpty(location)) {
+    return defaultPosition;
+  }
 
   return {
     lat: location.coords.latitude,

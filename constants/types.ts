@@ -1,4 +1,4 @@
-import { TagType } from "./tags";
+import { TagType } from './tags';
 
 type ErrorResponse = {
   error?: {
@@ -88,6 +88,7 @@ export type CafeData = Omit<ApiCafeData, 'latitude' | 'longitude'> & {
   rating?: number;
   latitude: number;
   longitude: number;
+  mapLink?: string;
 };
 
 export type Position = {

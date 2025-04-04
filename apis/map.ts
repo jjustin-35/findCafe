@@ -1,14 +1,17 @@
 import { Position, SearchCafesData } from '@/constants/types';
 import { getLoader } from '@/lib/mapLoader';
 import { generateKey, getCache, setCache } from '@/lib/apiCache';
+import { defaultPosition } from '@/constants/position';
 
 const loader = getLoader();
+
+const fields = ['id', 'name', 'rating', 'photos', 'website', 'location', 'googleMapsLinks'];
 
 // google map api
 export const searchByText = async (
   query: SearchCafesData,
   currentLocation: Position | null,
-): Promise<google.maps.places.Place | null> => {
+): Promise<google.maps.places.Place[] | null> => {
   try {
     const cacheKey = generateKey('searchByText', {
       query,
@@ -16,7 +19,7 @@ export const searchByText = async (
     });
 
     // Check if result exists in cache
-    const cachedResult = getCache<google.maps.places.Place>(cacheKey);
+    const cachedResult = getCache<google.maps.places.Place[]>(cacheKey);
     if (cachedResult) {
       console.log('Using cached result for:', query.keyword);
       return cachedResult;
@@ -26,9 +29,9 @@ export const searchByText = async (
 
     const request = {
       textQuery: query.keyword,
-      fields: ['id', 'displayName', 'formattedAddress', 'location', 'rating', 'photos'],
+      fields,
       includedType: 'cafe',
-      locationBias: currentLocation || undefined,
+      locationBias: currentLocation || defaultPosition,
       maxResultCount: 20,
       minRating: query.rating,
       language: 'zh-TW',
@@ -42,22 +45,17 @@ export const searchByText = async (
       return null;
     }
 
-    const result = places[0] || null;
-    console.log('Found place:', result?.displayName, 'with ID:', result?.id);
-
     // Store result in cache
-    if (result) {
-      setCache(cacheKey, result);
-    }
+    setCache(cacheKey, places);
 
-    return result;
+    return places;
   } catch (error) {
     console.error('Error searching place by text:', error);
     return null;
   }
 };
 
-export const searchNearby = async (currentLocation: Position | null) => {
+export const searchNearby = async (currentLocation = defaultPosition) => {
   try {
     // If no location info, return empty array
     if (!currentLocation) {
@@ -82,7 +80,7 @@ export const searchNearby = async (currentLocation: Position | null) => {
     const center = new google.maps.LatLng(currentLocation.lat, currentLocation.lng);
 
     const request: google.maps.places.SearchNearbyRequest = {
-      fields: ['id', 'rating', 'photos', 'openingHours', 'website', 'formattedAddress', 'location'],
+      fields,
       includedTypes: ['cafe'],
       locationRestriction: {
         center: center,

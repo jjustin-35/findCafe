@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Prisma } from '@prisma/client';
-import { getAreas as getAreasApi, getCafes as getCafesApi } from '@/apis/search';
+import { getAreas as getAreasApi, getCafes as getCafesApi } from '@/apis/cafes';
 import getCurrentLocationApi from '@/helpers/getCurrentLocation';
 import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
+import { searchByText, searchNearby } from '@/apis/map';
+import { isWithinDistance } from '@/helpers/comparePosition';
 // import { searchByText } from '@/apis/map';
 
 interface SearchState {
@@ -60,12 +62,54 @@ export const getCafes = createAsyncThunk(
     try {
       const { isSearching, ...content } = searchContent;
       thunkAPI.dispatch(setIsSearching(isSearching));
+      let cafes: Partial<CafeData>[] = [];
 
-      const cafes = await getCafesApi(content);
+      if (!isSearching) {
+        const resp = await searchNearby(content.position);
+        cafes = resp?.map((cafe) => {
+          return {
+            id: cafe.id,
+            name: cafe.displayName,
+            latitude: cafe.location.lat(),
+            longitude: cafe.location.lng(),
+            rating: cafe.rating,
+            images:
+              cafe.photos?.map((photo, idx) => ({
+                src: photo.getURI(),
+                alt: `${cafe.displayName}-${idx + 1}`,
+              })) || [],
+          };
+        });
+      } else {
+        const result = await searchByText(content, content.position);
+        cafes = result?.map((cafe) => {
+          return {
+            id: cafe.id,
+            name: cafe.displayName,
+            latitude: cafe.location.lat(),
+            longitude: cafe.location.lng(),
+            rating: cafe.rating,
+            images:
+              cafe.photos?.map((photo, idx) => ({
+                src: photo.getURI(),
+                alt: `${cafe.displayName}-${idx + 1}`,
+              })) || [],
+          };
+        });
+      }
+
+      const cafesInfo = await getCafesApi(content);
       const newCafes = cafes.map((cafe) => {
+        const cafeInfo = cafesInfo.find((info) => {
+          return isWithinDistance(
+            { lat: cafe.latitude, lng: cafe.longitude },
+            { lat: info.latitude, lng: info.longitude },
+            20,
+          );
+        });
         return {
+          ...(cafeInfo && cafeInfo),
           ...cafe,
-          rating: cafe.rating,
         };
       });
 

@@ -1,4 +1,12 @@
 export const isEmpty = (obj: object): boolean => {
+  if (obj === null || obj === undefined) {
+    return true;
+  }
+
+  if (typeof obj !== 'object') {
+    return false;
+  }
+
   return Object.keys(obj).length === 0;
 };
 

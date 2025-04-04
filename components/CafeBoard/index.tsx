@@ -45,7 +45,9 @@ const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: stri
           </Typography>
         )}
       </Puller>
-      <Box overflow="auto" p={3} marginTop={{ mobile: 0, laptop: "64px" }}>{children}</Box>
+      <Box overflow="auto" p={3} marginTop={{ mobile: 0, laptop: '64px' }}>
+        {children}
+      </Box>
     </StyledDrawer>
   );
 };
