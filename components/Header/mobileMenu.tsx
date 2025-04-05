@@ -7,8 +7,8 @@ const MobileMenuItems = () => {
   return (
     <List>
       <ListItem>
-        <Link href="/search" style={{ width: '100%', textDecoration: 'none' }}>
-          <Typography variant="body1" textAlign="center">
+        <Link href="/cafe" style={{ width: '100%', textDecoration: 'none' }}>
+          <Typography color="primary.main" variant="body1" textAlign="center">
             搜尋咖啡廳
           </Typography>
         </Link>
@@ -48,10 +48,10 @@ const MobileMenuItems = () => {
 };
 
 const MobileMenu = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    setIsMobileOpen(!isMobileOpen);
   };
 
   return (
@@ -72,7 +72,7 @@ const MobileMenu = () => {
       <Drawer
         variant="temporary"
         anchor="right"
-        open={mobileOpen}
+        open={isMobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
           keepMounted: true, // Better mobile performance
@@ -83,6 +83,7 @@ const MobileMenu = () => {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: 240,
+              marginTop: '64px',
             },
           },
           (theme) => ({

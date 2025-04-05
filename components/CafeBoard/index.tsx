@@ -12,13 +12,13 @@ const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: stri
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
   const { isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
-    if (!cafes?.length) {
-      setIsOpen(false);
-      return;
-    }
+    // if (!cafes?.length) {
+    //   setIsOpen(false);
+    //   return;
+    // }
 
     if ((!isOpen && isSearching) || (!isOpen && isCafeDetail)) setIsOpen(true);
   }, [cafes, isSearching, isCafeDetail]);

@@ -33,8 +33,8 @@ const Header = () => {
             <Image src="/images/findCafe.svg" alt="icon-find-cafe" width={126} height={32} />
           </Stack>
 
-          <Menu isAuth={isAuth} />
-          <MobileMenu isAuth={isAuth} />
+          <Menu />
+          <MobileMenu />
         </Toolbar>
       </Container>
     </AppBar>

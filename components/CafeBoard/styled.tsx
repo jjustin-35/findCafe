@@ -2,6 +2,10 @@ import { grey } from '@mui/material/colors';
 import { styled, SwipeableDrawer } from '@mui/material';
 
 export const StyledDrawer = styled(SwipeableDrawer)`
+  &.MuiDrawer-modal {
+    top: unset;
+  }
+
   & .MuiDrawer-paper {
     background-color: ${({ theme }) => theme.palette.secondary.light};
     margin-top: 64px;

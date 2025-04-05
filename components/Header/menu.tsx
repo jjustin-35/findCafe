@@ -1,7 +1,7 @@
-import { Stack, Button } from '@mui/material';
+import { Stack } from '@mui/material';
 import Link from 'next/link';
 
-const Menu = ({ isAuth }: { isAuth: boolean }) => {
+const Menu = () => {
   return (
     <Stack
       direction="row"
