@@ -5,6 +5,9 @@ export const StyledDrawer = styled(SwipeableDrawer)`
   &.MuiDrawer-modal {
     top: unset;
   }
+  & .MuiModal-backdrop {
+    display: none;
+  }
 
   & .MuiDrawer-paper {
     background-color: ${({ theme }) => theme.palette.secondary.light};

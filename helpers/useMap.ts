@@ -108,6 +108,7 @@ const useMap = () => {
     if (!map) return;
 
     const infoWindow = new google.maps.InfoWindow({
+      headerDisabled: true,
       content: `<div style="font-size: 14px; text-align: center">${cafe.name}</div>`,
     });
     map.panTo({

@@ -24,7 +24,7 @@ export const theme = createTheme({
       main: '#f4d35e',
     },
     error: {
-      main: '#fff5f5', // Using $red-100 as $danger
+      main: '#ff0000',
     },
     grey: {
       50: '#f7f6f6', // lightest

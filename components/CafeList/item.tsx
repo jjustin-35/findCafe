@@ -1,16 +1,19 @@
 'use client';
 
-import { Stack, Typography, Rating, Chip } from '@mui/material';
+import { Stack, Typography, Rating, Chip, IconButton } from '@mui/material';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setCafeDetail } from '@/redux/cafes';
 import { CafeData } from '@/constants/types';
 import { getTags } from '@/helpers/getTags';
+import useFavorite from '@/helpers/useFavorite';
 import tagData from '@/constants/tags';
 import Images from '../Images';
 
 const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (cafe: CafeData) => void }) => {
   const dispatch = useAppDispatch();
   const { isCafeDetail } = useAppSelector((state) => state.cafes);
+  const { favoriteCafes, addFavorite, removeFavorite } = useFavorite();
   const { images, address, name } = cafe;
   const rating = Math.round(cafe?.rating || 0);
   const tags = getTags(cafe);
@@ -21,12 +24,27 @@ const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (cafe: CafeDat
     moveTo(cafe);
   };
 
+  const isFavorite = favoriteCafes.some((item) => item.id === cafe.id);
+
+  const handleFavorite = () => {
+    if (isFavorite) {
+      removeFavorite(cafe);
+    } else {
+      addFavorite(cafe);
+    }
+  };
+
   return (
     <Stack gap={2} onClick={onClick} sx={{ cursor: isCafeDetail ? 'default' : 'pointer' }}>
       <Stack direction="column" gap={1}>
-        <Typography variant="h6" component="h3" color="primary">
-          {name}
-        </Typography>
+        <Stack direction="row" gap={1} alignItems="start" justifyContent="space-between">
+          <Typography variant="h6" component="h3" color="primary">
+            {name}
+          </Typography>
+          <IconButton onClick={handleFavorite}>
+            {isFavorite ? <Favorite color="error" /> : <FavoriteBorder color="primary" />}
+          </IconButton>
+        </Stack>
         <Stack direction="row" gap={1} alignItems="center">
           <Rating value={rating} readOnly />
           <Typography variant="body1" color="text.secondary" component="span">
