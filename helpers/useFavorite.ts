@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
-import { CafeData } from '@/constants/types';
+import { CafeData, Status } from '@/constants/types';
 
 const useFavorite = () => {
+  const [loadingStatus, setLoadingStatus] = useState<Status>(Status.IDLE);
   const [favoriteCafes, setFavoriteCafes] = useState<CafeData[]>([]);
 
   useEffect(() => {
     if (!window) return;
+    setLoadingStatus(Status.PENDING);
     const savedCafes = localStorage.getItem('favoriteCafes');
     if (savedCafes) {
       setFavoriteCafes(JSON.parse(savedCafes));
     }
+    setLoadingStatus(Status.FULFILLED);
   }, []);
 
   const addFavorite = (cafe: CafeData) => {
@@ -25,7 +28,7 @@ const useFavorite = () => {
     localStorage.setItem('favoriteCafes', JSON.stringify(newCafes));
   };
 
-  return { favoriteCafes, addFavorite, removeFavorite };
+  return { favoriteCafes, addFavorite, removeFavorite, loadingStatus };
 };
 
 export default useFavorite;

@@ -3,25 +3,30 @@
 import { useRouter } from 'next/navigation';
 import { Box, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { CafeData } from '@/constants/types';
+import { CafeData, Status } from '@/constants/types';
 import { useAppDispatch } from '@/redux/hooks';
 import { setCafeDetail } from '@/redux/cafes';
 import useFavorite from '@/helpers/useFavorite';
 import CafeItem from './item';
+import CafeListLoader from '../Loaders/Cafe/cafeList';
 
 const FavoriteList = () => {
   const router = useRouter();
-  const { favoriteCafes, addFavorite, removeFavorite } = useFavorite();
+  const { favoriteCafes, addFavorite, removeFavorite, loadingStatus } = useFavorite();
   const dispatch = useAppDispatch();
 
   const moveTo = (cafe: CafeData) => {
     router.push(`/cafe`);
     setTimeout(() => {
       dispatch(setCafeDetail(cafe));
-    }, 500);
+    }, 300);
   };
 
   const content = (() => {
+    if (loadingStatus === Status.IDLE || loadingStatus === Status.PENDING) {
+      return <CafeListLoader />;
+    }
+
     if (!favoriteCafes?.length) {
       return (
         <Typography color={grey[500]} variant="h6" fontWeight="bold" textAlign="center">
