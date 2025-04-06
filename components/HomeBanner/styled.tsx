@@ -9,6 +9,7 @@ export const HomeBannerImage = styled('div')`
   background-repeat: no-repeat;
   min-height: 500px;
   align-content: center;
+  position: relative;
 `;
 
 export const Title = styled('h1')`
@@ -16,10 +17,6 @@ export const Title = styled('h1')`
   font-weight: bold;
   color: white;
   margin: 0 0 24px;
-
-  ${({ theme }) => theme.breakpoints.down('tablet')} {
-    text-align: start;
-  }
 `;
 
 export const SearchWrapper = styled('div')`

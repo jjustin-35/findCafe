@@ -48,7 +48,7 @@ const CafeListItem = ({
     <Stack gap={2} onClick={onClick} sx={{ cursor: isCafeDetail ? 'default' : 'pointer' }}>
       <Stack direction="column" gap={1}>
         <Stack direction="row" gap={1} alignItems="start" justifyContent="space-between">
-          <Typography variant="h6" component="h3" color="primary">
+          <Typography variant="h6" component="h3" color="primary" fontSize={{ mobile: 20, tablet: 24 }}>
             {name}
           </Typography>
           <IconButton onClick={handleFavorite}>
@@ -57,7 +57,7 @@ const CafeListItem = ({
         </Stack>
         <Stack direction="row" gap={1} alignItems="center">
           <Rating value={rating} readOnly />
-          <Typography variant="body1" color="text.secondary" component="span">
+          <Typography variant="body1" color="text.secondary" component="span" fontSize={{ mobile: 16, tablet: 20 }}>
             {!cafe?.rating ? '未評分' : rating}
           </Typography>
         </Stack>
@@ -68,12 +68,24 @@ const CafeListItem = ({
             ))}
           </Stack>
         )}
-        <Typography marginBottom={1} variant="body1" component="p" color="text.secondary">
+        <Typography
+          marginBottom={1}
+          variant="body1"
+          component="p"
+          color="text.secondary"
+          fontSize={{ mobile: 16, tablet: 20 }}
+        >
           {address}
         </Typography>
         {isCafeDetail && (
           <>
-            <Typography variant="body1" component="a" href={cafe?.mapLink} color="text.secondary">
+            <Typography
+              variant="body1"
+              component="a"
+              href={cafe?.mapLink}
+              color="text.secondary"
+              fontSize={{ mobile: 16, tablet: 20 }}
+            >
               前往 google map →
             </Typography>
             <Images images={images} />

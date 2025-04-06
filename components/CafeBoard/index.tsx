@@ -33,6 +33,7 @@ const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: stri
       disableSwipeToOpen={false}
       onClose={() => setIsOpen(false)}
       onOpen={() => setIsOpen(true)}
+      onFocus={(e: React.FocusEvent) => e.preventDefault()}
       ModalProps={{
         keepMounted: true,
       }}

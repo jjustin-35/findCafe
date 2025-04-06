@@ -7,7 +7,7 @@ import { Wrapper } from './styled';
 const HomeIntro = () => {
   return (
     <Box
-      marginTop={{
+      my={{
         mobile: '40px',
         laptop: '60px',
       }}
