@@ -13,7 +13,8 @@ const Map = ({ mapRef }: { mapRef: React.RefObject<HTMLDivElement> }) => {
           mobile: '100%',
           laptop: 'calc(100% - 400px)',
         },
-        height: 'calc(100vh - 64px)',
+        // 64px is the header height, 56px is the drawer height
+        height: 'calc(100vh - 64px - 56px)',
         ml: {
           mobile: 0,
           laptop: '400px',
