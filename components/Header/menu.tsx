@@ -1,5 +1,6 @@
 import { Stack } from '@mui/material';
 import Link from 'next/link';
+import data from './data';
 
 const Menu = () => {
   return (
@@ -11,15 +12,18 @@ const Menu = () => {
         display: { mobile: 'none', laptop: 'flex' },
       }}
     >
-      <Link
-        href="/cafe"
-        style={{
-          color: '#fff',
-          textDecoration: 'none',
-        }}
-      >
-        搜尋咖啡廳
-      </Link>
+      {data.map((item) => (
+        <Link
+          key={item.label}
+          href={item.href}
+          style={{
+            color: '#fff',
+            textDecoration: 'none',
+          }}
+        >
+          {item.label}
+        </Link>
+      ))}
       {/* {!isAuth && (
         <>
           <Link href="/auth/login">

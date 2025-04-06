@@ -1,11 +1,23 @@
 import { Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { CafeData, Status } from '@/constants/types';
+import useFavorite from '@/helpers/useFavorite';
 import CafeBoard from '../CafeBoard';
 import CafeListLoader from '../Loaders/Cafe/cafeList';
 import CafeItem from './item';
 
-const List = ({ cafes, status, moveTo }: { cafes: CafeData[]; status: Status; moveTo: (cafe: CafeData) => void }) => {
+const List = ({
+  cafes,
+  isCafeDetail,
+  status,
+  moveTo,
+}: {
+  cafes: CafeData[];
+  isCafeDetail: boolean;
+  status: Status;
+  moveTo: (cafe: CafeData) => void;
+}) => {
+  const { favoriteCafes, addFavorite, removeFavorite } = useFavorite();
   const content = (() => {
     if (status === Status.IDLE || status === Status.PENDING) {
       return <CafeListLoader />;
@@ -21,9 +33,20 @@ const List = ({ cafes, status, moveTo }: { cafes: CafeData[]; status: Status; mo
 
     return (
       <Stack gap={3} direction="column">
-        {cafes?.map((cafe) => (
-          <CafeItem key={cafe.id} cafe={cafe} moveTo={moveTo} />
-        ))}
+        {cafes?.map((cafe) => {
+          const isFavorite = favoriteCafes.some((item) => item.id === cafe.id);
+          return (
+            <CafeItem
+              key={cafe.id}
+              cafe={cafe}
+              moveTo={moveTo}
+              isFavorite={isFavorite}
+              isCafeDetail={isCafeDetail}
+              addFavorite={addFavorite}
+              removeFavorite={removeFavorite}
+            />
+          );
+        })}
       </Stack>
     );
   })();

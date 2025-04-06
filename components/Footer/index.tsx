@@ -1,38 +1,22 @@
 'use client';
 
 import Image from 'next/image';
-import { useSelector, useDispatch } from 'react-redux';
 import { Container as MuiContainer, Typography, List, ListItem, Box } from '@mui/material';
-import { RootState } from '@/config/configureStore';
-import { setErr } from '@/redux/cafes';
-import { setProfile } from '@/redux/auth';
 import Icon from '@/components/Icon';
 import { Container } from '@/style/styles';
-import { NavLink, NavAnchor } from './styled';
-import { logout } from '@/apis/auth';
+import { NavLink } from './styled';
 
 const Footer: React.FC = () => {
-  const dispatch = useDispatch();
   const year = new Date().getFullYear();
-  const isAuth = useSelector((state: RootState) => state.auth.isAuth);
-  const onLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    await logout();
-    dispatch(setProfile(null));
-  };
-
-  const onNavToLogin = () => {
-    dispatch(setErr(''));
-  };
 
   return (
     <MuiContainer component="footer" sx={{ bgcolor: 'primary.main' }}>
       <Container
         sx={{
           color: 'white',
-          p: {
-            desktop: '40px 0',
-            tablet: '24px 0',
+          py: {
+            mobile: '24px',
+            laptop: '40px',
           },
         }}
       >
@@ -53,15 +37,6 @@ const Footer: React.FC = () => {
                 Search
               </NavLink>
             </ListItem>
-            {/* <ListItem sx={{ p: 0 }}>
-              {isAuth ? (
-                <NavAnchor onClick={onLogout}>Logout</NavAnchor>
-              ) : (
-                <NavLink href="/login" onClick={onNavToLogin}>
-                  Login
-                </NavLink>
-              )}
-            </ListItem> */}
           </List>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

@@ -2,15 +2,15 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { AppBar, Toolbar, Stack } from '@mui/material';
-import { RootState } from '@/config/configureStore';
+// import { RootState } from '@/config/configureStore';
 import { Container } from '@/style/styles';
 import Menu from './menu';
 import MobileMenu from './mobileMenu';
 
 const Header = () => {
-  const { isAuth } = useSelector((state: RootState) => state.auth);
+  // const { isAuth } = useSelector((state: RootState) => state.auth);
   return (
     <AppBar position="sticky" sx={{ zIndex: 1400 }}>
       <Container>

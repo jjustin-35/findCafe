@@ -7,7 +7,6 @@ import Footer from '@/components/Footer';
 export default function Home() {
   return (
     <>
-      <Header />
       <HomeBanner />
       <TextBanner type="home" />
       <HomeIntro />

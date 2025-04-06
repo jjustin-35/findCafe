@@ -2,17 +2,20 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { List, ListItem, IconButton, Drawer, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import data from './data';
 
-const MobileMenuItems = () => {
+const MobileMenuItems = ({ onClose }: { onClose: () => void }) => {
   return (
     <List>
-      <ListItem>
-        <Link href="/cafe" style={{ width: '100%', textDecoration: 'none' }}>
-          <Typography color="primary.main" variant="body1" textAlign="center">
-            搜尋咖啡廳
-          </Typography>
-        </Link>
-      </ListItem>
+      {data.map((item) => (
+        <ListItem key={item.label} onClick={onClose}>
+          <Link href={item.href} style={{ width: '100%', textDecoration: 'none' }}>
+            <Typography color="primary.main" variant="body1" textAlign="center">
+              {item.label}
+            </Typography>
+          </Link>
+        </ListItem>
+      ))}
       {/* TODO: refactor 登入、註冊 */}
       {/* <ListItem>
         {!isAuth && (
@@ -54,6 +57,10 @@ const MobileMenu = () => {
     setIsMobileOpen(!isMobileOpen);
   };
 
+  const onClose = () => {
+    setIsMobileOpen(false);
+  };
+
   return (
     <>
       <IconButton
@@ -62,7 +69,7 @@ const MobileMenu = () => {
         edge="start"
         onClick={handleDrawerToggle}
         sx={{
-          display: { tablet: 'none' },
+          display: { laptop: 'none' },
         }}
       >
         <MenuIcon />
@@ -79,7 +86,7 @@ const MobileMenu = () => {
         }}
         sx={[
           {
-            display: { mobile: 'block', tablet: 'none' },
+            display: { mobile: 'block', laptop: 'none' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: 240,
@@ -91,7 +98,7 @@ const MobileMenu = () => {
           }),
         ]}
       >
-        <MobileMenuItems />
+        <MobileMenuItems onClose={onClose} />
       </Drawer>
     </>
   );

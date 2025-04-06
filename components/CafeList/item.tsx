@@ -2,18 +2,29 @@
 
 import { Stack, Typography, Rating, Chip, IconButton } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useAppDispatch } from '@/redux/hooks';
 import { setCafeDetail } from '@/redux/cafes';
 import { CafeData } from '@/constants/types';
 import { getTags } from '@/helpers/getTags';
-import useFavorite from '@/helpers/useFavorite';
 import tagData from '@/constants/tags';
 import Images from '../Images';
 
-const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (cafe: CafeData) => void }) => {
+const CafeListItem = ({
+  cafe,
+  isFavorite,
+  isCafeDetail,
+  moveTo,
+  addFavorite,
+  removeFavorite,
+}: {
+  cafe: CafeData;
+  isFavorite: boolean;
+  isCafeDetail: boolean;
+  moveTo: (cafe: CafeData) => void;
+  addFavorite: (cafe: CafeData) => void;
+  removeFavorite: (cafe: CafeData) => void;
+}) => {
   const dispatch = useAppDispatch();
-  const { isCafeDetail } = useAppSelector((state) => state.cafes);
-  const { favoriteCafes, addFavorite, removeFavorite } = useFavorite();
   const { images, address, name } = cafe;
   const rating = Math.round(cafe?.rating || 0);
   const tags = getTags(cafe);
@@ -24,9 +35,8 @@ const CafeListItem = ({ cafe, moveTo }: { cafe: CafeData; moveTo: (cafe: CafeDat
     moveTo(cafe);
   };
 
-  const isFavorite = favoriteCafes.some((item) => item.id === cafe.id);
-
-  const handleFavorite = () => {
+  const handleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (isFavorite) {
       removeFavorite(cafe);
     } else {

@@ -133,7 +133,7 @@ const cafeSlice = createSlice({
       state.isCafeDetail = true;
     },
     clearSearchStates: (state) => {
-      state = { ...initialState };
+      state = { ...initialState, cafeDetail: state.cafeDetail, isCafeDetail: state.isCafeDetail };
     },
   },
   extraReducers: (builder) => {
@@ -148,7 +148,6 @@ const cafeSlice = createSlice({
     });
     builder.addCase(getCafes.fulfilled, (state, action) => {
       state.cafes = action.payload.cafes;
-      state.isCafeDetail = false;
       state.status = Status.FULFILLED;
     });
     builder.addCase(getCafes.pending, (state) => {

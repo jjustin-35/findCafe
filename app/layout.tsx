@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import MuiProvider from '@/lib/MuiProvider';
 import ReduxProvider from '@/lib/reduxProvider';
+import Header from '@/components/Header';
 
 export const metadata: Metadata = {
   title: '找找咖啡',
@@ -12,7 +13,6 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
     title: 'FindCafe',
   },
-  viewport: 'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover',
 };
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -27,7 +27,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </head>
       <body>
         <MuiProvider>
-          <ReduxProvider>{children}</ReduxProvider>
+          <ReduxProvider>
+            <Header />
+            {children}
+          </ReduxProvider>
         </MuiProvider>
       </body>
     </html>
