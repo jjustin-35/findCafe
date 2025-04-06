@@ -15,7 +15,11 @@ const HomeBanner = () => {
             tablet: 'start',
           }}
         >
-          <Title>找到專屬於你的咖啡廳</Title>
+          <Title>
+            來找找咖啡，
+            <br />
+            找到專屬於你的咖啡廳
+          </Title>
           <Link href="/cafe">
             <Button
               size="large"

@@ -28,12 +28,7 @@ const ImageTextBanner = ({ data, styles }: ImageTextBannerProps) => {
       }}
       spacing={2}
     >
-      <Image
-        {...image}
-        sizes="100vw"
-        width={785}
-        height={450}
-      />
+      <Image {...image} sizes="100vw" width={785} height={450} />
       <Stack
         direction="column"
         justifyContent="center"
@@ -44,10 +39,17 @@ const ImageTextBanner = ({ data, styles }: ImageTextBannerProps) => {
           maxWidth: { mobile: '100%', laptop: '40%' },
         }}
       >
-        <Typography component="h2" variant="h5" color="primary.main" fontWeight="bold" {...styles?.title}>
+        <Typography
+          component="h2"
+          variant="h5"
+          color="primary.main"
+          fontWeight="bold"
+          fontSize={{ mobile: '24px', laptop: '30px' }}
+          {...styles?.title}
+        >
           {title}
         </Typography>
-        <Typography variant="body1" {...styles?.description}>
+        <Typography variant="body1" fontSize={{ mobile: '16px', laptop: '18px' }} {...styles?.description}>
           {description}
         </Typography>
       </Stack>

@@ -13,10 +13,14 @@ export const HomeBannerImage = styled('div')`
 `;
 
 export const Title = styled('h1')`
-  font-size: 48px;
+  font-size: 34px;
   font-weight: bold;
   color: white;
   margin: 0 0 24px;
+
+  ${({ theme }) => theme.breakpoints.up('laptop')} {
+    font-size: 48px;
+  }
 `;
 
 export const SearchWrapper = styled('div')`
