@@ -13,7 +13,7 @@ const Cafe = () => {
   const { currentLocation, cafes, cafeDetail, status, isCafeDetail, isSearching } = useAppSelector(
     (state) => state.cafes,
   );
-  const [currentMarker, setCurrentMarker] = useState<typeof cafeMarkers[0] | null>(null);
+  const [currentMarker, setCurrentMarker] = useState<(typeof cafeMarkers)[0] | null>(null);
   const dispatch = useAppDispatch();
   const { mapRef, cafesList, cafeMarkers, setCafes, map, handleBlurAll } = useMap();
   const cafeList = useMemo(() => (isCafeDetail ? [cafeDetail] : cafesList), [cafesList, cafeDetail, isCafeDetail]);

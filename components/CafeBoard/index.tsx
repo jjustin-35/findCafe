@@ -15,11 +15,6 @@ const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: stri
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
-    // if (!cafes?.length) {
-    //   setIsOpen(false);
-    //   return;
-    // }
-
     if ((!isOpen && isSearching) || (!isOpen && isCafeDetail)) setIsOpen(true);
   }, [cafes, isSearching, isCafeDetail]);
 
@@ -31,9 +26,9 @@ const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: stri
       open={isOpen}
       swipeAreaWidth={drawerBleeding}
       disableSwipeToOpen={false}
+      disableEnforceFocus
       onClose={() => setIsOpen(false)}
       onOpen={() => setIsOpen(true)}
-      onFocus={(e: React.FocusEvent) => e.preventDefault()}
       ModalProps={{
         keepMounted: true,
       }}

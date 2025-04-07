@@ -71,10 +71,6 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
     return null;
   }
 
-  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    console.log(e.relatedTarget);
-  };
-
   return (
     <Box
       py={2}
@@ -102,8 +98,6 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
             variant="outlined"
             placeholder="找找咖啡廳..."
             {...register('keyword')}
-            onFocus={() => console.log('focus')}
-            onBlur={onBlur}
             slotProps={{
               input: {
                 ...(hasReturnBtn && { startAdornment: <StartIconButton onReturn={onReturn} /> }),
