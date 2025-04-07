@@ -16,6 +16,7 @@ const Menu = () => {
         <Link
           key={item.label}
           href={item.href}
+          target={item.target || '_self'}
           style={{
             color: '#fff',
             textDecoration: 'none',

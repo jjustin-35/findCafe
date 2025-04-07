@@ -1,22 +1,16 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { List, ListItem, IconButton, Drawer, Typography } from '@mui/material';
-import { Search, Favorite, Menu } from '@mui/icons-material';
+import Icon from '@/components/Icon';
 import data from './data';
-
-const Icon = ({ type }: { type: string }) => {
-  if (type === 'search') return <Search />;
-  if (type === 'favorite') return <Favorite />;
-  if (type === 'menu') return <Menu />;
-  return null;
-};
+import { IconType } from '../Icon/data';
 
 const MobileMenuItems = ({ onClose }: { onClose: () => void }) => {
   return (
     <List sx={{ py: 2 }}>
       {data.map((item) => (
         <ListItem key={item.label} sx={{ py: 1 }} onClick={onClose}>
-          <Link href={item.href} style={{ width: '100%', textDecoration: 'none' }}>
+          <Link href={item.href} style={{ width: '100%', textDecoration: 'none' }} target={item.target || '_self'}>
             <Typography
               fontSize={20}
               color="primary.main"
@@ -86,7 +80,7 @@ const MobileMenu = () => {
           display: { laptop: 'none' },
         }}
       >
-        <Icon type="menu" />
+        <Icon type={IconType.menu} />
       </IconButton>
 
       {/* Mobile Drawer */}

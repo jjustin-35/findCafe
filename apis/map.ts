@@ -81,7 +81,7 @@ export const searchNearby = async (location = defaultPosition) => {
         center: center,
         radius: 1000,
       },
-      rankPreference: google.maps.places.SearchNearbyRankPreference.POPULARITY,
+      // rankPreference: google.maps.places.SearchNearbyRankPreference.POPULARITY,
       language: 'zh-TW',
       region: 'TW',
     };
