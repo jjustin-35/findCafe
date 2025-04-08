@@ -5,10 +5,9 @@ import getCurrentLocationApi from '@/helpers/getCurrentLocation';
 import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
-import { searchByText } from '@/apis/map';
+import { searchByText, searchNearby } from '@/apis/map';
 import { isWithinDistance } from '@/helpers/comparePosition';
 import filterCafes from '@/helpers/filterCafes';
-// import { searchByText } from '@/apis/map';
 
 interface SearchState {
   status: Status;
@@ -69,8 +68,7 @@ export const getCafes = createAsyncThunk(
       if (isSearching && content.keyword) {
         resp = await searchByText(content);
       } else {
-        // resp = await searchNearby(content.position);
-        resp = [];
+        resp = await searchNearby(content.position);
       }
 
       if (!resp?.length) {
