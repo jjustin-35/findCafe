@@ -65,10 +65,11 @@ export const getCafes = createAsyncThunk(
       let resp: google.maps.places.Place[] = [];
       const baseMapUrl = 'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=';
 
+      const { position, ...restContent } = content;
       if (isSearching && content.keyword) {
-        resp = await searchByText(content);
+        resp = await searchByText(restContent);
       } else {
-        resp = await searchNearby(content.position);
+        resp = await searchNearby(position);
       }
 
       if (!resp?.length) {
