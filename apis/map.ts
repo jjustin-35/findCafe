@@ -1,4 +1,4 @@
-import { Position, SearchCafesData } from '@/constants/types';
+import { SearchCafesData } from '@/constants/types';
 import { getLoader } from '@/lib/mapLoader';
 import { generateKey, getCache, setCache } from '@/lib/apiCache';
 import { defaultPosition } from '@/constants/position';
