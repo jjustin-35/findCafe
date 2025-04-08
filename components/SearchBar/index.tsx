@@ -59,7 +59,7 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
       if (currentLocation) return currentLocation;
       return null;
     })();
-    dispatch(getCafes({ keyword, isSearching: true, areaKey, position: searchPosition, tags, rating }));
+    dispatch(getCafes({ keyword, isSearching: true, areaKey, position: null, tags, rating }));
   };
 
   const handleFilterChange = ({ tags, area, minRating }: { tags?: TagType[]; area?: string; minRating?: number }) => {

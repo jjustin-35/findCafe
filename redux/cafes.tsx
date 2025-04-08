@@ -5,7 +5,7 @@ import getCurrentLocationApi from '@/helpers/getCurrentLocation';
 import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
-import { searchNearby } from '@/apis/map';
+import { searchByText } from '@/apis/map';
 import { isWithinDistance } from '@/helpers/comparePosition';
 import filterCafes from '@/helpers/filterCafes';
 // import { searchByText } from '@/apis/map';
@@ -63,11 +63,21 @@ export const getCafes = createAsyncThunk(
     try {
       const { isSearching, ...content } = searchContent;
       thunkAPI.dispatch(setIsSearching(isSearching));
-      let cafes: Partial<CafeData>[] = [];
+      let resp: google.maps.places.Place[] = [];
       const baseMapUrl = 'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=';
 
-      const resp = await searchNearby(content.position);
-      cafes = resp?.map((cafe) => {
+      if (isSearching && content.keyword) {
+        resp = await searchByText(content);
+      } else {
+        // resp = await searchNearby(content.position);
+        resp = [];
+      }
+
+      if (!resp?.length) {
+        return thunkAPI.rejectWithValue('No cafes found');
+      }
+
+      const cafes = resp?.map((cafe) => {
         return {
           id: cafe.id,
           name: cafe.displayName,
@@ -83,6 +93,8 @@ export const getCafes = createAsyncThunk(
             })) || [],
         };
       });
+
+      console.log(cafes);
 
       const cafesInfo = await getCafesApi();
       const newCafes = cafes.map((cafe) => {
