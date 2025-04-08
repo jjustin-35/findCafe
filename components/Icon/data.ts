@@ -21,6 +21,8 @@ export enum IconType {
   favorite = 'favorite',
   feedback = 'feedback',
   menu = 'menu',
+  home = 'home',
+  github = 'github',
 }
 
 export default data;

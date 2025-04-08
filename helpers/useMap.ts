@@ -109,7 +109,7 @@ const useMap = () => {
 
     const infoWindow = new google.maps.InfoWindow({
       headerDisabled: true,
-      content: `<div style="font-size: 14px; text-align: center">${cafe.name}</div>`,
+      content: `<div style="font-size: 14px; text-align: center; padding: 3px 6px">${cafe.name}</div>`,
     });
     map.panTo({
       lat: cafe.latitude,

@@ -5,6 +5,8 @@ import { Container as MuiContainer, Typography, List, ListItem, Box } from '@mui
 import Icon from '@/components/Icon';
 import { Container } from '@/style/styles';
 import { NavLink } from './styled';
+import { IconType } from '../Icon/data';
+import data from './data';
 
 const Footer: React.FC = () => {
   const year = new Date().getFullYear();
@@ -28,19 +30,18 @@ const Footer: React.FC = () => {
             mb: { mobile: 4, tablet: 5 },
           }}
         >
-          <List sx={{ display: 'flex', p: 0, gap: 2 }}>
-            <ListItem sx={{ width: 'auto', p: 0 }}>
-              <NavLink href="/">Home</NavLink>
-            </ListItem>
-            <ListItem sx={{ p: 0 }}>
-              <NavLink href="/cafe">
-                Search
-              </NavLink>
-            </ListItem>
+          <List sx={{ display: 'flex', p: 0, gap: 1 }}>
+            {data.map((item) => (
+              <ListItem key={item.key} sx={{ p: 0 }}>
+                <NavLink href={item.href} target={item.target}>
+                  <Icon type={item.icon} />
+                </NavLink>
+              </ListItem>
+            ))}
           </List>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Icon type="coffee-white" width={30} height={30} />
+            <Icon type={IconType['coffee-white']} width={30} height={30} />
             <Image src="/images/findCafe.svg" alt="icon-findCafe" width={100} height={60} />
           </Box>
         </List>

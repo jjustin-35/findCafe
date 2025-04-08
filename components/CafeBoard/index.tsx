@@ -26,7 +26,7 @@ const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: stri
       open={isOpen}
       swipeAreaWidth={drawerBleeding}
       disableSwipeToOpen={false}
-      disableEnforceFocus
+      disableEnforceFocus={true}
       onClose={() => setIsOpen(false)}
       onOpen={() => setIsOpen(true)}
       ModalProps={{
