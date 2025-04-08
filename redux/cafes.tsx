@@ -93,8 +93,6 @@ export const getCafes = createAsyncThunk(
         };
       });
 
-      console.log(cafes);
-
       const cafesInfo = await getCafesApi();
       const newCafes = cafes.map((cafe) => {
         const cafeInfo = cafesInfo.find((info) => {
