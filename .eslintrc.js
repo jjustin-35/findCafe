@@ -31,8 +31,9 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ['error', { jsxSingleQuote: false }],
-    'react/react-in-jsx-scope': 'off', // React 17+ 不需要在 JSX 中引入 React
+    'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-unused-vars': ['warn'],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };
