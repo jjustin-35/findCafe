@@ -8,6 +8,7 @@ import { isEqual } from '@/helpers/object';
 import { searchByText, searchNearby } from '@/apis/map';
 import { isWithinDistance } from '@/helpers/comparePosition';
 import filterCafes from '@/helpers/filterCafes';
+import { generateSearchKeyword, analyzeCafes } from '@/apis/ai';
 
 interface SearchState {
   status: Status;
@@ -19,6 +20,9 @@ interface SearchState {
   isCafeDetail: boolean;
   cafeDetail: CafeData | null;
   detailStatus: Status;
+  useAI: boolean;
+  aiExplanation: string | null;
+  aiStatus: Status;
 }
 
 const initialState: SearchState = {
@@ -31,6 +35,9 @@ const initialState: SearchState = {
   isCafeDetail: false,
   cafeDetail: null,
   detailStatus: Status.IDLE,
+  useAI: false,
+  aiExplanation: null,
+  aiStatus: Status.IDLE,
 };
 
 export const getAreas = createAsyncThunk('cafes/getAreas', async () => {
@@ -56,18 +63,60 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
   },
 );
 
+export const queryWithAI = createAsyncThunk(
+  'cafes/queryWithAI',
+  async (searchContent: SearchCafesData, { getState, dispatch }) => {
+    try {
+      const state = getState() as RootState;
+      const { cafes } = state.cafes;
+
+      if (!cafes || cafes.length === 0) {
+        return 'No cafes found to analyze.';
+      }
+
+      dispatch(setAIStatus(Status.PENDING));
+      const explanation = await analyzeCafes(cafes, searchContent);
+      console.log(explanation);
+
+      return explanation;
+    } catch (error) {
+      console.error('Error querying with AI:', error);
+      return 'Failed to analyze cafes with AI.';
+    }
+  },
+);
+
 export const getCafes = createAsyncThunk(
   'cafes/getCafes',
   async (searchContent: SearchCafesData & { isSearching?: boolean; isCafeDetail?: boolean }, thunkAPI) => {
     try {
       const { isSearching, ...content } = searchContent;
+      const state = thunkAPI.getState() as RootState;
+      const { useAI } = state.cafes;
+
       thunkAPI.dispatch(setIsSearching(isSearching));
       let resp: google.maps.places.Place[] = [];
       const baseMapUrl = 'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=';
 
       const { position, ...restContent } = content;
-      if (isSearching && content.keyword) {
-        resp = await searchByText(restContent);
+
+      // use AI to generate search keyword
+      const searchParams = { ...restContent };
+      if (useAI && isSearching) {
+        thunkAPI.dispatch(setAIStatus(Status.PENDING));
+        const aiKeyword = await generateSearchKeyword({
+          ...restContent,
+          position,
+        });
+        console.log('AI Keyword:', aiKeyword);
+
+        if (aiKeyword) {
+          searchParams.keyword = aiKeyword;
+        }
+      }
+
+      if (isSearching && searchParams.keyword) {
+        resp = await searchByText(searchParams);
       } else {
         resp = await searchNearby(position);
       }
@@ -144,6 +193,18 @@ const cafeSlice = createSlice({
     clearSearchStates: (state) => {
       state = { ...initialState, cafeDetail: state.cafeDetail, isCafeDetail: state.isCafeDetail };
     },
+    toggleAI: (state) => {
+      state.useAI = !state.useAI;
+    },
+    setAIExplanation: (state, action: PayloadAction<string>) => {
+      state.aiExplanation = action.payload;
+    },
+    clearAIExplanation: (state) => {
+      state.aiExplanation = null;
+    },
+    setAIStatus: (state, action: PayloadAction<Status>) => {
+      state.aiStatus = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAreas.fulfilled, (state, action) => {
@@ -158,6 +219,7 @@ const cafeSlice = createSlice({
     builder.addCase(getCafes.fulfilled, (state, action) => {
       state.cafes = action.payload.cafes;
       state.status = Status.FULFILLED;
+      state.aiStatus = Status.FULFILLED;
     });
     builder.addCase(getCafes.pending, (state) => {
       state.status = Status.PENDING;
@@ -165,10 +227,32 @@ const cafeSlice = createSlice({
     builder.addCase(getCafes.rejected, (state, action) => {
       state.error = action.error.message || 'An error occurred';
       state.status = Status.FULFILLED;
+      state.aiStatus = Status.FULFILLED;
+    });
+    builder.addCase(queryWithAI.fulfilled, (state, action) => {
+      state.aiExplanation = action.payload;
+      state.aiStatus = Status.FULFILLED;
+    });
+    builder.addCase(queryWithAI.pending, (state) => {
+      state.aiStatus = Status.PENDING;
+    });
+    builder.addCase(queryWithAI.rejected, (state, action) => {
+      state.error = action.error.message || 'An error occurred';
+      state.aiStatus = Status.FULFILLED;
     });
   },
 });
 
-export const { setErr, setIsSearching, setIsCafeDetail, setCafeDetail, clearSearchStates } = cafeSlice.actions;
+export const {
+  setErr,
+  setIsSearching,
+  setIsCafeDetail,
+  setCafeDetail,
+  clearSearchStates,
+  toggleAI,
+  setAIExplanation,
+  clearAIExplanation,
+  setAIStatus,
+} = cafeSlice.actions;
 
 export default cafeSlice.reducer;

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { IconButton, TextField, Box, InputAdornment } from '@mui/material';
 import { ArrowBack as ArrowBackIcon, Search as SearchIcon } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
@@ -8,9 +9,9 @@ import { getCafes, setIsCafeDetail } from '@/redux/cafes';
 import { Status } from '@/constants/types';
 import { Form } from './styled';
 import AdvancedSearch from '../AdvancedSearch';
+import AIToggle from '../AIToggle';
 import { isEmpty } from '@/helpers/object';
 import { TagType } from '@/constants/tags';
-import { useState } from 'react';
 
 const StartIconButton = ({ onReturn }: { onReturn?: () => void }) => {
   return (
@@ -131,6 +132,7 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
           />
         </Box>
       </Form>
+      <AIToggle searchData={watch('keyword')} />
     </Box>
   );
 };

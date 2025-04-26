@@ -34,6 +34,7 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@google/generative-ai": "^0.24.0",
     "@googlemaps/js-api-loader": "^1.16.8",
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.4",
