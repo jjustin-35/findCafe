@@ -8,7 +8,7 @@ import { isEqual } from '@/helpers/object';
 import { searchByText, searchNearby } from '@/apis/map';
 import { isWithinDistance } from '@/helpers/comparePosition';
 import filterCafes from '@/helpers/filterCafes';
-import { generateSearchKeyword, analyzeCafes } from '@/apis/ai';
+import { generateAISearchData } from '@/apis/ai';
 
 interface SearchState {
   status: Status;
@@ -75,10 +75,10 @@ export const queryWithAI = createAsyncThunk(
       }
 
       dispatch(setAIStatus(Status.PENDING));
-      const explanation = await analyzeCafes(cafes, searchContent);
-      console.log(explanation);
+      const aiSearchData = await generateAISearchData(searchContent);
+      console.log('AI Search Data:', aiSearchData);
 
-      return explanation;
+      return aiSearchData;
     } catch (error) {
       console.error('Error querying with AI:', error);
       return 'Failed to analyze cafes with AI.';
@@ -101,17 +101,17 @@ export const getCafes = createAsyncThunk(
       const { position, ...restContent } = content;
 
       // use AI to generate search keyword
-      const searchParams = { ...restContent };
+      let searchParams = { ...restContent };
       if (useAI && isSearching) {
         thunkAPI.dispatch(setAIStatus(Status.PENDING));
-        const aiKeyword = await generateSearchKeyword({
+        const aiSearchData = await generateAISearchData({
           ...restContent,
           position,
         });
-        console.log('AI Keyword:', aiKeyword);
+        console.log('AI Search Data:', aiSearchData);
 
-        if (aiKeyword) {
-          searchParams.keyword = aiKeyword;
+        if (aiSearchData) {
+          searchParams = { ...searchParams, ...JSON.parse(aiSearchData) };
         }
       }
 
