@@ -76,8 +76,8 @@ const useMap = () => {
       if (!map) return;
       if (isSearching) {
         const position = {
-          lat: cafesList[0].latitude,
-          lng: cafesList[0].longitude,
+          lat: cafesList[0]?.latitude,
+          lng: cafesList[0]?.longitude,
         };
         map.panTo(position);
       }
@@ -85,8 +85,8 @@ const useMap = () => {
         return !cafeListOri.some((oriLocation) => isEqual(oriLocation, location));
       });
       const newLocations = newCafes.map((cafe) => ({
-        lat: cafe.latitude,
-        lng: cafe.longitude,
+        lat: cafe?.latitude,
+        lng: cafe?.longitude,
         info: cafe,
       }));
       if (newLocations.length > 0) {

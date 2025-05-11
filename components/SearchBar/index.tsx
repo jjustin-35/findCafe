@@ -9,7 +9,6 @@ import { getCafes, setIsCafeDetail } from '@/redux/cafes';
 import { Status } from '@/constants/types';
 import { Form } from './styled';
 import AdvancedSearch from '../AdvancedSearch';
-import AIToggle from '../AIToggle';
 import { isEmpty } from '@/helpers/object';
 import { TagType } from '@/constants/tags';
 
@@ -32,7 +31,7 @@ const EndIconButton = () => (
 );
 
 const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBack?: () => void }) => {
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit, watch, setValue } = useForm();
   const { status, currentLocation, isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
   const dispatch = useAppDispatch();
   const [shallClearFilter, setShallClearFilter] = useState(false);
@@ -46,6 +45,7 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
       return;
     }
     if (isSearching) dispatch(getCafes({ position: currentLocation, isSearching: false }));
+    setValue('keyword', '');
   };
 
   const onClearFilter = () => {
@@ -132,7 +132,6 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
           />
         </Box>
       </Form>
-      <AIToggle searchData={watch('keyword')} />
     </Box>
   );
 };

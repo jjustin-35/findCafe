@@ -80,6 +80,7 @@ export async function generateAISearchData(searchData: SearchCafesData): Promise
 
     const result = await model.generateContent(prompt);
     const response = result.response;
+    console.log('Gemini Response:', response);
     const text = response.text().trim().replace(/\n/g, '');
 
     return text || JSON.stringify(searchData);

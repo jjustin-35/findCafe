@@ -20,8 +20,6 @@ interface SearchState {
   isCafeDetail: boolean;
   cafeDetail: CafeData | null;
   detailStatus: Status;
-  useAI: boolean;
-  aiExplanation: string | null;
   aiStatus: Status;
 }
 
@@ -35,8 +33,6 @@ const initialState: SearchState = {
   isCafeDetail: false,
   cafeDetail: null,
   detailStatus: Status.IDLE,
-  useAI: false,
-  aiExplanation: null,
   aiStatus: Status.IDLE,
 };
 
@@ -63,36 +59,11 @@ export const getCurrentLocation = createAsyncThunk<Position, void, { state: Root
   },
 );
 
-export const queryWithAI = createAsyncThunk(
-  'cafes/queryWithAI',
-  async (searchContent: SearchCafesData, { getState, dispatch }) => {
-    try {
-      const state = getState() as RootState;
-      const { cafes } = state.cafes;
-
-      if (!cafes || cafes.length === 0) {
-        return 'No cafes found to analyze.';
-      }
-
-      dispatch(setAIStatus(Status.PENDING));
-      const aiSearchData = await generateAISearchData(searchContent);
-      console.log('AI Search Data:', aiSearchData);
-
-      return aiSearchData;
-    } catch (error) {
-      console.error('Error querying with AI:', error);
-      return 'Failed to analyze cafes with AI.';
-    }
-  },
-);
-
 export const getCafes = createAsyncThunk(
   'cafes/getCafes',
   async (searchContent: SearchCafesData & { isSearching?: boolean; isCafeDetail?: boolean }, thunkAPI) => {
     try {
       const { isSearching, ...content } = searchContent;
-      const state = thunkAPI.getState() as RootState;
-      const { useAI } = state.cafes;
 
       thunkAPI.dispatch(setIsSearching(isSearching));
       let resp: google.maps.places.Place[] = [];
@@ -102,16 +73,16 @@ export const getCafes = createAsyncThunk(
 
       // use AI to generate search keyword
       let searchParams = { ...restContent };
-      if (useAI && isSearching) {
+      if (isSearching) {
         thunkAPI.dispatch(setAIStatus(Status.PENDING));
         const aiSearchData = await generateAISearchData({
           ...restContent,
           position,
         });
-        console.log('AI Search Data:', aiSearchData);
+        const aiData: SearchCafesData = JSON.parse(aiSearchData);
 
-        if (aiSearchData) {
-          searchParams = { ...searchParams, ...JSON.parse(aiSearchData) };
+        if (aiData) {
+          searchParams = { ...searchParams, ...aiData };
         }
       }
 
@@ -122,7 +93,7 @@ export const getCafes = createAsyncThunk(
       }
 
       if (!resp?.length) {
-        return thunkAPI.rejectWithValue('No cafes found');
+        return thunkAPI.rejectWithValue('no_cafe_found');
       }
 
       const cafes = resp?.map((cafe) => {
@@ -159,7 +130,7 @@ export const getCafes = createAsyncThunk(
       });
 
       if (!newCafes?.length) {
-        return thunkAPI.rejectWithValue('No cafes found');
+        return thunkAPI.rejectWithValue('no_cafe_found');
       }
 
       const filteredCafes = filterCafes(newCafes, content);
@@ -193,15 +164,6 @@ const cafeSlice = createSlice({
     clearSearchStates: (state) => {
       state = { ...initialState, cafeDetail: state.cafeDetail, isCafeDetail: state.isCafeDetail };
     },
-    toggleAI: (state) => {
-      state.useAI = !state.useAI;
-    },
-    setAIExplanation: (state, action: PayloadAction<string>) => {
-      state.aiExplanation = action.payload;
-    },
-    clearAIExplanation: (state) => {
-      state.aiExplanation = null;
-    },
     setAIStatus: (state, action: PayloadAction<Status>) => {
       state.aiStatus = action.payload;
     },
@@ -219,7 +181,6 @@ const cafeSlice = createSlice({
     builder.addCase(getCafes.fulfilled, (state, action) => {
       state.cafes = action.payload.cafes;
       state.status = Status.FULFILLED;
-      state.aiStatus = Status.FULFILLED;
     });
     builder.addCase(getCafes.pending, (state) => {
       state.status = Status.PENDING;
@@ -227,18 +188,9 @@ const cafeSlice = createSlice({
     builder.addCase(getCafes.rejected, (state, action) => {
       state.error = action.error.message || 'An error occurred';
       state.status = Status.FULFILLED;
-      state.aiStatus = Status.FULFILLED;
-    });
-    builder.addCase(queryWithAI.fulfilled, (state, action) => {
-      state.aiExplanation = action.payload;
-      state.aiStatus = Status.FULFILLED;
-    });
-    builder.addCase(queryWithAI.pending, (state) => {
-      state.aiStatus = Status.PENDING;
-    });
-    builder.addCase(queryWithAI.rejected, (state, action) => {
-      state.error = action.error.message || 'An error occurred';
-      state.aiStatus = Status.FULFILLED;
+      if (action.payload === 'no_cafe_found') {
+        state.cafes = [];
+      }
     });
   },
 });
@@ -249,9 +201,6 @@ export const {
   setIsCafeDetail,
   setCafeDetail,
   clearSearchStates,
-  toggleAI,
-  setAIExplanation,
-  clearAIExplanation,
   setAIStatus,
 } = cafeSlice.actions;
 
