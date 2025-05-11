@@ -48,9 +48,9 @@ const buildSearchPrompt = (searchData: SearchCafesData) => {
     district?: string;     // Specific district or administrative area mentioned (e.g., Zhongshan District)
     location?: string;     // Specific place name if mentioned (e.g., Taipei Main Station, Shida Night Market)
     position?: {
-      lat: number;
-      lng: number;
-    };                     // If a specific location is mentioned, try to provide coordinates (optional)
+      lat: number;         // If a specific area or location is mentioned, try to provide coordinates (optional)
+      lng: number;         // If a specific area or location is mentioned, try to provide coordinates (optional)
+    };
     keyword?: string;      // The main keyword or phrase the user is searching for (e.g., "laptop-friendly cafe")
     rating?: number;       // If the user specifies a rating, provide the number (e.g., 4 or 4.5)
     tags?: string[];       // Suggested tags extracted from the input (e.g., ["quiet", "hipster", "good for work"])
@@ -86,7 +86,6 @@ export async function generateAISearchData(searchData: SearchCafesData): Promise
     return aiSearchData || searchData;
   } catch (error) {
     console.error('Error generating search data with Gemini:', error);
-    // return original keyword
     return searchData;
   }
 }
