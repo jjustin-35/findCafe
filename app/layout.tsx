@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import MuiProvider from '@/lib/MuiProvider';
 import ReduxProvider from '@/lib/reduxProvider';
+import AuthProvider from '@/lib/AuthProvider';
 import Header from '@/components/Header';
 
 export const metadata: Metadata = {
@@ -27,10 +28,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </head>
       <body>
         <MuiProvider>
-          <ReduxProvider>
-            <Header />
-            {children}
-          </ReduxProvider>
+          <AuthProvider>
+            <ReduxProvider>
+              <Header />
+              {children}
+            </ReduxProvider>
+          </AuthProvider>
         </MuiProvider>
       </body>
     </html>
