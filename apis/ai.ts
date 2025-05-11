@@ -1,8 +1,7 @@
 'use server';
 
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
-import { SearchCafesData, CafeData } from '@/constants/types';
-import { revalidatePath } from 'next/cache';
+import { SearchCafesData } from '@/constants/types';
 
 // init
 const API_KEY = process.env.GEMINI_API_KEY || '';
@@ -67,12 +66,12 @@ const buildSearchPrompt = (searchData: SearchCafesData) => {
 };
 
 // generate search data
-export async function generateAISearchData(searchData: SearchCafesData): Promise<string> {
+export async function generateAISearchData(searchData: SearchCafesData): Promise<SearchCafesData> {
   try {
     // if no API KEY, return original keyword
     if (!API_KEY) {
       console.warn('Gemini API key is not set');
-      return JSON.stringify(searchData);
+      return searchData;
     }
 
     const model = getGeminiModel();
@@ -80,13 +79,14 @@ export async function generateAISearchData(searchData: SearchCafesData): Promise
 
     const result = await model.generateContent(prompt);
     const response = result.response;
-    console.log('Gemini Response:', response);
-    const text = response.text().trim().replace(/\n/g, '');
+    const text = response.text().trim().replace(/\n|```|json/g, '');
+    const aiSearchData = JSON.parse(text);
+    console.log('Gemini Response:', aiSearchData);
 
-    return text || JSON.stringify(searchData);
+    return aiSearchData || searchData;
   } catch (error) {
     console.error('Error generating search data with Gemini:', error);
     // return original keyword
-    return JSON.stringify(searchData);
+    return searchData;
   }
 }

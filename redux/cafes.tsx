@@ -73,16 +73,16 @@ export const getCafes = createAsyncThunk(
 
       // use AI to generate search keyword
       let searchParams = { ...restContent };
+      let aiSearchData: SearchCafesData | null = null;
       if (isSearching) {
         thunkAPI.dispatch(setAIStatus(Status.PENDING));
-        const aiSearchData = await generateAISearchData({
+        aiSearchData = await generateAISearchData({
           ...restContent,
           position,
         });
-        const aiData: SearchCafesData = JSON.parse(aiSearchData);
 
-        if (aiData) {
-          searchParams = { ...searchParams, ...aiData };
+        if (aiSearchData) {
+          searchParams = { ...searchParams, ...aiSearchData };
         }
       }
 
