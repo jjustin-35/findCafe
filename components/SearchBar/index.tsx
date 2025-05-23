@@ -55,12 +55,7 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
   const onSubmit = async (data: { keyword: string; areaKey?: string; tags?: TagType[]; rating?: number }) => {
     if (isEmpty(data)) return;
     const { keyword, areaKey, tags, rating } = data;
-    const searchPosition = (() => {
-      if (areaKey) return null;
-      if (currentLocation) return currentLocation;
-      return null;
-    })();
-    dispatch(getCafes({ keyword, isSearching: true, areaKey, position: searchPosition, tags, rating }));
+    dispatch(getCafes({ keyword, isSearching: true, areaKey, tags, rating }));
   };
 
   const handleFilterChange = ({ tags, area, minRating }: { tags?: TagType[]; area?: string; minRating?: number }) => {

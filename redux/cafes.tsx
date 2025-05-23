@@ -195,13 +195,7 @@ const cafeSlice = createSlice({
   },
 });
 
-export const {
-  setErr,
-  setIsSearching,
-  setIsCafeDetail,
-  setCafeDetail,
-  clearSearchStates,
-  setAIStatus,
-} = cafeSlice.actions;
+export const { setErr, setIsSearching, setIsCafeDetail, setCafeDetail, clearSearchStates, setAIStatus } =
+  cafeSlice.actions;
 
 export default cafeSlice.reducer;
