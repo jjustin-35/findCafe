@@ -39,7 +39,7 @@ const getGeminiModel = () => {
 const buildSearchPrompt = (searchData: SearchCafesData) => {
   const { keyword, tags, rating, position } = searchData;
 
-  let prompt = `
+  const prompt = `
   You are a semantic parsing assistant. Based on the user's search input, return a JSON object that matches the following format:
 
   {
@@ -60,7 +60,7 @@ const buildSearchPrompt = (searchData: SearchCafesData) => {
 
   Only return a valid JSON object. Do not include any explanations or additional text.
   If any fields cannot be confidently inferred, simply omit them.
-  `
+  `;
 
   return prompt;
 };
@@ -79,11 +79,18 @@ export async function generateAISearchData(searchData: SearchCafesData): Promise
 
     const result = await model.generateContent(prompt);
     const response = result.response;
-    const text = response.text().trim().replace(/\n|```|json/g, '');
+    const text = response
+      .text()
+      .trim()
+      .replace(/\n|```|json/g, '');
     const aiSearchData = JSON.parse(text);
-    console.log('Gemini Response:', aiSearchData);
 
-    return aiSearchData || searchData;
+    if (!aiSearchData) {
+      console.warn('no ai search data');
+      return searchData;
+    }
+
+    return aiSearchData;
   } catch (error) {
     console.error('Error generating search data with Gemini:', error);
     return searchData;

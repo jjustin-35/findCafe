@@ -34,11 +34,11 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
   const { register, handleSubmit, watch, setValue } = useForm();
   const { status, currentLocation, isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
   const dispatch = useAppDispatch();
-  const [shallClearFilter, setShallClearFilter] = useState(false);
+  const [isClearFilter, setIsClearFilter] = useState(false);
 
   const onReturn = () => {
     if (!currentLocation || !hasReturnBtn) return;
-    setShallClearFilter(true);
+    setIsClearFilter(true);
     if (moveBack) moveBack();
     if (isCafeDetail) {
       dispatch(setIsCafeDetail(false));
@@ -49,7 +49,7 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
   };
 
   const onClearFilter = () => {
-    setShallClearFilter(false);
+    setIsClearFilter(false);
   };
 
   const onSubmit = async (data: { keyword: string; areaKey?: string; tags?: TagType[]; rating?: number }) => {
@@ -101,7 +101,7 @@ const SearchBar = ({ hasReturnBtn, moveBack }: { hasReturnBtn?: boolean; moveBac
                   <Box display="flex">
                     <EndIconButton />
                     <AdvancedSearch
-                      shallClearFilter={shallClearFilter}
+                      isClearFilter={isClearFilter}
                       onFilterChange={handleFilterChange}
                       onClearFilter={onClearFilter}
                     />

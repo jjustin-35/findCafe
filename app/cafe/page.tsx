@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { getCafes, getCurrentLocation, clearSearchStates } from '@/redux/cafes';
 import useMap from '@/helpers/useMap';
@@ -16,7 +16,7 @@ const Cafe = () => {
   const [currentMarker, setCurrentMarker] = useState<(typeof cafeMarkers)[0] | null>(null);
   const dispatch = useAppDispatch();
   const { mapRef, cafesList, cafeMarkers, setCafes, map, handleBlurAll } = useMap();
-  const cafeList = useMemo(() => (isCafeDetail ? [cafeDetail] : cafesList), [cafesList, cafeDetail, isCafeDetail]);
+  const cafeList = isCafeDetail ? [cafeDetail] : cafesList;
 
   useEffect(() => {
     if (!currentLocation) {

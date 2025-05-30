@@ -63,7 +63,7 @@ export const getCafes = createAsyncThunk(
   'cafes/getCafes',
   async (searchContent: SearchCafesData & { isSearching?: boolean; isCafeDetail?: boolean }, thunkAPI) => {
     try {
-      const { isSearching, ...content } = searchContent;
+      const { isSearching, isCafeDetail, ...content } = searchContent;
 
       thunkAPI.dispatch(setIsSearching(isSearching));
       let resp: google.maps.places.Place[] = [];
@@ -75,6 +75,9 @@ export const getCafes = createAsyncThunk(
       let searchParams = { ...restContent };
       let aiSearchData: SearchCafesData | null = null;
       if (isSearching) {
+        if (isCafeDetail) {
+          thunkAPI.dispatch(setIsCafeDetail(false));
+        }
         thunkAPI.dispatch(setAIStatus(Status.PENDING));
         aiSearchData = await generateAISearchData({
           ...restContent,

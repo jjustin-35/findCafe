@@ -12,11 +12,11 @@ export interface FilterValues {
 
 interface AdvancedSearchProps {
   onFilterChange: (filters: FilterValues) => void;
-  shallClearFilter: boolean;
+  isClearFilter: boolean;
   onClearFilter: () => void;
 }
 
-const AdvancedSearch = ({ shallClearFilter, onFilterChange, onClearFilter }: AdvancedSearchProps) => {
+const AdvancedSearch = ({ isClearFilter, onFilterChange, onClearFilter }: AdvancedSearchProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -28,7 +28,7 @@ const AdvancedSearch = ({ shallClearFilter, onFilterChange, onClearFilter }: Adv
   });
 
   useEffect(() => {
-    if (shallClearFilter) {
+    if (isClearFilter) {
       setFilters({
         tags: [],
         area: '',
@@ -36,7 +36,7 @@ const AdvancedSearch = ({ shallClearFilter, onFilterChange, onClearFilter }: Adv
       });
       onClearFilter();
     }
-  }, [shallClearFilter]);
+  }, [isClearFilter]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (isDesktop) {

@@ -15,8 +15,8 @@ const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: stri
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
-    if ((!isOpen && isSearching) || (!isOpen && isCafeDetail)) setIsOpen(true);
-  }, [cafes, isSearching, isCafeDetail]);
+    if (!isOpen && (isSearching || isCafeDetail)) setIsOpen(true);
+  }, [cafes, isSearching, isCafeDetail, isOpen]);
 
   return (
     // passive event listener issue: https://github.com/mui/material-ui/issues/37814
