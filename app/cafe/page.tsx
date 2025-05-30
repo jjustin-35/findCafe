@@ -13,7 +13,6 @@ const Cafe = () => {
   const { currentLocation, cafes, cafeDetail, status, isCafeDetail, isSearching } = useAppSelector(
     (state) => state.cafes,
   );
-  const [currentMarker, setCurrentMarker] = useState<(typeof cafeMarkers)[0] | null>(null);
   const dispatch = useAppDispatch();
   const { mapRef, cafesList, cafeMarkers, setCafes, map, handleBlurAll } = useMap();
   const cafeList = isCafeDetail ? [cafeDetail] : cafesList;
@@ -39,24 +38,22 @@ const Cafe = () => {
   }, [cafes, setCafes]);
 
   useEffect(() => {
-    if (!isCafeDetail || !cafeDetail || !cafeMarkers) return;
+    if (!isCafeDetail || !cafeDetail || !cafeMarkers) {
+      handleBlurAll();
+      return;
+    }
+
     moveTo(cafeDetail);
   }, [isCafeDetail, cafeDetail, cafeMarkers]);
-
-  useEffect(() => {
-    if (!currentMarker) return;
-    currentMarker.onFocus(cafeDetail);
-  }, [cafeDetail, currentMarker]);
 
   const moveTo = (cafe: CafeData) => {
     const currentMarker = cafeMarkers.find((marker) => marker.cafeId === cafe.id);
     if (!currentMarker) return;
-    setCurrentMarker(currentMarker);
+    currentMarker.onFocus(cafe);
   };
 
   const moveBack = () => {
     handleBlurAll();
-    setCurrentMarker(null);
     map?.panTo(currentLocation);
   };
 

@@ -4,11 +4,11 @@ import Link from 'next/link';
 export const NavLink = styled(Link)`
   color: ${({ theme }) => theme.palette.common.white};
   text-decoration: none;
-  padding-left: ${({ theme }) => theme.spacing(2)};
+  padding-left: 0;
 
   ${({ theme }) => css`
-    ${theme.breakpoints.down('tablet')} {
-      padding-left: 0;
+    ${theme.breakpoints.up('tablet')} {
+      padding-left: ${theme.spacing(2)};
     }
   `}
 
@@ -22,15 +22,15 @@ export const NavLink = styled(Link)`
 export const NavAnchor = styled('a')`
   color: ${({ theme }) => theme.palette.common.white};
   text-decoration: none;
-  padding-left: ${({ theme }) => theme.spacing(2)};
+  padding-left: 0;
   cursor: pointer;
   &:hover {
     color: ${({ theme }) => theme.palette.grey[100]};
   }
 
   ${({ theme }) => css`
-    ${theme.breakpoints.down('tablet')} {
-      padding-left: 0;
+    ${theme.breakpoints.up('tablet')} {
+      padding-left: ${theme.spacing(2)};
     }
   `}
 `;

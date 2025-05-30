@@ -75,9 +75,7 @@ export const getCafes = createAsyncThunk(
       let searchParams = { ...restContent };
       let aiSearchData: SearchCafesData | null = null;
       if (isSearching) {
-        if (isCafeDetail) {
-          thunkAPI.dispatch(setIsCafeDetail(false));
-        }
+        thunkAPI.dispatch(setIsCafeDetail(false));
         thunkAPI.dispatch(setAIStatus(Status.PENDING));
         aiSearchData = await generateAISearchData({
           ...restContent,
