@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { getCafes, getCurrentLocation, clearSearchStates } from '@/redux/cafes';
 import useMap from '@/helpers/useMap';
