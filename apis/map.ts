@@ -31,7 +31,7 @@ export const searchByText = async ({
     const request: google.maps.places.SearchByTextRequest = {
       textQuery: keyword,
       fields,
-      includedType: 'cafe',
+      includedType: 'coffee_shop',
       minRating: rating,
       language: 'zh-TW',
       region: 'TW',
@@ -75,7 +75,7 @@ export const searchNearby = async (location = defaultPosition) => {
 
     const request: google.maps.places.SearchNearbyRequest = {
       fields,
-      includedTypes: ['cafe'],
+      includedTypes: ['cafe', 'coffee_shop'],
       locationRestriction: {
         center: center,
         radius: 1000,

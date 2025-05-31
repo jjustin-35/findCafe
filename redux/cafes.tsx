@@ -84,8 +84,6 @@ export const getCafes = createAsyncThunk(
         }
       }
 
-      console.log('searchParams', searchParams);
-
       const { keyword, rating, position } = searchParams;
       if (isSearching && keyword) {
         resp = await searchByText({
