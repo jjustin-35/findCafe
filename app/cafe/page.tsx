@@ -14,7 +14,7 @@ const Cafe = () => {
     (state) => state.cafes,
   );
   const dispatch = useAppDispatch();
-  const { mapRef, cafesList, cafeMarkers, setCafes, map, handleBlurAll } = useMap();
+  const { map, mapRef, cafesList, cafeMarkers, setCafes, handleBlurAll } = useMap();
   const cafeList = isCafeDetail ? [cafeDetail] : cafesList;
 
   useEffect(() => {
@@ -34,12 +34,11 @@ const Cafe = () => {
 
   // Update map with cafes data
   useEffect(() => {
-    console.log('cafe', cafes);
     setCafes(cafes);
   }, [cafes, setCafes]);
 
   useEffect(() => {
-    if (!isCafeDetail || !cafeDetail || !cafeMarkers) {
+    if (!isCafeDetail || !cafeDetail || !cafeMarkers?.length) {
       handleBlurAll();
       return;
     }

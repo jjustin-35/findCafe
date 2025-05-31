@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { CafeData, Position } from '@/constants/types';
 import { theme } from '@/style/theme';
@@ -8,12 +8,40 @@ import { getLoader } from '@/lib/mapLoader';
 
 const loader = getLoader();
 
+const createMarker =
+  (map: google.maps.Map) =>
+  async ({ location, isCafe = false }: { location: Position; isCafe?: boolean }) => {
+    const { AdvancedMarkerElement, PinElement } = await loader.importLibrary('marker');
+
+    const { info, ...position } = location;
+    const markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
+      map,
+      position,
+    };
+
+    if (isCafe) {
+      const pin = document.createElement('img');
+      pin.src = '/images/coffee-filled.svg';
+      pin.width = pin.height = 12;
+      const pinSvg = new PinElement({
+        glyph: pin,
+        background: theme.palette.primary.main,
+        borderColor: '#ffffff',
+        scale: 0.9,
+      });
+
+      markerOptions.content = pinSvg.element;
+    }
+
+    const marker = new AdvancedMarkerElement(markerOptions);
+    return marker;
+  };
+
 const useMap = () => {
   const { currentLocation, isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [curLocationTemp, setCurLocationTemp] = useState<Position | null>(null);
   const [cafesList, setCafesList] = useState<CafeData[]>([]);
-  const [cafeListOri, setCafeListOri] = useState<CafeData[]>([]);
   const [cafeMarkers, setCafeMarkers] = useState<
     {
       cafeId: string;
@@ -31,6 +59,7 @@ const useMap = () => {
   } | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const getMarker = useMemo(() => createMarker(map), [map]);
 
   const mapOptions: google.maps.MapOptions = {
     center: { lat: 0, lng: 0 },
@@ -79,21 +108,18 @@ const useMap = () => {
           lat: cafesList[0]?.latitude,
           lng: cafesList[0]?.longitude,
         };
-        console.log(position);
         map.panTo(position);
       }
-      const newCafes = cafesList.filter((location) => {
-        return !cafeListOri.some((oriLocation) => isEqual(oriLocation, location));
-      });
-      const newLocations = newCafes.map((cafe) => ({
+
+      const newLocations = cafesList.map((cafe) => ({
         lat: cafe?.latitude,
         lng: cafe?.longitude,
         info: cafe,
       }));
       if (newLocations.length > 0) {
+        if (cafeMarkers?.length) removeMarkers(); // init markers
         const markers = await addMarkers({ map, locations: newLocations, isCafe: true });
-        setCafeMarkers([...cafeMarkers, ...markers]);
-        setCafeListOri([...cafeListOri, ...newCafes]);
+        setCafeMarkers(markers);
       }
     })();
   }, [map, cafesList, isCafeDetail]);
@@ -138,30 +164,9 @@ const useMap = () => {
     locations: Position[];
     isCafe?: boolean;
   }) => {
-    const { AdvancedMarkerElement, PinElement } = await loader.importLibrary('marker');
-
-    const markers = locations.map((location) => {
-      const { info, ...position } = location;
-      const markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
-        map,
-        position,
-      };
-
-      if (isCafe) {
-        const pin = document.createElement('img');
-        pin.src = '/images/coffee-filled.svg';
-        pin.width = pin.height = 12;
-        const pinSvg = new PinElement({
-          glyph: pin,
-          background: theme.palette.primary.main,
-          borderColor: '#ffffff',
-          scale: 0.9,
-        });
-
-        markerOptions.content = pinSvg.element;
-      }
-
-      const marker = new AdvancedMarkerElement(markerOptions);
+    const markers = locations.map(async (location) => {
+      const marker = await getMarker({ location, isCafe });
+      const { info } = location;
       const onFocus = (info: CafeData) => {
         handleCafeFocus(info, marker);
       };
@@ -177,7 +182,14 @@ const useMap = () => {
       return { cafeId: info?.id, marker, onFocus };
     });
 
-    return markers;
+    return Promise.all(markers);
+  };
+
+  const removeMarkers = () => {
+    cafeMarkers.forEach((marker) => {
+      marker.marker.map = null;
+    });
+    setCafeMarkers([]);
   };
 
   const setCafes = (cafes: CafeData[]) => {
