@@ -9,6 +9,7 @@ import { searchByText, searchNearby } from '@/apis/map';
 import { isWithinDistance } from '@/helpers/comparePosition';
 import { generateAISearchData } from '@/apis/ai';
 import { getTags } from '@/helpers/getTags';
+import { PATHS } from '@/constants/paths';
 
 interface SearchState {
   status: Status;
@@ -67,19 +68,15 @@ export const getCafes = createAsyncThunk(
 
       thunkAPI.dispatch(setIsSearching(isSearching));
       let resp: google.maps.places.Place[] = [];
-      const baseMapUrl = 'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=';
-
-      const { position, ...restContent } = content;
 
       // use AI to generate search keyword
-      let searchParams: SearchCafesData = { ...restContent };
+      let searchParams: SearchCafesData = { ...content };
       let aiSearchData: SearchCafesData | null = null;
       if (isSearching) {
         thunkAPI.dispatch(setIsCafeDetail(false));
         thunkAPI.dispatch(setAIStatus(Status.PENDING));
         aiSearchData = await generateAISearchData({
-          ...restContent,
-          position,
+          ...content,
         });
 
         if (aiSearchData) {
@@ -87,11 +84,14 @@ export const getCafes = createAsyncThunk(
         }
       }
 
-      if (isSearching && searchParams.keyword) {
+      console.log('searchParams', searchParams);
+
+      const { keyword, rating, position } = searchParams;
+      if (isSearching && keyword) {
         resp = await searchByText({
-          keyword: searchParams.keyword,
-          rating: searchParams.rating,
-          position: searchParams.position,
+          keyword,
+          rating,
+          position,
         });
       } else {
         resp = await searchNearby(position);
@@ -109,7 +109,7 @@ export const getCafes = createAsyncThunk(
           latitude: cafe.location.lat(),
           longitude: cafe.location.lng(),
           rating: cafe.rating,
-          mapLink: baseMapUrl + cafe.id,
+          mapLink: PATHS.GOOGLE_MAP_URL + cafe.id,
           address: cafe.formattedAddress,
           images:
             cafe.photos?.map((photo, idx) => ({

@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/prisma';
 import { ApiCafeData, CafeData } from '@/constants/types';
-import { API_PATHS } from '@/constants/apiPaths';
+import { PATHS } from '@/constants/paths';
 import { delay } from '@/helpers/time';
 import { generateKey, getCache, setCache } from '@/lib/apiCache';
 
@@ -41,7 +41,7 @@ export const getCafes = async (): Promise<CafeData[]> => {
       cafes = cachedData;
       await delay(300);
     } else {
-      const response = await fetch(API_PATHS.NOMAD_CAFE_API);
+      const response = await fetch(PATHS.NOMAD_CAFE_API);
       cafes = await response.json();
       setCache(cacheKey, {
         data: cafes,
