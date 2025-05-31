@@ -5,7 +5,7 @@ import { Box, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { CafeData, Status } from '@/constants/types';
 import { useAppDispatch } from '@/redux/hooks';
-import { setCafeDetail } from '@/redux/cafes';
+import { getCafeDetail } from '@/redux/cafes';
 import useFavorite from '@/helpers/useFavorite';
 import CafeItem from './item';
 import CafeListLoader from '../Loaders/Cafe/cafeList';
@@ -18,7 +18,7 @@ const FavoriteList = () => {
   const moveTo = (cafe: CafeData) => {
     router.push(`/cafe`);
     setTimeout(() => {
-      dispatch(setCafeDetail(cafe));
+      dispatch(getCafeDetail(cafe));
     }, 300);
   };
 

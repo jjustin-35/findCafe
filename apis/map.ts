@@ -99,3 +99,19 @@ export const searchNearby = async (location = defaultPosition) => {
     return [];
   }
 };
+
+export const getCafeById = async (id: string) => {
+  try {
+    const { Place } = await loader.importLibrary('places');
+    const place = new Place({
+      id,
+    });
+    await place.fetchFields({
+      fields,
+    });
+    return place;
+  } catch (error) {
+    console.error('Error getting place details:', error);
+    return null;
+  }
+};
