@@ -8,12 +8,16 @@ const loader = getLoader();
 const fields = ['id', 'displayName', 'rating', 'photos', 'location', 'formattedAddress'];
 
 // google map api
-export const searchByText = async (query: SearchCafesData): Promise<google.maps.places.Place[] | null> => {
+export const searchByText = async ({
+  keyword,
+  rating,
+  position,
+}: SearchCafesData): Promise<google.maps.places.Place[] | null> => {
   try {
     const cacheKey = generateKey('searchByText', {
-      keyword: query.keyword,
-      rating: query.rating,
-      position: query.position,
+      keyword,
+      rating,
+      position,
     });
 
     // Check if result exists in cache
@@ -25,19 +29,19 @@ export const searchByText = async (query: SearchCafesData): Promise<google.maps.
     const { Place } = await loader.importLibrary('places');
 
     const request: google.maps.places.SearchByTextRequest = {
-      textQuery: query.keyword,
+      textQuery: keyword,
       fields,
       includedType: 'cafe',
-      minRating: query.rating,
+      minRating: rating,
       language: 'zh-TW',
       region: 'TW',
-      ...(query.position && { locationBias: new google.maps.LatLng(query.position.lat, query.position.lng) }),
+      ...(position && { locationBias: new google.maps.LatLng(position.lat, position.lng) }),
     };
 
     const { places } = await Place.searchByText(request);
 
     if (!places || places.length === 0) {
-      console.log('No places found for query:', query);
+      console.log('No places found for query:', { keyword, rating, position });
       return null;
     }
 

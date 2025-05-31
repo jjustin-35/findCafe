@@ -34,6 +34,7 @@ const Cafe = () => {
 
   // Update map with cafes data
   useEffect(() => {
+    console.log('cafe', cafes);
     setCafes(cafes);
   }, [cafes, setCafes]);
 

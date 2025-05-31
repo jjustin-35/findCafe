@@ -48,8 +48,8 @@ const buildSearchPrompt = (searchData: SearchCafesData) => {
     district?: string;     // Specific district or administrative area mentioned (e.g., Zhongshan District)
     location?: string;     // Specific place name if mentioned (e.g., Taipei Main Station, Shida Night Market)
     position?: {
-      lat: number;         // If a specific area or location is mentioned, try to provide coordinates (optional)
-      lng: number;         // If a specific area or location is mentioned, try to provide coordinates (optional)
+      lat: number;         // If a specific area or location is mentioned, try hard to provide coordinates (optional)
+      lng: number;         // If a specific area or location is mentioned, try hard to provide coordinates (optional)
     };
     keyword?: string;      // The main keyword or phrase the user is searching for (e.g., "laptop-friendly cafe")
     rating?: number;       // If the user specifies a rating, provide the number (e.g., 4 or 4.5)
@@ -60,6 +60,7 @@ const buildSearchPrompt = (searchData: SearchCafesData) => {
 
   Only return a valid JSON object. Do not include any explanations or additional text.
   If any fields cannot be confidently inferred, simply omit them.
+  If any words from the keyword are mentioned in other fields, such as area, district, location, remove them from the keyword field to avoid redundancy. 
   `;
 
   return prompt;
@@ -84,6 +85,8 @@ export async function generateAISearchData(searchData: SearchCafesData): Promise
       .trim()
       .replace(/\n|```|json/g, '');
     const aiSearchData = JSON.parse(text);
+    console.log(searchData);
+    console.log(aiSearchData);
 
     if (!aiSearchData) {
       console.warn('no ai search data');

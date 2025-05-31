@@ -74,11 +74,12 @@ const useMap = () => {
   useEffect(() => {
     (async () => {
       if (!map) return;
-      if (isSearching) {
+      if (isSearching && cafesList.length > 0) {
         const position = {
           lat: cafesList[0]?.latitude,
           lng: cafesList[0]?.longitude,
         };
+        console.log(position);
         map.panTo(position);
       }
       const newCafes = cafesList.filter((location) => {

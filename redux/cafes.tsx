@@ -7,8 +7,8 @@ import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
 import { searchByText, searchNearby } from '@/apis/map';
 import { isWithinDistance } from '@/helpers/comparePosition';
-import filterCafes from '@/helpers/filterCafes';
 import { generateAISearchData } from '@/apis/ai';
+import { getTags } from '@/helpers/getTags';
 
 interface SearchState {
   status: Status;
@@ -72,7 +72,7 @@ export const getCafes = createAsyncThunk(
       const { position, ...restContent } = content;
 
       // use AI to generate search keyword
-      let searchParams = { ...restContent };
+      let searchParams: SearchCafesData = { ...restContent };
       let aiSearchData: SearchCafesData | null = null;
       if (isSearching) {
         thunkAPI.dispatch(setIsCafeDetail(false));
@@ -88,12 +88,17 @@ export const getCafes = createAsyncThunk(
       }
 
       if (isSearching && searchParams.keyword) {
-        resp = await searchByText(searchParams);
+        resp = await searchByText({
+          keyword: searchParams.keyword,
+          rating: searchParams.rating,
+          position: searchParams.position,
+        });
       } else {
         resp = await searchNearby(position);
       }
 
       if (!resp?.length) {
+        console.warn('no cafe found');
         return thunkAPI.rejectWithValue('no_cafe_found');
       }
 
@@ -115,7 +120,7 @@ export const getCafes = createAsyncThunk(
       });
 
       const cafesInfo = await getCafesApi();
-      const newCafes = cafes.map((cafe) => {
+      const newCafes = cafes.reduce((acc, cafe) => {
         const cafeInfo = cafesInfo.find((info) => {
           return isWithinDistance(
             { lat: cafe.latitude, lng: cafe.longitude },
@@ -123,19 +128,31 @@ export const getCafes = createAsyncThunk(
             10,
           );
         });
-        return {
-          ...(cafeInfo && cafeInfo),
+
+        const newCafe = {
+          ...(!!cafeInfo && cafeInfo),
           ...cafe,
           info: cafeInfo,
         };
-      });
+
+        // filter by tags
+        if (searchParams?.tags?.length) {
+          const cafeTags = getTags(newCafe);
+          const isMatched = searchParams.tags.every((tag) => cafeTags.includes(tag));
+          if (!isMatched) {
+            return acc;
+          }
+        }
+
+        return [...acc, newCafe];
+      }, []);
 
       if (!newCafes?.length) {
+        console.warn('no cafe found');
         return thunkAPI.rejectWithValue('no_cafe_found');
       }
 
-      const filteredCafes = filterCafes(newCafes, content);
-      const sortedCafes = filteredCafes.sort((a, b) => b.rating - a.rating);
+      const sortedCafes = newCafes.sort((a, b) => b.rating - a.rating);
 
       return { cafes: sortedCafes };
     } catch (error) {
