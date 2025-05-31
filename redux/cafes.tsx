@@ -5,11 +5,11 @@ import getCurrentLocationApi from '@/helpers/getCurrentLocation';
 import { SearchCafesData, CafeData, Position, Status } from '@/constants/types';
 import { RootState } from '@/config/configureStore';
 import { isEqual } from '@/helpers/object';
-import { searchByText, searchNearby } from '@/apis/map';
+import { getCafeById, searchByText, searchNearby } from '@/apis/map';
 import { isWithinDistance } from '@/helpers/comparePosition';
 import { generateAISearchData } from '@/apis/ai';
 import { getTags } from '@/helpers/getTags';
-import { PATHS } from '@/constants/paths';
+import { transformToCafeData } from '@/helpers/transform';
 
 interface SearchState {
   status: Status;
@@ -84,8 +84,6 @@ export const getCafes = createAsyncThunk(
         }
       }
 
-      console.log('searchParams', searchParams);
-
       const { keyword, rating, position } = searchParams;
       if (isSearching && keyword) {
         resp = await searchByText({
@@ -103,24 +101,11 @@ export const getCafes = createAsyncThunk(
       }
 
       const cafes = resp?.map((cafe) => {
-        return {
-          id: cafe.id,
-          name: cafe.displayName,
-          latitude: cafe.location.lat(),
-          longitude: cafe.location.lng(),
-          rating: cafe.rating,
-          mapLink: PATHS.GOOGLE_MAP_URL + cafe.id,
-          address: cafe.formattedAddress,
-          images:
-            cafe.photos?.map((photo, idx) => ({
-              src: photo.getURI(),
-              alt: `${cafe.displayName}-${idx + 1}`,
-            })) || [],
-        };
+        return transformToCafeData(cafe);
       });
 
       const cafesInfo = await getCafesApi();
-      const newCafes = cafes.reduce((acc, cafe) => {
+      const newCafes = cafes.reduce<CafeData[]>((acc, cafe) => {
         const cafeInfo = cafesInfo.find((info) => {
           return isWithinDistance(
             { lat: cafe.latitude, lng: cafe.longitude },
@@ -161,6 +146,28 @@ export const getCafes = createAsyncThunk(
     }
   },
 );
+
+export const getCafeDetail = createAsyncThunk('cafes/getCafeDetail', async (cafe: CafeData, thunkAPI) => {
+  try {
+    const { id } = cafe;
+    const cafeDetail = await getCafeById(id);
+    console.log('cafeDetail', cafeDetail);
+    if (!cafeDetail) {
+      return thunkAPI.rejectWithValue('cafe_detail_not_found');
+    }
+
+    const transformedCafeDetail = transformToCafeData(cafeDetail);
+    const newCafeDetail: CafeData = {
+      ...cafe,
+      ...transformedCafeDetail,
+    };
+
+    return newCafeDetail;
+  } catch (error) {
+    console.error(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 
 const cafeSlice = createSlice({
   name: 'cafes',
@@ -209,6 +216,19 @@ const cafeSlice = createSlice({
       if (action.payload === 'no_cafe_found') {
         state.cafes = [];
       }
+    });
+
+    builder.addCase(getCafeDetail.fulfilled, (state, action) => {
+      state.cafeDetail = action.payload;
+      state.isCafeDetail = true;
+      state.detailStatus = Status.FULFILLED;
+    });
+    builder.addCase(getCafeDetail.pending, (state) => {
+      state.detailStatus = Status.PENDING;
+    });
+    builder.addCase(getCafeDetail.rejected, (state, action) => {
+      state.error = action.error.message || 'An error occurred';
+      state.detailStatus = Status.FULFILLED;
     });
   },
 });

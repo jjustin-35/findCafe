@@ -31,7 +31,7 @@ export const searchByText = async ({
     const request: google.maps.places.SearchByTextRequest = {
       textQuery: keyword,
       fields,
-      includedType: 'cafe',
+      includedType: 'coffee_shop',
       minRating: rating,
       language: 'zh-TW',
       region: 'TW',
@@ -75,7 +75,7 @@ export const searchNearby = async (location = defaultPosition) => {
 
     const request: google.maps.places.SearchNearbyRequest = {
       fields,
-      includedTypes: ['cafe'],
+      includedTypes: ['cafe', 'coffee_shop'],
       locationRestriction: {
         center: center,
         radius: 1000,
@@ -97,5 +97,21 @@ export const searchNearby = async (location = defaultPosition) => {
   } catch (error) {
     console.error('Error searching place by nearby:', error);
     return [];
+  }
+};
+
+export const getCafeById = async (id: string) => {
+  try {
+    const { Place } = await loader.importLibrary('places');
+    const place = new Place({
+      id,
+    });
+    await place.fetchFields({
+      fields,
+    });
+    return place;
+  } catch (error) {
+    console.error('Error getting place details:', error);
+    return null;
   }
 };

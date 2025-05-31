@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useAppSelector } from '@/redux/hooks';
 import { CafeData } from '@/constants/types';
@@ -13,9 +13,13 @@ const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: stri
   const isDesktop = useMediaQuery(theme.breakpoints.up('laptop'));
   const { isSearching, isCafeDetail } = useAppSelector((state) => state.cafes);
   const [isOpen, setIsOpen] = useState(true);
+  const cafesRef = useRef<CafeData[]>(cafes);
 
   useEffect(() => {
-    if (!isOpen && (isSearching || isCafeDetail)) setIsOpen(true);
+    if (cafesRef.current !== cafes) {
+      cafesRef.current = cafes;
+      if (!isOpen && (isSearching || isCafeDetail)) setIsOpen(true);
+    }
   }, [cafes, isSearching, isCafeDetail, isOpen]);
 
   return (
@@ -26,7 +30,7 @@ const CafeBoard = ({ cafes, title, children }: { cafes: CafeData[]; title?: stri
       open={isOpen}
       swipeAreaWidth={drawerBleeding}
       disableSwipeToOpen={false}
-      disableEnforceFocus={true}
+      // disableEnforceFocus={true}
       onClose={() => setIsOpen(false)}
       onOpen={() => setIsOpen(true)}
       ModalProps={{
